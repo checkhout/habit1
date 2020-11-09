@@ -1,0 +1,162 @@
+div,
+h2,
+h3,
+h4,
+ul,
+li {
+  margin: 0;
+  padding: 0;
+}
+img {
+  border: 0;
+}
+*,
+:after,
+:before {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+ul,
+li {
+  list-style: none;
+}
+.clearFix:after,
+.clearFix:before {
+  content: '';
+  display: block;
+  height: 0;
+  clear: both;
+  overflow: hidden;
+}
+* {
+  color: #FFFFFF;
+}
+.font_black {
+  color: #000000;
+}
+.position_normal {
+  position: relative;
+}
+.position_paW {
+  position: absolute;
+  z-index: 70;
+}
+.position_paW_t0l0 {
+  position: absolute;
+  z-index: 70;
+  top: 0;
+  left: 0;
+}
+.position_paW_l0b0 {
+  position: absolute;
+  z-index: 70;
+  left: 0;
+  bottom: 0;
+}
+.font_text_l {
+  text-align: left;
+}
+.font_text_c {
+  text-align: center;
+}
+.font_text_r {
+  text-align: right;
+}
+@media only screen and (min-width: 769px) {
+  .ddpai_mobile {
+    display: none;
+  }
+  .ddpai_box {
+    max-width: 1920px;
+    text-align: center;
+    margin: 0 auto;
+  }
+  .ddpai_box .ddpai_ctn {
+    position: relative;
+  }
+  .ddpai_box .ddpai_ctn .bgImg {
+    width: 100%;
+    height: 100%;
+    display: block;
+    z-index: 69;
+  }
+  .ddpai_box .ddpai_ctn .ddpai_pc {
+    height: 100%;
+    position: relative;
+  }
+}
+@media only screen and (min-width: 339px) {
+  html {
+    font-size: 45.333334px !important;
+  }
+}
+@media only screen and (min-width: 359px) {
+  html {
+    font-size: 48px !important;
+  }
+}
+@media only screen and (min-width: 374px) {
+  html {
+    font-size: 50px !important;
+  }
+}
+@media only screen and (min-width: 413px) {
+  html {
+    font-size: 55.2px !important;
+  }
+}
+@media only screen and (min-width: 479px) {
+  html {
+    font-size: 64px !important;
+  }
+}
+@media only screen and (min-width: 539px) {
+  html {
+    font-size: 72px !important;
+  }
+}
+@media only screen and (min-width: 559px) {
+  html {
+    font-size: 74.666667px !important;
+  }
+}
+@media only screen and (min-width: 639px) {
+  html {
+    font-size: 85.333334px !important;
+  }
+}
+@media only screen and (min-width: 719px) {
+  html {
+    font-size: 96px !important;
+  }
+}
+@media only screen and (min-width: 749px) {
+  html {
+    font-size: 100px !important;
+  }
+}
+@media screen and (max-width: 768px) {
+  .ddpai_pc {
+    display: none;
+  }
+  html {
+    font-size: 42.666667px;
+  }
+  .ddpai_box {
+    width: 100%;
+    text-align: center;
+    margin: 0 auto;
+    color: #323232;
+  }
+  .ddpai_ctn {
+    position: relative;
+  }
+  .ddpai_ctn .bgImg {
+    z-index: 69;
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+}
+/*# sourceMappingURL=ddpaiR1.css.map */

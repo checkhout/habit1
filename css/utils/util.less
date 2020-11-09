@@ -1,0 +1,114 @@
+.text-overflow {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+
+
+.flex, .flex-columns{
+  display: flex;
+  flex-direction: column;
+}
+.flex-row {
+  display: flex;
+  flex-direction: row;
+}
+
+
+
+.imgicon(@url, @width: 14px, @height: @width) {
+  display: inline-block;
+  width: @width;
+  height: @height;
+  background: url("./imgs/@{url}@2x.png") no-repeat center center /100% 100%;
+}
+.imgiconAndHover (@url, @hoverUrl: @url, @width: 14px, @height: @width) {
+  .imgicon(@url, @width, @height);
+  vertical-align: middle;
+  &:hover{
+    background-image: url("./imgs/@{hoverUrl}@2x.png")
+  }
+}
+
+
+
+.position_c {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+
+
+//less 公式 @class不要带引号
+.btnClickShadow(@class, @color: #67c1dd) {
+  //点击后的效果
+  .@{class}:focus {
+    border-color: @color;;
+  };
+  //点击动画
+  .@{class}:after {
+    border-color: @color;
+  };
+  //hover效果
+  .@{class}:hover {
+    border-color: @color;
+  };
+}
+.ant-btn {
+
+}
+//点击后的效果
+.ant-btn:focus {
+  border-color: #00aecd;
+}
+//点击动画
+.ant-btn:after {
+  border-color: #00aecd;
+}
+//hover效果
+.ant-btn:hover {
+  border-color: #00aecd;
+}
+
+
+//根据设计稿宽度求百分比
+.percent(@value) {
+  @var: @value / 1920 * 100;
+  @result: ~'@{var}%';
+}
+.test {
+  width: .percent(1920)[@result];
+}
+
+
+//英文换行
+.text-white-space {
+  word-break:break-all;
+  word-wrap: break-word; // 只对英文起作用，以单词作为换行依据。
+  text-align:justify;    //css英文语句的两端对齐：
+}
+
+
+// 滚动条
+::-webkit-scrollbar {
+  width: 14px;
+  height: 14px;
+}
+::-webkit-scrollbar-track,
+::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  border: 5px solid transparent;
+}
+::-webkit-scrollbar-thumb {
+  min-height: 20px;
+  background-clip: content-box;
+  box-shadow: 0 0 0 5px rgba(0, 0, 0, 0.2) inset;
+}
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+
