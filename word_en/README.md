@@ -30,5 +30,14 @@ bundler
 [ˈbʌndlər]
 n. 打包器
 
+validator
+['vali,deitə]
+n. 验证器；验证程序
+
+condition
+[kənˈdɪʃn]
+n. 条件；情况；身份
+vt. 决定；使适应；使健康；以…为条件
+
 
 ```

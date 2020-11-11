@@ -1,0 +1,15 @@
+### 环境
+* node10.16.0
+
+### 脚手架搭建
+1. 搭建失败，提示受旧版脚手架影响
+2. 检查用户变量和系统变量   //用户变量重装node后重置了
+
+### 添加redux
+1. npm install --save redux                 //安装稳定版：   
+2. npm install --save react-redux           //使用 React 绑定库
+3. npm install --save-dev redux-devtools    //开发者工具
+
+
+## npx create-react-app my-app --template redux 这样就可以直接创建带redux的模板了
+   
