@@ -146,6 +146,7 @@ export const regExpConfig = {
 	regularNickname: /^[A-Za-z0-9\u4E00-\u9FA5]{1,10}$/,   //用户昵称
 	voiceName: /\S+\.[m4a|zip]/,            //语音文件
 	isVin: /^[A-Za-z0-9]{17}$/,             // 17位车架号
+	positiveInteger: /^\+?[0-9][0-9]*$/,    //>=0 的整数
 };
 
 

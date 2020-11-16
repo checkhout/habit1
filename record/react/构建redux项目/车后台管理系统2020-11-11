@@ -11,18 +11,25 @@
 
 
 ### 技术选型
-1. npx create-react-app my-app --template redux
-2. npm install --save redux-actions                     //一个简化编写 redux 的工具，主要Api: createAction,handleActions
-3. npm install --save redux-thunk           
+- npx create-react-app my-app --template redux
+- npm install --save redux-actions                     //一个简化编写 redux 的工具，主要Api: createAction,handleActions
+- npm install --save redux-thunk           
     - thunk: 高阶函数返回的函数。使用后可以dispatch一个函数
-4. npm install --save redux-devtools-extension          //开发调试工具
-5. npm i store                                          //localStorage 工具库，一般用来保存登录数据
-6. npm i @craco/craco                                   //CRA搭建的项目，在不eject的情况下,覆盖create-react-app的配置。需要CRA3* （类似在根目录下面新建config-overrides.js，并修改相关配置）
+- npm install --save redux-devtools-extension          //开发调试工具
+- npm i store                                          //localStorage 工具库，一般用来保存登录数据
+- npm i @craco/craco                                   //CRA搭建的项目，在不eject的情况下,覆盖create-react-app的配置。需要CRA3* （类似在根目录下面新建config-overrides.js，并修改相关配置）
     * npm i @babel/plugin-proposal-decorators --dev     //用来支持装饰器
     
     
-7. npm i axios                                          
-8. npm i qs                                             //一个处理url的库，常用用法：相互转化 a=1&b=2&c=3 为 { a:1, b:2, c:3 }
-8. npm i classnames                                     
-9. npm install antd                                     
+- npm i axios                                          
+- npm i qs                                             //一个处理url的库，常用用法：相互转化 a=1&b=2&c=3 为 { a:1, b:2, c:3 }
+- npm i classnames                                     
+- npm install antd               
+    * npm install --save @ant-design/icons        
+- npm uninstall less-loader                            //降级
+- npm i eslint -g npm install babel-eslint -g
+- npm install react-router-dom --save-dev              //使用React构建的单页面应用，要想实现页面间的跳转，首先想到的就是使用路由。在React中，常用的有两个包可以实现这个需求，那就是react-router和react-router-dom。
+- npm install immutable                                //在react中，immutable主要是防止state对象被错误赋值。 
+- npm install moment
+- npm i @amap/amap-jsapi-loader --save                 //高德地图loader
 
