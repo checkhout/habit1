@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>H5实现点击复制</title>
+	<style>
+		.cursor_p {
+			cursor: pointer;
+		}
+		.wrap {
+			background: skyblue;
+			width: 400px;
+			text-align: center;
+			margin: 0 auto;
+		}
+		.wrap input {
+			width: 50%;
+		}
+	</style>
+</head>
+<body>
+
+<div class="wrap cursor_p">
+	<button class="btn">点击复制: </button>
+	<!--
+	input一个展示数据，一个存放要复制的数据
+	注意：value_box禁止设置宽高为0，且类名要是唯一的
+	-->
+	<input class="value_box cursor_p" style='opacity: 0;position: absolute;z-index: -1' value="hello world" type="text"/>
+	<input class="viewBox cursor_p" value="hello world" disabled type="text" style='height: 30px;line-height: 30px'/>
+</div>
+
+<script>
+	window.onload = function () {
+		var box = document.querySelector('.btn');
+		box.addEventListener('click', function () {
+			handleCopyText('.value_box')
+		})
+	};
+
+	function handleCopyText (el) {
+		/*el是唯一的*/
+		document.querySelector(el).select();
+
+		if (document.execCommand('copy', false)) {
+			alert('复制成功');
+		} else {
+
+		}
+	}
+</script>
+</body>
+</html>

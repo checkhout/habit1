@@ -14,7 +14,7 @@
 - npx create-react-app my-app --template redux
 - npm install --save redux-actions                     //一个简化编写 redux 的工具，主要Api: createAction,handleActions
 - npm install --save redux-thunk           
-    - thunk: 高阶函数返回的函数。使用后可以dispatch一个函数
+    - thunk: 高阶函数返回的函数。使用后可以dispatch一个函数（类似云端管理平台项目中的action工具函数）
 - npm install --save redux-devtools-extension          //开发调试工具
 - npm i store                                          //localStorage 工具库，一般用来保存登录数据
 - npm i @craco/craco                                   //CRA搭建的项目，在不eject的情况下,覆盖create-react-app的配置。需要CRA3* （类似在根目录下面新建config-overrides.js，并修改相关配置）
@@ -40,6 +40,7 @@
   }
 ```
 - npm i object-assign                                   //传入多个对象，返回合并后的对象，ignores null and undefined sources
+- npm i redux-persist                                   //redux长期存储解决插件
 
 
 
