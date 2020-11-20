@@ -5,9 +5,9 @@
 1. npx create-react-app my-app --template redux         //如果创建失败检查用户变量和系统变量，用户变量重装node后重置了
 
 ### 添加redux
-1. npm install --save redux                 //安装稳定版：   
-2. npm install --save react-redux           //使用 React 绑定库
-3. npm install --save-dev redux-devtools    //开发者工具
+1. npm install --save redux                            //安装稳定版：   
+2. npm install --save react-redux                      //使用 React 绑定库
+3. npm install --save-dev redux-devtools               //开发者工具
 
 
 ### 技术选型
@@ -18,10 +18,10 @@
 - npm install --save redux-devtools-extension          //开发调试工具
 - npm i store                                          //localStorage 工具库，一般用来保存登录数据
 - npm i @craco/craco                                   //CRA搭建的项目，在不eject的情况下,覆盖create-react-app的配置。需要CRA3* （类似在根目录下面新建config-overrides.js，并修改相关配置）
-    * npm i @babel/plugin-proposal-decorators --dev     //用来支持装饰器
+    * npm i @babel/plugin-proposal-decorators --dev    //用来支持装饰器
     
-    
-- npm i axios                                          
+- npm i axios 
+    * 相较于旧版本，新版返回了请求的config信息，返回数据放在了data参数中                                         
 - npm i qs                                             //一个处理url的库，常用用法：相互转化 a=1&b=2&c=3 为 { a:1, b:2, c:3 }
 - npm i classnames                                     
 - npm install antd               
@@ -29,7 +29,37 @@
 - npm uninstall less-loader                            //降级
 - npm i eslint -g npm install babel-eslint -g
 - npm install react-router-dom --save-dev              //使用React构建的单页面应用，要想实现页面间的跳转，首先想到的就是使用路由。在React中，常用的有两个包可以实现这个需求，那就是react-router和react-router-dom。
+    * withRouter 为非路由组件的props传入 history、location、match 
 - npm install immutable                                //在react中，immutable主要是防止state对象被错误赋值。 
 - npm install moment
 - npm i @amap/amap-jsapi-loader --save                 //高德地图loader
+```js
+  // 模块热替换 (添加在index.js)
+  if (module.hot) {
+    module.hot.accept('./App');
+  }
+```
+- npm i object-assign                                   //传入多个对象，返回合并后的对象，ignores null and undefined sources
+
+
+
+### less 引入问题
+```less
+    //1. 例如 @import '~antd/lib/style/themes/default.less'; 其中 ~ 代表依赖的根目录 node_modules
+    
+    //2. less函数静态资源路径使用调用他的文件的相对路径。而非函数本身所在文件的相对路径
+    .imgicon(@url:'', @width: 14px, @height: @width) {
+      display: inline-block;
+      width: @width;
+      height: @height;
+      background: ~"url(@{url})" no-repeat center center /100% 100%;
+    }
+    
+```
+
+
+### 其他问题
+* 封装了一个函数，在组件中调用后：
+    - React Hook "testCallback" is called in function "render" that is neither a React function component nor a custom React Hook function. React component names must start with an uppercase letter
+    > 解决方法：首字母大写 > testCallback
 

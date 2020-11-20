@@ -228,3 +228,14 @@ const autoScroll = () => {
 	document.body.style.position = 'initial';
 	document.body.style.overflowY = 'auto'
 };
+
+
+
+//阻止事件冒泡兼容性处理
+export const stopBubble = (event) => {
+	if (event.stopPropagation) {
+		event.stopPropagation();
+	} else{
+		event.canselBubble = true;
+	}
+};
