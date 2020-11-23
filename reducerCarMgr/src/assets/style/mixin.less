@@ -1,0 +1,13 @@
+.imgicon(@url:'', @width: 14px, @height: @width) {
+  display: inline-block;
+  width: @width;
+  height: @height;
+  background: ~"url(@{url}@2x.png)" no-repeat center center /100% 100%;
+}
+.imgiconAndHover (@url:'', @hoverUrl: @url, @width: 14px, @height: @width) {
+  .imgicon(@url, @width, @height);
+  vertical-align: middle;
+  &:hover{
+    background-image: ~"url(@{hoverUrl}@2x.png)"
+  }
+}

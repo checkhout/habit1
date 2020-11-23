@@ -1,0 +1,79 @@
+.position_c {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.searchBarRadius3px {
+  border-radius: 3px;
+}
+.text-overflow {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+.flex, .flex-columns{
+  display: flex;
+  flex-direction: column;
+}
+.flex-row {
+  display: flex;
+  flex-direction: row;
+}
+
+//表单-操作--文字颜色
+.theme-font-blue379EEC{
+  color: @c-379EEC!important;
+}
+.theme-font-redE80000{
+  color: @c-E80000!important;
+}
+.theme-font-red0DA736{
+  color: @c-0DA736!important;
+}
+.theme-font-gray555763{
+  color: @c-555763!important;
+}
+
+//半透明主题按钮 start
+.theme-btn-opacity-red{
+  background:rgba(232,0,0,0.11)!important;
+  border:1px solid rgba(232,0,0,0.1)!important;
+  color: @error-color!important;
+  &:hover {
+    color: @error-color;
+    background:rgba(232,0,0,0.11)!important;
+    border:1px solid rgba(232,0,0,0.1)!important;
+  }
+}
+.theme-btn-opacity-blue{
+  background: rgba(55,158,236,0.11)!important;
+  border:1px solid rgba(55,158,236,0.2)!important;
+  //color: @hover-primary-color!important;
+
+  padding: 0!important;
+  &:hover {
+    padding: 0!important;
+    //color: @hover-primary-color;
+    background: rgba(55,158,236,0.11)!important;
+    border: 1px solid rgba(55,158,236,0.2)!important;
+  }
+}
+//半透明主题按钮 end
+
+
+.full_screen {
+  width: 100%;
+  height: 100%;
+}
+.full_height {
+  height: 100%;
+}
+.full_width {
+  width: 100%;
+}
+
+.overflow_hidden {
+  overflow: hidden;
+}
+
