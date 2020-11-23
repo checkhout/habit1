@@ -34,13 +34,14 @@
 - npm install moment
 - npm i @amap/amap-jsapi-loader --save                 //高德地图loader
 ```js
-  // 模块热替换 (添加在index.js)
+  // 模块热替换 (添加在index.js)  
   if (module.hot) {
     module.hot.accept('./App');
   }
 ```
 - npm i object-assign                                   //传入多个对象，返回合并后的对象，ignores null and undefined sources
-- npm i redux-persist                                   //redux长期存储解决插件
+- npm i redux-persist                                   //redux-persist管理redux, 解决刷新react-redux数据丢失
+    * 
 
 
 
