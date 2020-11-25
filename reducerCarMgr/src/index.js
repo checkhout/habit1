@@ -3,6 +3,11 @@ import ReactDOM from 'react-dom';
 import { Provider } from "react-redux";
 import { PersistGate } from 'redux-persist/integration/react'
 
+import { ConfigProvider } from 'antd';
+// 默认语言为 en-US，如果你需要设置其他语言，推荐在入口文件全局设置 locale
+import 'moment/locale/zh-cn';
+import locale from 'antd/lib/locale/zh_CN';
+
 import App from './App';
 import storeConfig from './redux/store'
 
@@ -16,7 +21,9 @@ const { store, persistor } = storeConfig();
 ReactDOM.render(
   <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>
-      <App />
+      <ConfigProvider locale={locale}>
+        <App />
+      </ConfigProvider>
     </PersistGate>
   </Provider>,
   document.getElementById('root')

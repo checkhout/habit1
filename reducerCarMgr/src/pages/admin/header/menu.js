@@ -1,5 +1,5 @@
 import React from 'react';
-import { Menu, Icon } from 'antd';
+import { Menu } from 'antd';
 import { Link } from 'react-router-dom';
 
 const renderMenuItem = item => ( // item.route 菜单单独跳转的路由
@@ -7,7 +7,7 @@ const renderMenuItem = item => ( // item.route 菜单单独跳转的路由
     key={item.path}
   >
     <Link to={(item.route || item.path) + (item.query || '')}>
-      {item.icon && <Icon type={item.icon}/>}
+      {item.icon && <i className={item.iconClassName}/>}
       <span className="nav-text">{item.title}</span>
     </Link>
   </Menu.Item>

@@ -1,9 +1,11 @@
 import { combineReducers } from 'redux';
 
 import * as common from './common';
+import * as useCarManagement from './useCarManagement';
 
 const appReducer = combineReducers({
 	...common,
+	...useCarManagement,
 });
 
 //退出登录重置store

@@ -16,3 +16,14 @@ export const carPlatesResult = handleActions({
 	},
 }, { data: [] });
 
+
+export const useCarRecordResult = handleActions({
+	'get_car_apply_list_start'(state) {
+		return { ...state, loading: true }
+	},
+	'get_car_apply_list_end'(state, action) {
+		const { data, total } = action.payload.res;
+		return { data, total, loading: false }
+	},
+}, { data: [], loading: false, total: 0 });
+

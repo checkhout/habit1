@@ -19,7 +19,6 @@
   .border-radius-custom {
     .input {
       border-radius: 3px;
-
     }
   }
   .search-fields {
@@ -32,6 +31,22 @@
       margin-bottom: 5px;
       display: inline-block;
       vertical-align: top;
+      &>.input {
+        .title {
+
+        }
+        &>.input {
+          //带label的选择框
+          .ant-select {
+            .ant-select-selector {
+              border: none;
+              box-shadow: none;
+              outline: none;
+              padding-left: 0;
+            }
+          }
+        }
+      }
 
       &.floatL {
         float: left;
@@ -122,6 +137,12 @@
         right: 10px;
         transform: translateY(-50%);
       }
+    }
+    .search_bar_options {
+      line-height: 1;
+      border-radius: 3px;
+      padding: 6px 22px;
+      font-size: 14px;
     }
     .ant-btn {
       height: 32px;

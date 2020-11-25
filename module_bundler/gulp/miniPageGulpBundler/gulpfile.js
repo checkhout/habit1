@@ -14,7 +14,7 @@ gulp.task('clean', done => {
 	done();
 });
 gulp.task('htmlmin', done => {
-	gulp.src(['src/index.html', 'src/buySuccess.html'])
+	gulp.src(['src/index.html', 'src/disconnect.html'])
 		.pipe(gulpHtmlMin({
 			collapseWhitespace: true,
 			removeComments: true
@@ -23,9 +23,9 @@ gulp.task('htmlmin', done => {
 	done();
 });
 gulp.task('cssmin', done => {
-	gulp.src(['src/style/app.css', 'src/style/buySuccess.css'])
+	gulp.src(['src/css/index.css'])
 		.pipe(gulpCssMin())
-		.pipe(gulp.dest('dist/style'));
+		.pipe(gulp.dest('dist/css'));
 	done();
 });
 gulp.task('imgmin', done => {
@@ -56,13 +56,18 @@ gulp.task('jscopy', done => {
 		.pipe(gulp.dest('dist/js/plugin'));
 	done();
 });
+gulp.task('csscopy', done => {
+	gulp.src('src/js/plugin/*.css')//将复制这个路径下的所有css到指定目录
+		.pipe(gulp.dest('dist/js/plugin'));
+	done();
+});
 gulp.task('removeUseStrict', done => {
 	gulp.src('dist/js/*.js')
 		.pipe(removeUseStrict())
 		.pipe(gulp.dest('dist/js/*.js'));
 	done();
 });
-gulp.task("default", gulp.series('clean',gulp.parallel('htmlmin', 'cssmin', 'imgmin', 'jsmin' , 'jscopy')), done => {
+gulp.task("default", gulp.series('clean',gulp.parallel('htmlmin', 'cssmin', 'imgmin', 'jsmin' , 'jscopy', 'csscopy')), done => {
 	done();
 });
 

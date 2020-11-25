@@ -12,7 +12,12 @@
   text-overflow: ellipsis;
   overflow: hidden;
 }
-.flex, .flex-columns{
+.flex_center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.flex-columns{
   display: flex;
   flex-direction: column;
 }
@@ -72,8 +77,21 @@
 .full_width {
   width: 100%;
 }
-
 .overflow_hidden {
   overflow: hidden;
+}
+.full_flex_hidden {
+  .overflow_hidden;
+  flex: 1;
+}
+.full_height_hidden {
+  .full_height;
+  .overflow_hidden;
+}
+
+.normal_btn {
+  border: none;
+  outline: none;
+  box-shadow: none;
 }
 

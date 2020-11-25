@@ -1,0 +1,18 @@
+.b1-px(@color,@fx){
+  position: relative;
+  &:before{
+    position: absolute;
+    content: "";
+    display: block;
+    @{fx}: 0;
+    width: 100%;
+    height: 1px;
+    background: @color;
+    @media (-webkit-device-pixel-ratio: 2){
+      transform: scaleY(0.5);
+    };
+    @media (-webkit-device-pixel-ratio: 3){
+      transform: scaleY(0.3333333333333333);
+    }
+  }
+}

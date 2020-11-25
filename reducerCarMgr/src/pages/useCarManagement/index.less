@@ -68,7 +68,7 @@
       }
       //右边tab-content
       .ant-tabs-content-holder {
-        .overflow_hidden;
+        .full_flex_hidden;
         .ant-tabs-content {//同.ant-tabs-content
           padding-left: 20px;
           padding-right: 20px;
@@ -78,44 +78,30 @@
 
           .ant-tabs-tabpane {
             height: 100%;
+            padding-left: 0;
 
-            .antui-datatable {
-              height: 88%;
-              overflow-y: auto;
-            }
-          }
-          .data-table-wrapper {
-            //.flex-columns;
-            .overflow_hidden;
-            //.full_height;
-            //
-            .ant-table-wrapper {
+            .data-table-wrapper {
+              .flex-columns;
+              .full_height;
               .overflow_hidden;
-            }
-            //.ant-table-content {
-            //  table {
-            //
-            //  }
-            //  .flex-columns;
-            //
-            //}
+              .ant-table-wrapper {
+                .overflow_hidden;
+              }
+              .primary-data, .ant-form {
+                flex-shrink: 0;
+              }
 
-            .primary-data, .ant-form {
-              flex-shrink: 0;
-            }
-            .antui-datatable {
-              .overflow_hidden;
-              flex: 1;
-            }
-            .search-bar, .ant-table-wrapper, .primary-data {
-              padding-left: 0;
-              padding-right: 0;
-            }
-            .search-bar {
-              .use-car-type {
+              .search-bar, .ant-table-wrapper, .primary-data {
+                padding-left: 0;
+                padding-right: 0;
+              }
+              .search-bar {
+                .use-car-type {
 
+                }
               }
             }
+
           }
         }
 
@@ -150,23 +136,20 @@
     }
 
     //时间选择框
-    .ant-calendar-picker {
-      transform: translateY(-1px);
-      .ant-calendar-picker-input {
-        border-radius: 3px;
-        height:32px;
-      }
+    .ant-picker {
+      border-radius: 3px;
     }
 
     .export-car-apply {
       float: right;
       border-radius: 3px;
       .ant-btn {
-        display: flex;
-        align-items: center;
+        .flex_center;
         padding: 6px 14px 6px 10px;
         background: @c-369D51;
         border-radius: 3px;
+        border: none;
+
         font-size: 14px;
         line-height: 20px;
         margin: 0;
@@ -209,7 +192,8 @@
 
   .border-custom {
     input {
-      border-radius: 0 3px 3px 0;
+      //border-radius: 0 3px 3px 0;
+      border-radius: 3px;
     }
   }
 
@@ -221,21 +205,9 @@
     }
   }
 
-
 }
 
 
-.use-car-record-range-picker {
-  .ant-calendar-panel {
-    .ant-calendar-footer {
-      .ant-calendar-footer-btn {
-        .ant-calendar-time-picker-btn {
-          display: none;
-        }
-      }
-    }
-  }
-}
 
 /*认证审核*/
 .error_tip {

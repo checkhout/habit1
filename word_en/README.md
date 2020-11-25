@@ -44,5 +44,8 @@ persist
 vi. 存留，坚持；持续，固执
 vt. 坚持说，反复说
 
+interceptor
+[ˌɪntərˈseptər]
+n. 拦截器；妨碍者
 
 ```

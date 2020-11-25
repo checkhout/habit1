@@ -29,3 +29,91 @@
   }
 }
 
+
+
+
+
+//ant-btn 样式覆盖
+.operate {
+  .normal_btn {
+    padding: 0;
+  }
+}
+
+//antui-datatable 定义在DataTable组件中
+.antui-datatable {
+  .flex-columns;
+  .full_flex_hidden;
+
+  .ant-table-wrapper, .ant-spin-nested-loading, .ant-spin-container, .ant-table, .ant-table-container {
+    .full_height_hidden;
+  }
+
+  .ant-table-wrapper {
+    .ant-spin-nested-loading {
+      .ant-spin-container {
+        .ant-table {
+          .ant-table-container {//需要配置Table scroll 配置和未配置DOM结构有差别
+            .flex-columns;
+            .ant-table-header {
+              flex-shrink: 0;
+            }
+            .ant-table-body {
+              .full_flex_hidden;
+
+              //空状态
+              .ant-table-placeholder {
+                .ant-table-cell {
+                  padding-top: 60px;
+                  text-align: center;
+                  border: none;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  //分页器
+  .pagination-data-table-antd {
+    flex-shrink: 0;
+    margin-top: 14px;
+    .ant-pagination {
+      background: #ffffff;
+      padding: 10px;
+      margin: 0;
+      text-align: right;
+      .ant-pagination-item{
+        background:rgba(255,255,255,1);
+        border:1px solid rgba(216,216,216,1);
+        border-radius:3px;
+        &.ant-pagination-item-active {
+          border-color: @c-379EEC;
+          background-color: transparent;
+        }
+        &:not(.ant-pagination-item-active) {
+          border-color: rgba(216,216,216,1);
+          background-color: transparent;
+        }
+      }
+      .ant-pagination-prev, .ant-pagination-next {//上一页下一页
+        display: none;
+        .ant-pagination-item-link {
+          display: none;
+        }
+      }
+      .ant-pagination-total-text {
+        float: left;
+      }
+      .ant-pagination-options {//pageSize
+        .ant-select-selector {
+          border-radius: 3px;
+        }
+
+      }
+    }
+  }
+
+}
+

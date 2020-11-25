@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from "react-redux";
 import { withRouter } from 'react-router-dom';
 import {
-	Icon, Dropdown, Button,
+	Dropdown, Button,
 } from 'antd';
 import routes from '@config/config';
 
@@ -143,9 +143,9 @@ class HeaderCustom extends BaseComponent {
 								</ul>
 							</div>
 						}
-						trigger={['click']}
+						// trigger={['click']}
 					>
-						<span className="user-about"><img src={userInfo.avatar || [require("@style/header/avatar@2x.png")]} alt=""/>{userInfo.nickname || '-'} <Icon type="icon_caret_down"/></span>
+						<span className="user-about"><img src={userInfo.avatar || [require("@style/header/avatar@2x.png")]} alt=""/>{userInfo.nickname || '-'} <i className="anticon-icon_caret_down"/></span>
 					</Dropdown>
 				</div>
 

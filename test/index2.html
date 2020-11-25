@@ -18,5 +18,55 @@
 <div>
 
 </div>
+
+<script>
+
+	function checkImgExists(imgurl) {
+		return new Promise(function(resolve, reject) {
+			var ImgObj = new Image();
+			ImgObj.src = imgurl;
+			ImgObj.onload = function(res) {
+				resolve(res);
+			}
+			ImgObj.onerror = function(err) {
+				reject(err)
+			}
+		})
+	}
+
+	// checkImgExists("http://cloudfile.ddpai.com/09182020-1601-0000-0171-000000042252/G_20201123141238_014_0000_X.jpg").then(()=>{
+	// 	//success callback
+	// 	console.log('有效链接')
+	// }).catch(()=>{
+	// 	//fail callback
+	// 	console.log('无效链接')
+	// })
+
+	function checkVideoUrlExists(src) {
+		return new Promise(function(resolve, reject) {
+			var videoEl = document.createElement('video');
+			videoEl.src = src;
+			videoEl.onloadedmetadata = function(res) {
+				testFlag = true;
+				resolve(res);
+			};
+			videoEl.onerror = function(err) {
+				testFlag = false;
+				reject(err)
+			}
+		})
+	}
+
+	// checkVideoUrlExists("http://ddp-video.oss-cn-hangzhou.aliyuncs.com/autoying/19ABC00/T200_MG1/010102191055000555/202011/19/U_20201119113200_022_0010.mp4").then(()=>{
+	// 	//success callback
+	// 	console.log('有效链接')
+	//
+	// }).catch(()=>{
+	// 	//fail callback
+	// 	console.log('无效链接')
+	// })
+
+
+</script>
 </body>
 </html>

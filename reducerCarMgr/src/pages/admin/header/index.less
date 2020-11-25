@@ -39,7 +39,6 @@
         font-weight: 500;
       }
     }
-
   }
   .head-right {
     display: flex;
@@ -51,9 +50,15 @@
       padding: 5px 8px;
       &:hover, &.ant-dropdown-open {
         background-color: @table-row-hover-bg;
+        .anticon-icon_caret_down {
+          .imgicon('imgs/header/caret_up_p', 10px);
+        }
       }
     }
-
+    .anticon-icon_caret_down {
+      .imgicon('imgs/header/caret_down_n', 10px);
+      vertical-align: inherit;
+    }
 
     .user-about {
       img {
@@ -63,6 +68,7 @@
         margin-right: 6px;
       }
     }
+
   }
 }
 .ant-dropdown {

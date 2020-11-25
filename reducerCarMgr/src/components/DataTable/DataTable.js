@@ -272,16 +272,16 @@ class DataTable extends BaseComponent {
 					width: col.width,
 					...item
 				};
-			})
-			// 保存rowkey在record
-			.concat({
-				dataIndex: '_rowkey',
-				width: 0,
-				render(text, record, index) {
-					record.rowKey = record[rowKey || colRowKey];
-					return <div style={{ display: 'none' }}>{record.rowKey}</div>;
-				}
 			});
+			// // 保存rowkey在record
+			// .concat({
+			// 	dataIndex: '_rowkey',
+			// 	width: 0,
+			// 	render(text, record, index) {
+			// 		record.rowKey = record[rowKey || colRowKey];
+			// 		return <div style={{ display: 'none' }}>{record.rowKey}</div>;
+			// 	}
+			// });
 
 		// 显示行号
 		if (showNum) {
@@ -385,7 +385,7 @@ export const Paging = ({ dataItems, onChange, ...otherProps }) => {
 		showQuickJumper: false,
 		showTotal: total => `${selectedRowKeys&&selectedRowKeys.length ? `已选择 ${selectedRowKeys.length} 条数据` :`共 ${total} 条数据`}`,
 		// showTotal: total => `共 ${total} 条数据 / 已选择${selectedRowKeys.length}条数据`,
-		onChange: pageNum => onChange({ pageNum, pageSize }),
+		onChange: (page, pageSize) => onChange({ page, pageSize }),
 		onShowSizeChange: (pageNum, pageSize) => onChange({ pageNum, pageSize }),
 		...otherProps
 	};

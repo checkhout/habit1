@@ -168,7 +168,7 @@ export default class SearchBar extends BaseComponent {
 					break;
 				case 'select':
 					component = (<Select
-						className={`fullWidth ${field.className ? field.className : ""}`}
+						className={`full_width ${field.className ? field.className : ""}`}
 						placeholder={field.placeholder || "请选择"}
 						value={this.state.fields[field.key]}
 						mode={field.mode || ''}
@@ -186,10 +186,8 @@ export default class SearchBar extends BaseComponent {
 					</Select>);
 					break;
 				case 'dropSelect':
-					// console.log(this.state.fields[field.key])
-					// if (this.state.fields[field.key] === undefined && field.value ) this.state.fields[field.key] = field.value
-					component = (<div className="fullWidth pr"><Select
-						className="fullWidth"
+					component = (<div className="full_width pr"><Select
+						className="full_width"
 						showArrow={true}
 						dropdownRender={menu => (
 							<div className="dropSelect-list" onMouseDown={(e) => { e.preventDefault(); return false; }}>
@@ -214,7 +212,7 @@ export default class SearchBar extends BaseComponent {
 				case 'treeSelect':
 					// if (this.state.fields[field.key] === undefined && field.value ) this.state.fields[field.key] = field.value
 					component = (<TreeSelect
-						className="fullWidth"
+						className="full_width"
 						allowClear
 						searchPlaceholder={field.placeholder || "请选择"}
 						showCheckedStrategy="SHOW_PARENT"
@@ -240,7 +238,6 @@ export default class SearchBar extends BaseComponent {
 					break;
 				case 'rangePicker':
 					const { format, width, key, type, renderFooter, ...otherProps } = field
-					// if (this.state.fields[field.key] === undefined && field.value ) this.state.fields[field.key] = field.value
 					component = (<DatePicker.RangePicker
 						format={ format || 'YYYY/MM/DD' }
 						value={this.state.fields[key]}
@@ -282,10 +279,6 @@ export default class SearchBar extends BaseComponent {
 		if(!time){
 			return false
 		}
-		// else if (this.state.onCalendar){
-		//     let endTime = moment(this.state.onCalendar).add(6, 'days') > moment().endOf('day') ? moment().endOf('day') : moment(this.state.onCalendar).add(6, 'days')
-		//     return time < moment(this.state.onCalendar).subtract(6, 'days') ||  time > endTime
-		// }
 		else {
 			return time > moment().endOf('day')
 		}
@@ -317,10 +310,9 @@ export default class SearchBar extends BaseComponent {
 
 	}
 
-	handleSubmit = (e) => {
-		e && e.preventDefault()
-		let { warnings } = this.state
-		warnings = {}
+	handleSubmit = () => {
+		// let { warnings } = this.state
+		// warnings = {}
 		// for (const field of this.props.leftFields.concat(this.props.rightFields)) {
 		//   if (field.validator) {
 		//     try {
@@ -330,12 +322,12 @@ export default class SearchBar extends BaseComponent {
 		//     }
 		//   }
 		// }
-		if (Object.keys(warnings).length) {
-			this.setState({
-				warnings
-			})
-			return
-		}
+		// if (Object.keys(warnings).length) {
+		// 	this.setState({
+		// 		warnings
+		// 	})
+		// 	return
+		// }
 		this.setState({ warnings: {} })
 		if ('onSubmit' in this.props) {
 			const fields = {}
@@ -367,12 +359,12 @@ export default class SearchBar extends BaseComponent {
 		const { searchTxt, noReload, fields } = this.props;
 
 		return (
-			<Form className="search-bar" onSubmit={this.handleSubmit}>
+			<Form className="search-bar" onFinish={this.handleSubmit}>
 				<div className="search-fields">
 					{fields && this.generateInputs(fields)}
-					<Button type="primary"  htmlType="submit" className="icon-ant-btn search" icon="">{ searchTxt || '查询' }</Button>
+					<Button type="primary"  htmlType="submit" className="search_bar_options icon-ant-btn search" icon="">{ searchTxt || '查询' }</Button>
 					{
-						!noReload ? <Button onClick={this.handleReset} type="normal" className="icon-ant-btn reset" icon="">重置</Button> : null
+						!noReload ? <Button onClick={this.handleReset} type="normal" className="search_bar_options icon-ant-btn reset" icon="">重置</Button> : null
 					}
 				</div>
 			</Form>
