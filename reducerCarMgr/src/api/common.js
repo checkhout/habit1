@@ -12,3 +12,6 @@ export const query_user_info_api = createQuery('/account/api/v1/account/etr/quer
 export const query_company_info_api = createQuery('/account/api/v1/account/etr/getCompanyByUser', "get");
 //登出
 export const logoutHttp = () => Service('/logout', "get");
+//获取上传token
+export const getUploadTokenHttp = (param) => Service(`/staticData/api/v1/cloud/mgr/getUploadToken`, 'post', param);
+

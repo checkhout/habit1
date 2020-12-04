@@ -1,42 +1,12 @@
 import React, {Component} from 'react';
-import {connect} from "react-redux";
-import cx from 'classnames'
 import {
-	Tabs, Button, DatePicker,
+	Tabs
 } from 'antd';
 
-import DataTable from '@components/DataTable'
-import SearchBar from '@components/searchBar'
-import moment, { transformTime } from '@components/moment'
-import { persistPageStatusByKey } from '@actions/common'
-import { get_car_apply_list_action } from '@actions/useCarManagement'
-import { formatType, isEmpty } from "@utils/index";
-import {
-	get_car_plates_action
-} from "@actions/useCarManagement";
-import {
-	export_car_apply_list_api,
-} from "@api/useCarManagement";
-
-import {
-	tripStatusSelect,
-	useCarMode,
-	UseCarTripStatusType
-} from './utils'
-import UseCarDetail from './useCarDetail'
 import UseCarRecord from './useCarRecord'
 import './index.less'
 
-
 const { TabPane } = Tabs;
-const { RangePicker } = DatePicker;
-
-@connect((state) => ({
-	carPlatesResult: state.carPlatesResult,//车牌列表
-	useCarRecordResult: state.useCarRecordResult,
-	persistPageStatusResult: state.persistPageStatusResult,
-	companyInfoResult: state.companyInfoResult,
-}))
 
 class UseCarManagement extends Component {
 
@@ -58,10 +28,11 @@ class UseCarManagement extends Component {
 							}
 							key="1"
 						>
-							<div className="data-table-wrapper flex-auto">
+							<div className="data-table-wrapper">
 								<UseCarRecord />
 							</div>
 						</TabPane>
+
 						{/*<TabPane
 							tab={
 								<div>
@@ -82,6 +53,7 @@ class UseCarManagement extends Component {
 							key="3">
 						</TabPane>*/}
 					</Tabs>
+
 				</div>
 			</div>
 		)

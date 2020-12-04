@@ -128,7 +128,8 @@ export default class SearchBar extends BaseComponent {
 							{(this.state.autoComplete[field.key] || []).map((value, key) =>
 								<Select.Option key={key} value={value}>{value}</Select.Option>)}
 						</Select>)
-					} else {
+					}
+					else {
 						if (field.clean) {
 							component = (<div className="pr">
 									<Input
@@ -143,7 +144,8 @@ export default class SearchBar extends BaseComponent {
 								/>
 							</div>
 							)
-						} else {
+						}
+						else {
 							component = (<Input
 								autoComplete="off"
 								value={this.state.fields[field.key]}

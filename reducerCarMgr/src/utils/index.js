@@ -2,8 +2,8 @@
 
 
 /**
- * 用于get方法后面参数的拼接，传入data是对象
- * @param {*} name
+ * @param data: object
+ * @returns str ?key=value&key2=value2
  */
 export const getUrlConcat = function (data) {
 	let dataStr = ''; //数据拼接字符串
@@ -83,7 +83,7 @@ export const formatType = {
 };
 
 
-export const isEmpty = (value) => {
+export const IsEmpty = (value) => {
 	if (value === "" || value === undefined || value === null) {
 		return '-'
 	}else{
@@ -93,7 +93,7 @@ export const isEmpty = (value) => {
 
 
 //传入毫秒单位时间，根据时长返回 xx天xx小时xx分钟
-export const useCarTime = (start, end) => {
+export const UseCarTime = (start, end) => {
 	if (end > start) {
 
 		const differD = end - start;
@@ -141,3 +141,8 @@ export const useCarTime = (start, end) => {
 	}
 };
 
+//去掉手机号中的 +86
+export const FormatUsername = str => {
+	if (str.indexOf("+86-") !== -1) str = str.replace("+86-", "");
+	return str;
+};

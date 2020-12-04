@@ -48,4 +48,13 @@ interceptor
 [ˌɪntərˈseptər]
 n. 拦截器；妨碍者
 
+revenue
+[ˈrevənuː]
+n. 收入、营收；税收收入；财政收入；收益
+
+conversion
+n. 转化、变化
+
+
+
 ```

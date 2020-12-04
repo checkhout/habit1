@@ -1,8 +1,9 @@
 @import '../../../node_modules/antd/lib/style/themes/default.less';
-@import "./common";
+@import "./mixin";
 
 @c-eeeeee: #eeeeee;
 @c-FFFFFF: #FFFFFF;
+@c-333333: #333333;
 @c-e8e8e8: #e8e8e8;
 @c-369D51: #369D51;
 @c-555763: #555763;
@@ -16,18 +17,10 @@
 @c-f6f6f6: #f6f6f6;
 
 //rgb-color-opacity[1,9]
-@rgb-0DA736-1  : rgba(13,167,54,0.1);
-@rgb-E80000-1  : rgba(232,0,0,0.1);
+@rgb-0DA736-1: rgba(13,167,54,0.1);
+@rgb-E80000-1: rgba(232,0,0,0.1);
+@rgb-379EEC-2: rgba(55,158,236,0.2);
 
-
-@keyframes loadingSpin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
 
 
 
@@ -42,7 +35,7 @@
 
 //antui-datatable 定义在DataTable组件中
 .antui-datatable {
-  .flex-columns;
+  .flex_columns();
   .full_flex_hidden;
 
   .ant-table-wrapper, .ant-spin-nested-loading, .ant-spin-container, .ant-table, .ant-table-container {
@@ -54,7 +47,7 @@
       .ant-spin-container {
         .ant-table {
           .ant-table-container {//需要配置Table scroll 配置和未配置DOM结构有差别
-            .flex-columns;
+            .flex_columns();
             .ant-table-header {
               flex-shrink: 0;
             }
@@ -116,4 +109,7 @@
   }
 
 }
+
+
+
 

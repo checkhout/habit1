@@ -18,10 +18,18 @@ const { store, persistor } = storeConfig();
 //如果您使用React，请用PersistGate包装您的根组件。
 // 这将延迟应用程序UI的呈现，直到检索到您的持久状态并将其保存到Redux。
 // 注意PersistGate加载属性可以为null，也可以是任何react实例，例如loading = {<正在加载/>}
+
+const validateMessages = {//antd 统一配置 Form 校验提示
+	// eslint-disable-next-line
+  required: "请输入${label}",
+};
 ReactDOM.render(
   <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>
-      <ConfigProvider locale={locale}>
+      <ConfigProvider
+        locale={locale}
+        form={{ validateMessages }}
+      >
         <App />
       </ConfigProvider>
     </PersistGate>

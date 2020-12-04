@@ -1,8 +1,8 @@
-import React, {Component} from 'react';
-import {connect} from "react-redux";
+import React, { Component } from 'react';
+import { connect } from "react-redux";
 import cx from 'classnames'
 import {
-	Tabs, Button, DatePicker,
+	Button, DatePicker,
 } from 'antd';
 
 import DataTable from '@components/DataTable'
@@ -10,7 +10,7 @@ import SearchBar from '@components/searchBar'
 import moment, { transformTime } from '@components/moment'
 import { persistPageStatusByKey } from '@actions/common'
 import { get_car_apply_list_action } from '@actions/useCarManagement'
-import { formatType, isEmpty } from "@utils/index";
+import { formatType, IsEmpty } from "@utils/index";
 import {
 	get_car_plates_action
 } from "@actions/useCarManagement";
@@ -124,9 +124,7 @@ class UseCarRecord extends Component {
 
 		}
 
-		this.props.dispatch(get_car_apply_list_action(param), () => {
-
-		}, () => {});
+		this.props.dispatch(get_car_apply_list_action(param));
 	};
 	onDatePickerChange = (date, dateString) => {
 		// 清空后date为null, 重置为全部
@@ -135,7 +133,7 @@ class UseCarRecord extends Component {
 			this.searchFile.endTime = 0;
 
 			this.requestCarApplyList(this.searchFile);
-			this.setState({active: 1});
+			this.setState({active: 0});
 		}
 	};
 	onDatePickerConfirm = (date) => {
@@ -148,6 +146,7 @@ class UseCarRecord extends Component {
 		if (date && date[0] && date[1]) {
 			this.searchFile.startTime = date[0].unix()*1000;
 			this.searchFile.endTime = date[1].endOf("day").unix()*1000;
+			console.log(this.searchFile);
 
 			this.requestCarApplyList(this.searchFile);
 		}
@@ -271,7 +270,7 @@ class UseCarRecord extends Component {
 								{/*<i className="common-car"/> */}
 								<span>{record.application.car.plate}</span>
 							</div>
-							: isEmpty(record.application.car.plate)
+							: IsEmpty(record.application.car.plate)
 					}
 				}
 			},
@@ -280,7 +279,7 @@ class UseCarRecord extends Component {
 				name: 'applicant',
 				tableItem: {
 					render: (text, record) => {
-						return  isEmpty(record.application.applicant.nickname)
+						return  IsEmpty(record.application.applicant.nickname)
 					}
 				}
 			},
@@ -292,7 +291,7 @@ class UseCarRecord extends Component {
 					render: (text, record) => {
 						let user = record.application.applicant.username;
 						if (user.indexOf("+86-") !== -1) user = user.replace("+86-", "");
-						return user ? <span>{user}</span> : isEmpty(user)
+						return user ? <span>{user}</span> : IsEmpty(user)
 					}
 				}
 			},
@@ -309,7 +308,6 @@ class UseCarRecord extends Component {
 			{
 				title: '预约时间',
 				name: 'orderTime',
-
 				tableItem: {
 					render: (text, record) => {
 						return <span>
@@ -451,7 +449,7 @@ class UseCarRecord extends Component {
 		})
 	};
 	handleCancelModal = (visible) => () => {
-		const _that = this;
+		// const _that = this;
 		if (visible === 'useCarDetailVisible') {
 			//销毁详情弹窗中的地图组件
 			if (this.UseCarDetail.goOutDetailMap) this.UseCarDetail.goOutDetailMap.destroy();
@@ -461,7 +459,7 @@ class UseCarRecord extends Component {
 			this.UseCarDetail.handleSwitchTripDetail("goOutDetail");
 
 			this.setState({currentUseCarRecord: {}}, () => {
-				_that.requestCarApplyList(_that.searchFile);
+				// _that.requestCarApplyList(_that.searchFile);
 			});
 		}
 
@@ -471,7 +469,8 @@ class UseCarRecord extends Component {
 
 	};
 	exportTableList = () => {
-		window.open(export_car_apply_list_api({...this.searchFile}), "_self")
+		const { carPlate } = this.searchFile;
+		window.open(export_car_apply_list_api({...this.searchFile, carPlate: +carPlate === -1 ? '' : carPlate}), "_self")
 	};
 	searchBarRef = barRef => {
 		this.barRef = barRef;
@@ -492,7 +491,7 @@ class UseCarRecord extends Component {
 			columns: this.useCarColumns(),
 			rowKey: 'id',
 			dataItems: {list: data, total: total, pageNum, pageSize},
-			onChange: ({ page, pageSize, }) => { this.handleChangeUseCarTablePage(page, pageSize) },
+			onChange: ({ page, pageSize, }) => {  page &&  this.handleChangeUseCarTablePage(page, pageSize) },
 			scroll: {y: 9999},
 			loading: {
 				spinning: loading,
@@ -516,6 +515,11 @@ class UseCarRecord extends Component {
 							disabledDate={(current) => {
 								// Can not select days before today and today
 								return current && current > moment().endOf('day');
+							}}
+							// open={true}
+							showTime={{
+								hideDisabledOptions: true,
+								defaultValue: [moment('00:00:00', 'HH:mm:ss'), moment('23:59:59', 'HH:mm:ss')],
 							}}
 							separator="~"
 							format="YYYY-MM-DD"

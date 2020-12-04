@@ -43,29 +43,31 @@ export const companyInfoResult = handleActions({
 
 
 /*
-* 该state专门用来保存各个页面的搜索状态
+* 该 state 专门用来保存各个页面的搜索状态
+* 根据不同的action覆盖其中的数据
+* 必须拥有对应的defaultState并在组件中初始化
 * */
 export const persistPageStatusResult = handleActions({
-	'useCarManagementStatus'(state, action) {//用车管理
-		return {...state, useCarManagementStatus: {...action.payload}}
-	},
-	'addressBookStatus'(state, action) {//通讯录
-		return {...state, addressBookStatus: {...action.payload}}
-	},
+		'useCarManagementStatus'(state, action) {//用车管理
+			return {...state, useCarManagementStatus: {...action.payload}}
+		},
+		'addressBookStatus'(state, action) {//通讯录
+			return {...state, addressBookStatus: {...action.payload}}
+		},
 	}, {
-	useCarManagementStatus: {
-		pageNum: 1,
-		pageSize: 10,
-		startTime: 0,
-		endTime: 0,
-		applicant: "",	//申请人账号
-		type: 0,				//用车类型
-		status: "",			//行程状态，1-未开始，5-进行中，6-已结束
-		carPlate: "",		//车牌
-		active: 1, 			//默认选中今天
-	},
-	addressBookStatus: {
-		pageNum: 1,
-	},
+		useCarManagementStatus: {
+			pageNum: 1,
+			pageSize: 10,
+			startTime: 0,
+			endTime: 0,
+			applicant: "",	//申请人账号
+			type: 0,				//用车类型
+			status: "",			//行程状态，1-未开始，5-进行中，6-已结束
+			carPlate: "",		//车牌
+			active: 1, 			//默认选中今天
+		},
+		addressBookStatus: {
+
+		},
 	}
 );

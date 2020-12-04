@@ -1,3 +1,4 @@
+/*
 import React, {Component} from 'react';
 import {connect} from "react-redux";
 import cx from 'classnames'
@@ -206,11 +207,11 @@ class UseCarManagement extends Component {
 			},
 		]
 	};
-	/**
+	/!**
 	 * 0：全部 1：今天 2：近三天 3：近一周
 	 * @param index
 	 * @param flag 只有在 componentDidMount 中调用时传入
-	 */
+	 *!/
 	handlePickData = (index, flag) => () => {
 
 		const start = moment().startOf("day");
@@ -281,7 +282,7 @@ class UseCarManagement extends Component {
 					render: (text, record) => {
 						return  record.application.car.plate ?
 							<div className="custom-td">
-								{/*<i className="common-car"/> */}
+								{/!*<i className="common-car"/> *!/}
 								<span>{record.application.car.plate}</span>
 							</div>
 							: isEmpty(record.application.car.plate)
@@ -562,7 +563,7 @@ class UseCarManagement extends Component {
 							</div>
 
 						</TabPane>
-						{/*<TabPane
+						{/!*<TabPane
 							tab={
 								<div>
 									<i className="task-mgr"/>
@@ -580,7 +581,7 @@ class UseCarManagement extends Component {
 								</div>
 							}
 							key="3">
-						</TabPane>*/}
+						</TabPane>*!/}
 					</Tabs>
 				</div>
 
@@ -596,4 +597,5 @@ class UseCarManagement extends Component {
 	}
 }
 
-export default UseCarManagement ;
+export default UseCarManagement ;*/
+

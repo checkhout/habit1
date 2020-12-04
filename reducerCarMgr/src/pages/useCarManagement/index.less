@@ -74,18 +74,17 @@
           padding-right: 20px;
           padding-top: 24px;
           height: 100%;
-          .overflow_hidden;
-
+          overflow: hidden;
           .ant-tabs-tabpane {
             height: 100%;
             padding-left: 0;
 
             .data-table-wrapper {
-              .flex-columns;
+              .flex-columns();
               .full_height;
-              .overflow_hidden;
+              overflow: hidden;
               .ant-table-wrapper {
-                .overflow_hidden;
+                overflow: hidden;
               }
               .primary-data, .ant-form {
                 flex-shrink: 0;
@@ -95,21 +94,34 @@
                 padding-left: 0;
                 padding-right: 0;
               }
-              .search-bar {
-                .use-car-type {
 
-                }
-              }
             }
 
           }
         }
-
       }
-
     }
 
   }
+
+  //覆盖部分 table 样式，预约时间双行文本导致行高和高保真不一致
+  .ant-table {
+    .ant-table-container {
+      //配置了scroll 的table和未配置时是不一样的结构
+      .ant-table-body {
+        .ant-table-tbody {
+          tr {
+            td {
+              padding-top: 10px;
+              padding-bottom: 10px;
+              //操作中的按钮高度有32 行高需要去掉按钮的高度
+            }
+          }
+        }
+      }
+    }
+  }
+
 
   .primary-data {
     padding-left: 10px;
@@ -165,6 +177,7 @@
     }
   }
 
+  //预约时间
   .order-time {
     position: relative;
     .point0DA736, .pointE80000 {

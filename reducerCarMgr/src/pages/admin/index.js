@@ -22,6 +22,8 @@ class Admin extends Component {
       return <Redirect to='/login'/>
     }
 
+    // console.log('role check ===>  ', this.props.location, this.props.loginResult);
+
     return (
       <Layout style={{minHeight: '100vh', minWidth: '1120px'}}>
         <Header>

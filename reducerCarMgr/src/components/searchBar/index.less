@@ -1,4 +1,5 @@
 @import "@style/theme.less";
+
 .border_left_none {
   border-left-width: 0;
 }
@@ -16,11 +17,6 @@
 
 .search-bar {
   margin-bottom: 5px;
-  .border-radius-custom {
-    .input {
-      border-radius: 3px;
-    }
-  }
   .search-fields {
     display: flex;
     flex-direction: row;
@@ -47,7 +43,6 @@
           }
         }
       }
-
       &.floatL {
         float: left;
       }
@@ -150,12 +145,12 @@
       padding-left: 21px;
       padding-right: 21px;
     }
-
     .search {
       margin-left: 4px;
     }
     .reset, .search {
       margin-right: 6px;
+      box-shadow: none;
     }
     .more {
       color: @text-auxiliary-color;
@@ -180,6 +175,33 @@
       margin-left: 24px;
     }
 
+    //
+    .border-radius-custom {
+      .input {
+        border-radius: 3px;
+      }
+    }
+    // select-and-input-s 选择器 和 select-and-input-i 输入框 配合使用
+    .select-and-input-s {
+      margin-right: 0;
+      text-align: center;
+      .ant-select-selector {
+        border: 1px solid @border-color-base!important;
+        border-radius: 3px 0 0 3px;
+      }
+      .ant-select-selector:hover{
+        border-color: @c-379EEC!important;
+      }
+    }
+    .select-and-input-i {
+      .input {
+        .input {
+          .ant-input {
+            border-radius: 0 3px 3px 0;
+          }
+        }
+      }
+    }
   }
 }
 .dropSelect-list {
@@ -193,9 +215,17 @@
   left: 0;
   width: calc(100% - 40px);
   line-height: 30px;
-  .text-overflow();
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 .ant-calendar-picker-input {
-  .searchBarRadius3px;
+  border-radius: 3px;
 }
+
+
+
+//select start 主题定制
+
+//select end

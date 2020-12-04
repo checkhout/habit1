@@ -239,3 +239,41 @@ export const stopBubble = (event) => {
 		event.canselBubble = true;
 	}
 };
+
+
+/*
+使用：
+checkImgExists("http://cloudfile.ddpai.com/09182020-1601-0000-0171-000000042252/G_20201123141238_014_0000_X.jpg").then(()=>{
+	//success callback
+	console.log('有效Img链接')
+}).catch(()=>{
+	//fail callback
+	console.log('无效Img链接')
+});
+*/
+//校验图片链接是否有效
+function checkImgExists(imgurl) {
+	return new Promise(function(resolve, reject) {
+		var ImgObj = new Image();
+		ImgObj.src = imgurl;
+		ImgObj.onload = function(res) {
+			resolve(res);
+		}
+		ImgObj.onerror = function(err) {
+			reject(err)
+		}
+	})
+}
+//校验视频链接是否有效
+function checkVideoUrlExists(src) {
+	return new Promise(function(resolve, reject) {
+		var videoEl = document.createElement('video');
+		videoEl.src = src;
+		videoEl.onloadedmetadata = function(res) {
+			resolve(res);
+		};
+		videoEl.onerror = function(err) {
+			reject(err)
+		}
+	})
+}

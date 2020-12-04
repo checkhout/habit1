@@ -2,10 +2,12 @@ import { combineReducers } from 'redux';
 
 import * as common from './common';
 import * as useCarManagement from './useCarManagement';
+import * as addressBook from './addressBook';
 
 const appReducer = combineReducers({
 	...common,
 	...useCarManagement,
+	...addressBook,
 });
 
 //退出登录重置store

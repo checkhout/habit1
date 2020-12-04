@@ -113,5 +113,28 @@ export const Service = function (url, method = 'GET', params = {}, header={'Cont
  * @returns {function(*=, *=): Promise<any>}
  */
 export const createQuery = (url, method, header) => (reqData, handleCancel) => {
-	return Service(url, method, reqData, header, handleCancel)
+	let str = url;
+
+	//拦截 拼接对应数据
+	if (reqData && reqData.urlData) {
+		const { urlData } = reqData;
+
+		switch (str) {
+			//查询单个部门详情
+			case '/account/api/v1/department':
+				str = `/account/api/v1/department/${urlData}`;
+				break;
+			//查询待审批任务 urlData 1-加入企业申请,2-使用车辆申请,3-驾驶资格申请
+			case '/car/api/v1/apply/getAuditTask':
+				str = `/car/api/v1/apply/getAuditTask/${urlData}`;
+				break;
+			case 'test23':
+				break;
+			default:
+				break;
+		}
+		delete reqData.urlData
+	}
+
+	return Service(str, method, reqData, header, handleCancel)
 };

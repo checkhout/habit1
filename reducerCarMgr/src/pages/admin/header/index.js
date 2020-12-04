@@ -10,6 +10,7 @@ import BaseComponent from '@/components/BaseComponent'
 import SiderMenu from './menu'
 
 import { logoutHttp } from '@api/common'
+import avatarImg from '../../../assets/imgs/header/avatar@2x.png'
 import './index.less'
 
 @connect((state) => ({
@@ -145,7 +146,7 @@ class HeaderCustom extends BaseComponent {
 						}
 						// trigger={['click']}
 					>
-						<span className="user-about"><img src={userInfo.avatar || [require("@style/header/avatar@2x.png")]} alt=""/>{userInfo.nickname || '-'} <i className="anticon-icon_caret_down"/></span>
+						<span className="user-about"><img src={userInfo.avatar || avatarImg} alt=""/>{userInfo.nickname || '-'} <i className="anticon-icon_caret_down"/></span>
 					</Dropdown>
 				</div>
 

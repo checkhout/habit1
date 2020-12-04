@@ -335,7 +335,7 @@ class DataTable extends BaseComponent {
 						return rowConfig
 					}}
 					// scroll={isScroll ? objectAssign({ x: true }) : {}}
-					scroll={scroll || {}}
+					scroll={scroll || {y: 99999}}
 					// scroll={{ y: 'calc(100% - 30px)' }}
 					bodyStyle={{ overflowX: 'auto' }}
 					columns={cols}
@@ -386,6 +386,7 @@ export const Paging = ({ dataItems, onChange, ...otherProps }) => {
 		showTotal: total => `${selectedRowKeys&&selectedRowKeys.length ? `已选择 ${selectedRowKeys.length} 条数据` :`共 ${total} 条数据`}`,
 		// showTotal: total => `共 ${total} 条数据 / 已选择${selectedRowKeys.length}条数据`,
 		onChange: (page, pageSize) => onChange({ page, pageSize }),
+		//当切换Size的时候，传入的 onChange 将被执行两次，且第二次的 pageNum 将为 undefined
 		onShowSizeChange: (pageNum, pageSize) => onChange({ pageNum, pageSize }),
 		...otherProps
 	};

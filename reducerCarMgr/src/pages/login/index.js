@@ -5,13 +5,13 @@ import { connect } from 'react-redux'
 
 import { regExpConfig } from "@/utils/index";
 import {
+	reset_store_action,
 	login_action,
 	query_user_info_action,
 	query_company_info_action,
 } from '@actions/common'
 import {
 	captchaHttp,
-
 } from '@api/common'
 import ModalInfo from '@components/modalInfo'
 
@@ -36,7 +36,9 @@ class Login extends Component {
 			warningVisible: false, //无登录权限提示框
 			loginFlag: false,//点击提交马上显示loading
 		};
+		//清除遗留登录数据
 		sessionStorage.clear();
+		this.props.dispatch(reset_store_action());
 		this.formRef = React.createRef();
 	}
 
@@ -63,6 +65,7 @@ class Login extends Component {
 		_that.setState({loginFlag: true}, () => {
 			//1. 登录
 			_that.props.dispatch(login_action(param, () => {
+
 				// 2. 获取用户信息
 				_that.props.dispatch(query_user_info_action(param, res2 => {
 					const userInfo = res2;
@@ -72,7 +75,7 @@ class Login extends Component {
 
 					//3. 获取用户所在公司信息
 					_that.props.dispatch(query_company_info_action(param, data => {
-						data.id = 0;//默认公司id为0
+						// data.id = 0;//默认公司id为0 **未保证数据单向性，禁止直接修改回调参数，会影响到reducer数据**
 
 						if (userInfo.isAdmin) {
 							this.props.history.replace('/')
@@ -86,7 +89,9 @@ class Login extends Component {
 				}, err => {
 					message.error("用户数据获取失败")
 				}));
+
 			}, err => {
+				console.log(err);
 				const switchErr = () => {
 					switch (+err.error_code) {
 						case 1:

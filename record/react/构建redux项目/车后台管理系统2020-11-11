@@ -41,7 +41,83 @@
 ```
 - npm i object-assign                                   //传入多个对象，返回合并后的对象，ignores null and undefined sources
 - npm i redux-persist                                   //redux-persist管理redux, 解决刷新react-redux数据丢失
-    * 
+```js
+  /*store.js 用redux-persist接入 reducers 和 store*/
+  import { createStore, applyMiddleware} from 'redux'
+  import thunkMiddleware from 'redux-thunk'
+  import { composeWithDevTools } from 'redux-devtools-extension'
+  import { persistStore, persistReducer } from 'redux-persist'
+  import storage from 'redux-persist/lib/storage/session' //sessionStorage
+  import reducers from '@/redux/reducers'
+  
+  let middleware = applyMiddleware(thunkMiddleware);
+  
+  if (process.env.NODE_ENV === "development") {
+  	middleware = composeWithDevTools(middleware);
+  }
+  
+  const storeConfig = () => {
+  	const persistConfig = {
+  		key: 'root',
+  		storage,
+  		whitelist: [//不配置白名单默认缓存整个store（避免session存储大小）
+  			
+  		],
+  		// blacklist: [],
+  	};
+  	const persistedReducer = persistReducer(persistConfig, reducers);
+  	const store = createStore(persistedReducer, middleware);
+  	const persistor = persistStore(store);
+  
+  	// 模块热替换
+  	if (module.hot) {
+  		// module.hot.accept('./App');
+  		module.hot.accept('./reducers/index.js', () => {
+  			// This fetch the new state of the above reducers.
+  			const nextRootReducer = require('./reducers/index.js').default;
+  			store.replaceReducer(
+  				persistReducer(persistConfig, nextRootReducer)
+  			)
+  		})
+  	}
+  
+  	return { store, persistor }
+  };
+  
+  export default storeConfig
+```
+> 在index.js 中全局配置
+```js
+
+  import React from 'react';
+  import ReactDOM from 'react-dom';
+  import { Provider } from "react-redux";
+  import { PersistGate } from 'redux-persist/integration/react'
+  
+  import { ConfigProvider } from 'antd';
+  // 默认语言为 en-US，如果你需要设置其他语言，推荐在入口文件全局设置 locale
+  import 'moment/locale/zh-cn';
+  import locale from 'antd/lib/locale/zh_CN';
+  
+  import App from './App';
+  import storeConfig from './redux/store'
+  
+  const { store, persistor } = storeConfig();
+  
+  ReactDOM.render(
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <ConfigProvider locale={locale}>
+          <App />
+        </ConfigProvider>
+      </PersistGate>
+    </Provider>,
+    document.getElementById('root')
+  );
+
+```
+
+- npm i react-copy-to-clipboard                         //一个copy插件
 
 
 

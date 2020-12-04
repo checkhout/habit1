@@ -8,6 +8,87 @@ body {
   color: @normal-bg-color;
 }
 
+//loading start
+.backgroudWait{
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  z-index: 999999;
+  left: 0;
+  top: 0;
+  background: #fff;
+}
+.page-spinner-bar {
+  position: fixed;
+  z-index: 10051;
+  width: 100px;
+  top: 40%;
+  left: 50%;
+  margin-left: -55px;
+  text-align: center
+}
+.page-spinner-bar>div {
+  margin: 0 5px;
+  width: 18px;
+  height: 18px;
+  background: @primary-color;
+  border-radius: 100%!important;
+  display: inline-block;
+  -webkit-animation: bounceDelay 1.4s infinite ease-in-out;
+  animation: bounceDelay 1.4s infinite ease-in-out;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both
+}
+.page-spinner-bar .bounce1 {
+  -webkit-animation-delay: -.32s;
+  animation-delay: -.32s
+}
+.page-spinner-bar .bounce2 {
+  -webkit-animation-delay: -.16s;
+  animation-delay: -.16s
+}
+
+
+@keyframes loadingSpin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+@-webkit-keyframes bounceDelay {
+  0%,100%,80% {
+    -webkit-transform: scale(0)
+  }
+  40% {
+    -webkit-transform: scale(1)
+  }
+}
+@keyframes bounceDelay {
+  0%,100%,80% {
+    transform: scale(0);
+    -webkit-transform: scale(0)
+  }
+  40% {
+    transform: scale(1);
+    -webkit-transform: scale(1)
+  }
+}
+//loading end
+
+//隐藏高德地图logo
+.amap-logo {
+  right: 0 !important;
+  left: auto !important;
+  display: none !important;
+}
+.amap-copyright {
+  right: 70px !important;
+  left: auto !important;
+  opacity:0 !important;
+}
+
 //ant布局样式覆盖
 .ant-layout {
   width: 100%;
