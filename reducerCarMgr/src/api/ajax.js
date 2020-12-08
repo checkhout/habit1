@@ -6,13 +6,30 @@
   2. 返回值是promise对象，里面直接就是请求回来的数据
  */
 import axios from 'axios';
-import {message} from 'antd';
+import { message } from 'antd';
 import {
 	basename,
 	TIME_OUT,
 	SERVER_IP
 } from "@config"
 
+axios.interceptors.request.use(function (config) {
+	const now = Date.now();
+	const loginTime = sessionStorage.getItem('factoryLoginTime');
+
+	if(loginTime){
+		if(now - loginTime > 1800000){
+			sessionStorage.clear();
+			window.location.href = `${basename}/login`;
+			message.error("登录超时，请重新登录！")
+		}else{
+			sessionStorage.setItem('factoryLoginTime', now)
+		}
+	}
+	return config;
+}, function (error) {
+	return Promise.reject(error);
+});
 
 /**
  * 1. createAjaxAction 在创建action时调用 得到函数2

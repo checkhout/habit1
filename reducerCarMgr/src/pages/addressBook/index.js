@@ -63,13 +63,11 @@ class AddressBook extends BaseComponent {
 		roleBookActiveKey: this.props.userInfoResult.data.roles[0],//受控tab activeKey 角色管理各个角色
 		currentRoleList: [],                //当前角色列表
 		roleDescribeTxt: '',                //角色描述
-		autoCompleteResult: [],             //自动添加的数据
 		willAddRoleEmployeesId: "",         //即将被添加角色的员工的名字
 		haveCurrentRoleFlag: false,         //即将被添加角色是否已有当前角色，如果已有，禁止提交
 		driverAuditTaskTotal: 0,            //待审批驾驶人任务数量
 		driverAuditTaskList: [],            //待审批驾驶人列表
 
-		leftTabSwitchKey: "orgTree",        //左侧tab切换默认显示-orgTree组织结构  roleMgr角色管理
 		operateDepartmentVisible: false,    //操作部门 新建、编辑
 		editDepartmentFlag: false,          //编辑部门标识
 		dissolveDepartmentVisible: false,   //解散部门
@@ -83,6 +81,9 @@ class AddressBook extends BaseComponent {
 		roleManagePageNum: 1,//角色管理分页
 		roleManagePageSize: 10,
 		currentRole: { value: 'ROLE_ddp2b_admin', txt: '管理员' },//当前角色
+
+		driverAuditPageNum: 1,//角色管理 驾驶人申请审核
+		driverAuditPageSize: 10,
 	};
 
 	tablePage = {
@@ -206,7 +207,7 @@ class AddressBook extends BaseComponent {
 			roleManagePageNum: page,
 			roleManagePageSize: pageSize,
 		}, () => {
-			// this.getDepartmentStaffBySelectedKey();
+
 		})
 	};
 	//组织结构查询
@@ -284,7 +285,7 @@ class AddressBook extends BaseComponent {
 	//组织结构 orgTree -角色管理roleMgr  切换部门
 	handleLeftTabSwitch = (key) => {
 		this.setState({
-			leftTabSwitchKey: key
+			addressBookActiveKey: key
 		}, () => {
 			if (key === 'orgTree') {
 				this.getDepartmentStaffBySelectedKey();
@@ -303,166 +304,66 @@ class AddressBook extends BaseComponent {
 
 	//获取角色列表
 	requestRoleListData = key => {
+		console.log('角色管理', key);
+		const getRoleListByKey = () => {
+			//请求角色列表
+			switch (key) {
+				case "ROLE_ddp2b_admin":
+					this.props.dispatch(get_admin_list_action({type: 1}));
+					break;
+				case "ROLE_ddp2b_car_auditor":
+					this.props.dispatch(get_carAuditor_list_action({type: 0}));
+					break;
+				case "ROLE_ddp2b_platform_operator"://企业审核员
+					this.props.dispatch(get_operator_list_action({}));
+					break;
+				case "expensesApproval"://报销审批员
+					break;
+				case "financialAuditor"://财务审核员
+					break;
+				case "ROLE_ddp2b_driver":
+					this.props.dispatch(get_driver_list_action({}, () => {
+						this.requestAuditTask();
+					}));
+					break;
+				default:
+					break;
+			}
+		};
 		//更新角色 先更新UI 同步请求角色列表
 		if ( key !== this.state.currentRole.value) {
 			this.setState({
 				currentRole: addrBookRoleMgr.filter(item => item.value === key)[0],
+			}, () => {
+				getRoleListByKey()
 			});
 		}
-
-		//请求角色列表
-		switch (key) {
-			case "ROLE_ddp2b_admin":
-				this.props.dispatch(get_admin_list_action({type: 1}));
-				break;
-			case "ROLE_ddp2b_car_auditor":
-				this.props.dispatch(get_carAuditor_list_action({type: 0}));
-				break;
-			case "ROLE_ddp2b_platform_operator"://企业审核员
-				this.props.dispatch(get_operator_list_action({}));
-				break;
-			case "expensesApproval"://报销审批员
-				break;
-			case "financialAuditor"://财务审核员
-				break;
-			case "ROLE_ddp2b_driver":
-				this.props.dispatch(get_driver_list_action({}));
-				this.requestAuditTask();
-				break;
-			default:
-				break;
+		else {
+			getRoleListByKey()
 		}
 	};
 
 	//查询驾驶人申请
 	requestAuditTask = () => {
+		const { driverAuditPageNum, driverAuditPageSize } = this.state;
 		const param = {
-			pageSize: this.tablePage.driverAuditPageSize,
-			pageNum: this.tablePage.driverAuditPageNum,
+			pageNum: driverAuditPageNum,
+			pageSize: driverAuditPageSize,
+			urlData: 3, // type: 3  1-加入企业申请,2-使用车辆申请,3-驾驶资格申请
 		};
-		param.urlData = 3;// type: 3  1-加入企业申请,2-使用车辆申请,3-驾驶资格申请
 		this.props.dispatch(get_audit_task_list_action(param));
 	};
-	//角色管理 - 右上角按钮
-	handleRoleListUpdate = () => {
-		const role = this.state.currentRole;
-		switch (role.value) {
-			case "ROLE_ddp2b_admin":
-				// console.log("ROLE_ddp2b_admin");
-				this.handleEmployeeAddRole();
-				break;
-			case "ROLE_ddp2b_car_auditor":
-				// console.log("ROLE_ddp2b_car_auditor");
-				this.handleEmployeeAddCarAuditor();
-				break;
-			case "expensesApproval":
-				// console.log("expensesApproval");
-				break;
-			case "financialAuditor":
-				// console.log("financialAuditor");
-				break;
-			case "ROLE_ddp2b_driver":
-				// console.log("ROLE_ddp2b_driver");
-				// 申请审批
-				this.handleOperateEmployees({}, "driverAuditVisible");
-				break;
-			case "ROLE_ddp2b_platform_operator":
-				this.handleEmployeeAddRole();
-				break;
-			default:
-				break;
-		}
-	};
-
-
-	//搜索补全数据
-	handleSearchEmployee = value  => {
-		const _that = this;
-		if (value) {
-			let validationEmployee = param => {
-				searchEmployeesHttp(param).then(res => {
-					const allEmployeesList = res.data;
-
-					if (allEmployeesList.length > 0) {
-						let filterEmployees = allEmployeesList.filter(item => item.id);
-
-						if (filterEmployees.length) {
-							_that.setState({
-								autoCompleteResult: filterEmployees
-							});
-						}
-
-					} else {
-
-						_that.setState({
-							willAddRoleEmployeesId: undefined,
-							warningMsg: "* 员工不存在",
-							haveCurrentRoleFlag: true,
-						})
-
-					}
-
-				}).catch(err => {
-					console.log(err)
-				})
-			};
-
-			validationEmployee({nickname: value});
-
-		}
-
-	};
 
 
 
 
-	//选择自动填充-受控管理		value结构为 员工id=员工名字的字符串
-	employeeNameOnChange = (value) => {
-		const _that = this;
-		if (!value) {
-			// 点击清空图标清空
-			_that.setState({
-				willAddRoleEmployeesId: value,
-				warningMsg: "",
-				haveCurrentRoleFlag: true,
-			});
-		} else if (value.indexOf("=") >= 0) {
 
-			let currentValues = value.split("=");
 
-			// 选择autocomplete查询
-			_that.setState({willAddRoleEmployeesId: +currentValues[0]});
-			// 是否可添加权限，已有该权限不可重复添加
-			const { autoCompleteResult } = this.state;
 
-			const selectEmployees = autoCompleteResult.filter(item => +item.id === +currentValues[0]);
-			if (selectEmployees.length && selectEmployees[0].roles && selectEmployees[0].roles.indexOf(_that.state.currentRole.value) >= 0) {
-				// 已有该权限
-				_that.setState({
-					haveCurrentRoleFlag: true,
-					warningMsg: "* 员工已有该权限",
-					willAddRoleEmployeesId: selectEmployees[0].id
-				})
-			} else {
-				// 允许添加角色没有的权限
-				_that.setState({
-					haveCurrentRoleFlag: false,
-					warningMsg: "",
-					willAddRoleEmployeesId: selectEmployees[0].id
-				});
-			}
-		}
-	};
 
-	//邀请/编辑员工、查看驾照
-	handleOperateEmployees = (employees, visible) => () => {
-		if (!visible) visible = "operateEmployeesVisible";
-		if (visible === "driverAuditVisible") this.requestAuditTask();
-		this.setState({
-			[visible]: true,
-			currentEmployees: employees.id || employees.inviteId ? employees : {},
-		})
-	};
+
+
+
 
 	//确认解散
 	handleConfirmDissolve = () => {
@@ -487,11 +388,7 @@ class AddressBook extends BaseComponent {
 
 
 
-	clearAutoCompleteData = () => {
-		this.setState({
-			autoCompleteResult: []
-		})
-	};
+
 
 	//生成树
 	renderTreeNodes = (data) => {
@@ -509,23 +406,8 @@ class AddressBook extends BaseComponent {
 
 	};
 
-	//选择部门-复选框勾选
-	onCheckDepartmentTreeNode = (selectedKeys, e) => {
 
-		let filterCompany = selectedKeys.filter(item => +item === 1);
 
-		if (filterCompany.length === 0) {
-			this.selectedCarAuditorAuditDepartment = selectedKeys;
-		} else {
-			//当全选时，只传0
-			this.selectedCarAuditorAuditDepartment = [0];
-		}
-
-	};
-	//复选框关联自定义属性
-	autoCompleteFilterOption = (inputValue, option) => {
-		return inputValue
-	};
 	//新建、编辑部门
 	requestOperateDepartment = (flag) => () => {
 		//编辑部门，
@@ -563,10 +445,8 @@ class AddressBook extends BaseComponent {
 	};
 	render() {
 		const {
-
 			addressBookActiveKey,
 
-			leftTabSwitchKey,
 			currentDepartmentObj,
 			leftTreeSelectedKey,
 			organizationStructurePageNum,
@@ -600,7 +480,7 @@ class AddressBook extends BaseComponent {
 
 			{/*右边内容*/}
 			{
-				leftTabSwitchKey === 'orgTree'
+				addressBookActiveKey === 'orgTree'
 					/*组织结构*/
 					? <Organization
 						pageNum={organizationStructurePageNum}
@@ -619,6 +499,7 @@ class AddressBook extends BaseComponent {
 						pageSize={organizationStructurePageSize}
 						roleManagePageChange={this.roleManagePageChange} //pageSize change
 						currentRole={currentRole}
+						handleSwitchRole={this.handleSwitchRole}
 					/>
 			}
 

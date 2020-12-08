@@ -112,4 +112,53 @@
 
 
 
+//Modal
+.ant-modal {
+  .ant-modal-content {
+    border-radius: 3px;
+    overflow: hidden;
+    .ant-modal-header {
+      padding: 0;
+      .ant-modal-title {
+        text-align: center;
+        line-height: 40px;
+        height: 40px;
+        background: @c-FFFFFF;
+        padding: 0;
+        color: @c-333333;
+      }
+    }
+    .ant-modal-body {
+      padding: 30px 34px 20px;
+    }
+    .ant-modal-footer {
+      //border-radius: 0 0 3px 3px;
+      //border-radius: 3px;
+      padding: 0;
+      .footer {
+        display: flex;
+        width: 100%;
+        justify-content: flex-end;
+
+        .ant-btn{
+          background: @c-FFFFFF;
+          border-color: @c-FFFFFF;
+          width: 50%;
+          height: 44px;
+          font-size:16px;
+          font-weight: 500;
+        }
+        .ant-btn[disabled] {
+          background-color: @c-FFFFFF;
+          border-color: @c-FFFFFF;
+        }
+        .simple-btn-cancel {
+          border-right: 1px solid @c-e8e8e8;
+        }
+      }
+    }
+  }
+}
+
+
 

@@ -142,6 +142,33 @@
     > 解决方法：首字母大写 > testCallback
     
     
-### about antd
+### about antd3 to 4
 * Form
     - onSubmit ==> onFinish（首次表单数据收集完成会调用一次）
+    
+* Select & AutoComplete
+    - Antd4 AutoComplete 无法指定回填的属性，optionLabelProp 被弃用，改用 Select 实现自动填入效果
+    - 问题描述：
+        * 使用 showSearch 状态下的 Select 通过map遍历生成 Options 时,optionsData不为空时，Select 依旧显示无数据
+```jsx
+  //解决
+  <Select
+    showSearch
+    showArrow={false}
+    allowClear={true}
+    labelInValue={true}     //onChange返回的value将变成对象
+    optionLabelProp="label  //指定回填的属性
+    optionLabelProp="label" //加上这个属性对应指定的属性即可，
+    onSearch={this.onSearch}
+    onChange={this.onChange}
+    onClear={this.onClear}
+  >
+      { this.renderAutoCompleteChildren(autoCompleteResult.formalStaff) }
+  </Select>
+  
+  renderAutoCompleteChildren = (dataSource=[]) => {
+      return dataSource.map(item => (<Option key={item.id} value={item.id} label={item.nickname}>
+          ......
+      </Option>))
+  };
+```

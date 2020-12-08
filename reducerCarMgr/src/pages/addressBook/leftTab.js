@@ -57,7 +57,7 @@ class LeftTab extends BaseComponent {
         const {
             className,
             requestOperateDepartment, handleLeftTabSwitch, handleSwitchRole,
-            departmentListResult: { treeData, loading },
+            departmentListResult: { treeDataHasNum, loading },
             selectedKeys,
             addressBookActiveKey,
             currentRole,
@@ -74,15 +74,15 @@ class LeftTab extends BaseComponent {
               >
                   <TabPane tab="组织结构" key="orgTree">
                       <div className="flex-columns organization-structure">
-                          <div className="scroll-innner">
+                          <div className="scroll-inner">
                               {
-                                  treeData.length ? <Spin spinning={loading} delay={500}>
+                                  treeDataHasNum.length ? <Spin spinning={loading} delay={500}>
                                       <Tree
                                         defaultExpandAll={true}
                                         defaultExpandedKeys={selectedKeys}
                                         defaultSelectedKeys={selectedKeys}
                                         selectedKeys={selectedKeys}
-                                        treeData={treeData}
+                                        treeData={treeDataHasNum}
                                         onSelect={onSelect}
                                         className="flex-auto"
                                       />

@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from "react-redux"
-import {AutoComplete, Button, Input, message, Tree} from "antd"
+import {AutoComplete, Select, Button, Input, message, Tree} from "antd"
 
 import BaseComponent from '@components/BaseComponent'
 import DataTable from '@components/DataTable'
@@ -16,6 +16,9 @@ import {
     update_role_api,
     dispose_audit_task_api,
 } from '@api/addressBook'
+import {
+    get_auto_complete_staff_action,
+} from '@actions/addressBook'
 
 import {
     RoleSwitchSex,
@@ -26,9 +29,11 @@ import {
 import { transformTime } from "../../components/moment"
 import driverAvatarImg from "../../assets/imgs/addressBook/driverAvatar@2x.png";
 
-const { Option } = AutoComplete;
+// const { Option } = AutoComplete;
 const { TreeNode } = Tree;
 const { TextArea } = Input;
+const { Option } = Select;
+
 
 @connect((state) => ({
     userInfoResult: state.userInfoResult,
@@ -37,11 +42,15 @@ const { TextArea } = Input;
     roleListResult: state.roleListResult,
     autoCompleteResult: state.autoCompleteResult,
     departmentListResult: state.departmentListResult,
+
 }))
 
 class RoleManage extends BaseComponent {
+    static defaultProps = {
+        currentRole: addrBookRoleMgr[0], //初始角色管理展示-管理员 从AddressBook中获取
+    };
+
     state = {
-        currentRole: addrBookRoleMgr[0],    //初始角色管理展示-管理员
         operateRoleVisible: false,          //添加管理员弹窗
         addRoleVisible: false,              //添加角色弹窗
         driverAuditVisible: false,          //驾驶资格认证申请审批
@@ -51,7 +60,6 @@ class RoleManage extends BaseComponent {
 
         willAddRoleEmployeesId: 0,          //将被添加权限的员工id
         currentEmployees: {},                //将被添加权限的员工
-
         warningMsg: "",         						//禁止提交时提示文案
         noPassVisible: false,               //拒绝理由弹窗
         removeAuthVisible: false,           //解除角色权限
@@ -63,14 +71,23 @@ class RoleManage extends BaseComponent {
         driverAuditPageNum: 1,//驾驶人申请审核的页码不缓存
         driverAuditPageSize: 10,
     };
+    selectedCarAuditorAuditDepartment = [];
 
     componentDidMount() {
         this.props.onRef && this.props.onRef(this);
     }
 
+    handleCancelModal = (visible) => () => {
+        this.setState({
+            [visible]: false,
+            currentEmployees: {},
+            warningMsg: "",
+            willAddRoleEmployeesId: undefined
+        })
+    };
     //角色管理列表
     roleMgrColumns = () => {
-        const { currentRole } = this.state;
+        const { currentRole, departmentListResult } = this.props;
         let columns = [
             {
                 title: '员工姓名',
@@ -147,7 +164,7 @@ class RoleManage extends BaseComponent {
                         return <div className="operate">
                             {
                                 currentRole.value === "ROLE_ddp2b_driver" ?
-                                  <Button title={'编辑'} className="margin_r12 theme-font-blue379EEC normal_btn"
+                                   <Button ghost={true} title={'编辑'} className="margin_r12 theme-font-blue379EEC normal_btn"
                                           onClick={this.handleOperateEmployees(record, 'viewDriverLicensesVisible')}>
                                       查看驾照
                                   </Button> : null
@@ -155,7 +172,7 @@ class RoleManage extends BaseComponent {
                             {
                                 /*用车审批员可编辑*/
                                 currentRole.value === "ROLE_ddp2b_car_auditor" ?
-                                  <Button title={'编辑'} className="margin_r12 theme-font-blue379EEC normal_btn"
+                                   <Button ghost={true} title={'编辑'} className="margin_r12 theme-font-blue379EEC normal_btn"
                                           onClick={this.handleOperateCarAuditor(record, 'operateCarAuditor')}>
                                       编辑
                                   </Button> : null
@@ -163,12 +180,12 @@ class RoleManage extends BaseComponent {
                             {
                                 currentRole.value === "ROLE_ddp2b_admin" ?
                                   //管理员权限时不可解除超级管理员 || 管理员也不能编辑管理员
-                                  ((isSuperAdmin || !this.props.userInfoResult.data.isSuperAdmin) ? <Button/> : <Button
+                                  ((isSuperAdmin || !this.props.userInfoResult.data.isSuperAdmin) ?  <div style={{width: '0px', height: '32px'}}/> :  <Button ghost={true}
                                     title={'删除'} className="theme-font-redE80000 normal_btn"
                                     onClick={this.handleOperateEmployees(record, 'removeAuthVisible')}>
                                       解除
                                   </Button>) :
-                                  <Button
+                                   <Button ghost={true}
                                     title={'删除'} className="theme-font-redE80000 normal_btn"
                                     onClick={this.handleOperateEmployees(record, 'removeAuthVisible')}>
                                       解除
@@ -181,20 +198,21 @@ class RoleManage extends BaseComponent {
                 }
             },
         ];
-
         const accountColumn = {
             title: '审批部门',
             name: 'role',
             tableItem: {
                 render: (text, record) => {
-                    const { carAuditDepartments } = record;
-                    const AllDeparts = this.state.selectAllCataLogueList[0].children;
+                    //共用同一个reducer会存在切换了角色，但是角色列表数据未更新的问题 carAuditDepartments undefined
+                    const carAuditDepartments = record.carAuditDepartments || [];
+                    const AllDeparts = departmentListResult.horizontalData;
                     let str = "";
+
                     if (carAuditDepartments.length && AllDeparts.length) {
                         let auditDeparts = [];
 
                         carAuditDepartments.forEach(item => {
-                            const departItem = AllDeparts.filter(i => +i.key === +item);
+                            const departItem = AllDeparts.filter(i => +i.id === +item);
                             if (departItem[0]) auditDeparts.push(departItem[0]);
                         });
 
@@ -231,7 +249,8 @@ class RoleManage extends BaseComponent {
 
                         if (endTime > 0) {
                             endStr = transformTime(+endTime, formatType.pointCutYMD);
-                        } else {
+                        }
+                        else {
                             endStr = "长期";
                         }
                         return `${startStr}-${endStr}`;
@@ -253,9 +272,8 @@ class RoleManage extends BaseComponent {
         }
 
         return columns
-
-
     };
+
     //驾驶申请审批列表
     driverAuditColumns() {
         return [
@@ -307,7 +325,7 @@ class RoleManage extends BaseComponent {
                 name: 'driverLicences',
                 tableItem: {
                     render: (text, record) => <div  className="operate">
-                        <Button title={'编辑'} className="theme-font-blue379EEC" onClick={this.handleOperateEmployees(record, 'viewDriverLicensesVisible')}>查看驾照</Button>
+                         <Button ghost={true} title={'编辑'} className="theme-font-blue379EEC" onClick={this.handleOperateEmployees(record, 'viewDriverLicensesVisible')}>查看驾照</Button>
                     </div>
                 }
             },
@@ -318,8 +336,8 @@ class RoleManage extends BaseComponent {
                     // fixed: 'right',
                     render: (text, record) => {
                         return <div className="custom-column">
-                            <Button title={'通过'} className="custom-primary-btn" onClick={this.handleDisposeDriverAudit(record, 0)} type="primary">通过</Button>
-                            <Button title={'拒绝'} className="custom-primary-gray-btn" style={{color: "#555763"}} onClick={this.handleDisposeDriverAudit(record, 1)}>拒绝</Button>
+                             <Button ghost={true} title={'通过'} className="custom-primary-btn" onClick={this.handleDisposeDriverAudit(record, 0)} type="primary">通过</Button>
+                             <Button ghost={true} title={'拒绝'} className="custom-primary-gray-btn" style={{color: "#555763"}} onClick={this.handleDisposeDriverAudit(record, 1)}>拒绝</Button>
                         </div>
                     }
                 }
@@ -341,7 +359,7 @@ class RoleManage extends BaseComponent {
             case '财务审核员':
                 return "*财务审核员角色可登录web后台，只能看到“报销管理”功能模块。";
             default:
-                return null;
+                break;
         }
     };
     //添加-管理员
@@ -383,13 +401,11 @@ class RoleManage extends BaseComponent {
         }
 
         let renderSubmit = () => {
-
             if (visible === "noPassVisible") {
                 _that.requestDisposeDriverAudit("", 1);
             } else {
                 _that.handleSubmitAddRole(visible);
             }
-
         };
 
         return <div className="footer">
@@ -403,13 +419,21 @@ class RoleManage extends BaseComponent {
             </Button>
         </div>
     };
+    //选择部门-复选框勾选
+    onCheckDepartmentTreeNode = (selectedKeys, e) => {
+        let filterCompany = selectedKeys.filter(item => +item === 1);
+
+        if (filterCompany.length === 0) {
+            this.selectedCarAuditorAuditDepartment = selectedKeys;
+        }
+        //全选
+        else {
+            this.selectedCarAuditorAuditDepartment = [0];
+        }
+    };
     //自动填充员工
-    renderAutoCompleteChildren = dataSource => {
-        /**
-         * "selectvalue":自定义属性，关联filterOption={this.autoCompleteFilterOption}和optionLabelProp={"selectvalue"}, 过滤autocomplete，
-         * autocomplete选中推荐的值时，会把整个option设置为input的value
-         */
-        return dataSource.map(item => <Option key={`${item.id || item.inviteId}=${item.nickname}`} selectvalue={item.nickname}>
+    renderAutoCompleteChildren = (dataSource=[]) => {
+        return dataSource.map(item => <Option key={item.id} value={item.id} label={item.nickname}>
             <div className="autoComplete-card-head">
                 <img src={item.avatar || driverAvatarImg} alt="头像"/>
                 <div className="driver-detail">
@@ -429,44 +453,36 @@ class RoleManage extends BaseComponent {
         })
     };
     handleOperateCarAuditor = (record) => () => {
-
         record.carAuditDepartments = record.carAuditDepartments.map(item => {
-            return `${item}`
+            return +item
         });
 
-        //默认显示选中
-        this.selectedCarAuditorAuditDepartment = record.carAuditDepartments;
-
+        this.selectedCarAuditorAuditDepartment = record.carAuditDepartments || [];
         this.setState({
             operateCarAuditor: true,
-            currentEmployees: record,
+            currentEmployees: {...record},
         })
     };
     //添加权限
     handleSubmitAddRole = (currentVisible) => {
-        // willAddRoleEmployeesId 是自动填入的员工名 对应的员工id
-        let {willAddRoleEmployeesId, currentRole, currentEmployees} = this.state;
-
-
-        if (regExpConfig.num.test(+willAddRoleEmployeesId)) {
-
+        // willAddRoleEmployeesId 是自动填入的员工对应的员工id
+        const { willAddRoleEmployeesId, currentEmployees } = this.state;
+        const { currentRole } = this.props;
+        //员工ID
+        const roleId = willAddRoleEmployeesId || currentEmployees.id;
+        //更新角色权限
+        if (roleId) {
             let param = {
-                type: 1,                //1-添加角色,2-移除角色
+                type: 1,//1-添加角色,2-移除角色
                 role: currentRole.value,
             };
 
+            // 用车审批员
             if (currentRole.value === "ROLE_ddp2b_car_auditor") {
-                param.departmentIds = this.selectedCarAuditorAuditDepartment
-            }
-
-            //编辑用车审批员
-            if (currentVisible === "operateCarAuditor") {
                 param.departmentIds = this.selectedCarAuditorAuditDepartment;
-                willAddRoleEmployeesId = currentEmployees.id;
             }
 
-            this.requestUpdateRole(willAddRoleEmployeesId, param, currentVisible);
-
+            this.requestUpdateRole(roleId, param, currentVisible);
         } else {
             message.warning("员工不存在")
         }
@@ -474,15 +490,12 @@ class RoleManage extends BaseComponent {
     };
     //更新角色权限
     requestUpdateRole = (id, param, currentVisible) => {
-
-        const {currentRole} = this.state;
+        const {currentRole, handleSwitchRole} = this.props;
 
         update_role_api(id, param).then(res => {
             message.success("操作成功");
-            this.handleCancelModal(currentVisible);
-            this.requestRoleListData(currentRole.value);
-            this.setState({willAddRoleEmployeesId: ""});
-
+            this.handleCancelModal(currentVisible)();
+            handleSwitchRole(currentRole.value);
         }).catch(err => {
             switch (+err.error_code) {
                 case 2:
@@ -498,19 +511,19 @@ class RoleManage extends BaseComponent {
                     break;
             }
         })
-
     };
     //解除权限
     handleConfirmRemoveEmployeesAuth = () => {
-        const {currentRole, currentEmployees} = this.state;
+        const { currentEmployees} = this.state;
+        const { currentRole, handleSwitchRole } = this.props;
 
         let param = {
             type: 2,                //1-添加角色,2-移除角色
             role: currentRole.value,
         };
         update_role_api(currentEmployees.id, param).then(res => {
-            this.handleCancelModal("addRoleVisible");
-            this.requestRoleListData(currentRole.value);
+            this.handleCancelModal("addRoleVisible")();
+            handleSwitchRole(currentRole.value);
             message.success("解除成功");
 
         }).catch(err => {
@@ -544,7 +557,7 @@ class RoleManage extends BaseComponent {
         dispose_audit_task_api(id, param).then(res => {
             //刷新申请、驾驶人列表
             this.requestAuditTask();
-            this.requestRoleListData("ROLE_ddp2b_driver");
+            this.props.handleSwitchRole("ROLE_ddp2b_driver");
             this.setState({
                 noPassVisible: false,
             });
@@ -572,7 +585,121 @@ class RoleManage extends BaseComponent {
         }
 
     };
+    handleChangeDriverAuditTablePage = (pageNum, pageSize) => {
+        this.pageStatus.driverAuditPageNum = pageNum;
+        this.pageStatus.driverAuditPageSize = pageSize;
+    };
+    //角色管理 - 右上角按钮
+    handleRoleListUpdate = () => {
+        const role = this.props.currentRole;
+        console.log('角色管理', role);
+        switch (role.value) {
+            case "ROLE_ddp2b_admin":
+                // console.log("ROLE_ddp2b_admin");
+                this.handleEmployeeAddRole();
+                break;
+            case "ROLE_ddp2b_car_auditor":
+                // console.log("ROLE_ddp2b_car_auditor");
+                this.handleEmployeeAddCarAuditor();
+                break;
+            case "expensesApproval":
+                // console.log("expensesApproval");
+                break;
+            case "financialAuditor":
+                // console.log("financialAuditor");
+                break;
+            case "ROLE_ddp2b_driver":
+                // console.log("ROLE_ddp2b_driver");
+                // 申请审批
+                this.handleOperateEmployees({}, "driverAuditVisible");
+                break;
+            case "ROLE_ddp2b_platform_operator":
+                this.handleEmployeeAddRole();
+                break;
+            default:
+                break;
+        }
+    };
+    //邀请/编辑员工、查看驾照
+    handleOperateEmployees = (employees, visible) => () => {
+        if (!visible) visible = "operateEmployeesVisible";
+        if (visible === "driverAuditVisible") this.requestAuditTask();
+        this.setState({
+            [visible]: true,
+            currentEmployees: employees.id || employees.inviteId ? employees : {},
+        })
+    };
+    //搜索补全数据
+    handleSearchEmployee = value  => {
+        const _that = this;
+        if (value) {
+            let validationEmployee = param => {
+                this.props.dispatch(get_auto_complete_staff_action(param, (res) => {
+                    const allEmployeesList = res.data;
 
+                    if (allEmployeesList.length <= 0) {
+                        _that.setState({
+                            willAddRoleEmployeesId: undefined,
+                            warningMsg: "* 员工不存在",
+                            haveCurrentRoleFlag: true,
+                        })
+                    } else {
+                        _that.setState({
+                            warningMsg: "",
+                            haveCurrentRoleFlag: false,
+                        })
+                    }
+                }));
+            };
+
+            validationEmployee({nickname: value});
+
+        }
+
+    };
+    //选择自动填充-受控管理		value结构为 员工id=员工名字的字符串
+    employeeNameOnChange = (value) => {
+        const _that = this;
+        //清空 value： undefined
+        if (!value) {
+            // 点击清空图标清空
+            _that.setState({
+                willAddRoleEmployeesId: value,
+                warningMsg: "",
+                haveCurrentRoleFlag: true,
+            });
+        }
+        else if (value.value) {
+            const roleId = value.key;
+            const { autoCompleteResult, currentRole } = this.props;
+            const selectEmployees = autoCompleteResult.formalStaff.filter(item => +item.id === +roleId);
+
+            // 已有该权限不可重复添加
+            if (selectEmployees.length && selectEmployees[0].roles && selectEmployees[0].roles.indexOf(currentRole.value) >= 0) {
+                _that.setState({
+                    haveCurrentRoleFlag: true,
+                    warningMsg: "* 员工已有该权限",
+                    willAddRoleEmployeesId: undefined,
+                })
+            }
+            else {
+                //允许添加角色没有的权限
+                _that.setState({
+                    haveCurrentRoleFlag: false,
+                    warningMsg: "",
+                    willAddRoleEmployeesId: roleId,
+                });
+            }
+        }
+    };
+
+    clearAutoCompleteData = () => {
+        this.setState({
+            haveCurrentRoleFlag: false,
+            warningMsg: "",
+            willAddRoleEmployeesId: undefined,
+        })
+    };
 
     render() {
         const {
@@ -589,7 +716,7 @@ class RoleManage extends BaseComponent {
             pageSize,
             roleManagePageChange,
             currentRole,
-            addRoleVisible,
+            userInfoResult,
         } = this.props;
 
         const {
@@ -601,6 +728,8 @@ class RoleManage extends BaseComponent {
             noPassVisible,
             removeAuthVisible,
             viewDriverLicensesVisible,
+            addRoleVisible,
+
         } = this.state;
 
 
@@ -635,34 +764,32 @@ class RoleManage extends BaseComponent {
                 pageNum: driverAuditPageNum,
                 pageSize: driverAuditPageSize
             },
-            onChange: ({ pageNum, pageSize, }) => { this.handleChangeDriverAuditTablePage(pageNum, pageSize) },
+            onChange: ({ pageNum, pageSize, }) => { pageNum && this.handleChangeDriverAuditTablePage(pageNum, pageSize) },
         };
-
 
         return (
           <React.Fragment>
-              <div className="data-table-wrapper flex-auto">
+              <div className="data-table-wrapper">
                   <div className="custom-table-header">
-							<span className="detail-employees-bold">
-                                {currentRole.txt} <span>（{roleListResult.total}）</span>
-                                <Button
-                                  disabled={currentRole.value === "ROLE_ddp2b_admin" && !this.props.userInfoResult.data.isSuperAdmin}
-                                  onClick={this.handleRoleListUpdate}
-                                  className="invite-btn"
-                                  type="primary">
-																	{currentRole.value === "ROLE_ddp2b_driver" ? `申请审批（${ auditTaskListResult.total }）` :"添加"}
-                                </Button>
-                            </span>
+                      <span className="detail-employees-bold">
+                          {currentRole.txt} <span>（{roleListResult.total}）</span>
+                      </span>
+                      <Button
+                        disabled={currentRole.value === "ROLE_ddp2b_admin" && !userInfoResult.data.isSuperAdmin}
+                        onClick={this.handleRoleListUpdate}
+                        className="invite-btn"
+                        type="primary">
+                          {currentRole.value === "ROLE_ddp2b_driver" ? `申请审批（${ auditTaskListResult.total }）` :"添加"}
+                      </Button>
                   </div>
                   <div className="parting-line"/>
                   <p className="role-describe">
-                      {this.renderRoleDescribeTxt}
+                      <span>{this.renderRoleDescribeTxt()}</span>
                       <span className="theme-font-redE80000">{currentRole.txt === "用车审批员" ? "改变员工所属部门，需重新进行用车审核员分配。" : ""}</span>
                   </p>
 
                   <DataTable { ...roleMgrDataTable }/>
               </div>
-
 
               {/*驾驶资格认证申请审批*/}
               <ModalInfo  title="驾驶资格认证申请审批" showTxt="driverAuditVisible"
@@ -680,115 +807,111 @@ class RoleManage extends BaseComponent {
                           cancel={this.handleCancelModal('addRoleVisible')}
                           width={400}
                           closable={false}
-
               >
                   {
-                      addRoleVisible ? <AutoComplete
+                      addRoleVisible ? <Select
+                        showSearch
+                        showArrow={false}
+                        allowClear={true}
+                        labelInValue={true}
+                        optionLabelProp="label"
+                        optionFilterProp="label"
+                        placeholder="请输入员工姓名"
                         style={{ width: 320, height: 32, borderRadius: "3px" }}
                         onSearch={this.handleSearchEmployee}
-                        placeholder="请输入员工姓名"
                         onChange={this.employeeNameOnChange}
-                        filterOption={this.autoCompleteFilterOption}
-                        optionLabelProp={"selectvalue"}
-                        allowClear={true}
-                        onBlur={this.clearAutoCompleteData}
+                        onClear={this.clearAutoCompleteData}
+
                       >
-                          {this.renderAutoCompleteChildren(autoCompleteResult.data)}
-                      </AutoComplete> : null
+                          {
+                              this.renderAutoCompleteChildren(autoCompleteResult.formalStaff)
+                          }
+                      </Select> : null
                   }
                   <p className="theme-font-redE80000">{warningMsg}</p>
               </ModalInfo>
               {/*添加用车审核员*/}
-              <ModalInfo  title="添加用车审核员" showTxt="addCarAuditorVisible"
+              <ModalInfo  title="添加用车审核员"
+                          showTxt="addCarAuditorVisible"
                           visible={addCarAuditorVisible}
                           footer={this.renderOperateRoleFooter("addCarAuditorVisible")}
                           cancel={this.handleCancelModal('addCarAuditorVisible')}
                           width={400}
                           closable={false}
-                          id="current-car-auditor"
+                          destroyOnClose={true}
               >
-                  {
-                      addCarAuditorVisible ? <div id="add-car-auditor">
-                          <div style={{marginBottom: "10px"}} className="flex-row">
-                              <span className="add-car-custom-label">审批员</span>
-                              <div>
-                                  <AutoComplete
-                                    style={{ width: 260, height: 32, borderRadius: "3px" }}
-                                    onSearch={this.handleSearchEmployee}
-                                    placeholder="请输入员工姓名"
-                                    onChange={this.employeeNameOnChange}
-                                    filterOption={this.autoCompleteFilterOption}
-                                    optionLabelProp={"selectvalue"}
-                                    allowClear={true}
-                                    onBlur={this.clearAutoCompleteData}
-                                  >
-                                      {this.renderAutoCompleteChildren(autoCompleteResult.data)}
-                                  </AutoComplete>
-                                  <p className="theme-font-redE80000">{warningMsg}</p>
-                              </div>
-
+                  <div>
+                      <div style={{marginBottom: "10px"}} className="edit-car-auditor">
+                          <span className="add-car-custom-label">审批员</span>
+                          <div>
+                              <Select
+                                showSearch
+                                showArrow={false}
+                                allowClear={true}
+                                labelInValue={true}
+                                optionLabelProp="label"
+                                optionFilterProp="label"
+                                placeholder="请输入员工姓名"
+                                style={{ width: 260, height: 32, borderRadius: "3px" }}
+                                onSearch={this.handleSearchEmployee}
+                                onChange={this.employeeNameOnChange}
+                                onClear={this.clearAutoCompleteData}
+                              >
+                                  {this.renderAutoCompleteChildren(autoCompleteResult.formalStaff)}
+                              </Select>
+                              <p className="theme-font-redE80000">{warningMsg}</p>
                           </div>
-                          <div className="flex-row">
-                              <span className="add-car-custom-label">审批部门</span>
-                              <div className="add-car-custom-tree-select">
-                                  <Tree
-                                    checkable
-                                    defaultExpandAll={true}
-                                    treeData={treeData}
-                                    onSelect={this.handleSelectDepartmentTreeNode}/*点击树节点触发*/
-                                    onCheck={this.onCheckDepartmentTreeNode}/*点击复选框触发*/
-                                  />
-                              </div>
+                      </div>
+                      <div className="flex-row">
+                          <span className="add-car-custom-label">审批部门</span>
+                          <div className="add-car-custom-tree-select">
+                              <Tree
+                                checkable
+                                defaultExpandAll={true}
+                                treeData={treeData}
+                                onSelect={this.handleSelectDepartmentTreeNode}/*点击树节点触发*/
+                                onCheck={this.onCheckDepartmentTreeNode}/*点击复选框触发*/
+                              />
                           </div>
-                      </div> : null
-                  }
-
+                      </div>
+                  </div>
               </ModalInfo>
               {/*编辑用车审核员*/}
-              <ModalInfo  title="编辑用车审核员" showTxt="operateCarAuditor"
+              <ModalInfo  title="编辑用车审核员"
+                          showTxt="operateCarAuditor"
                           visible={operateCarAuditor}
                           footer={this.renderOperateRoleFooter("operateCarAuditor")}
                           cancel={this.handleCancelModal('operateCarAuditor')}
                           width={400}
                           closable={false}
+                          destroyOnClose={true}
               >
-                  {
-                      operateCarAuditor ? <div id="edit-car-auditor">
-                          <div style={{marginBottom: "10px"}} className="flex-row">
-                              <span className="add-car-custom-label">审批员</span>
-                              <div>
-                                  <AutoComplete
-                                    style={{ width: 260, height: 32, borderRadius: "3px" }}
-                                    onSearch={this.handleSearchEmployee}
-                                    placeholder="请输入员工姓名"
-                                    // placeholder={currentEmployees.nickname}
-                                    onChange={this.employeeNameOnChange}
-                                    filterOption={this.autoCompleteFilterOption}
-                                    optionLabelProp={"selectvalue"}
-                                    defaultValue={currentEmployees.nickname}
-                                    disabled={true}
-                                    onBlur={this.clearAutoCompleteData}
-                                  >
-                                      {this.renderAutoCompleteChildren(autoCompleteResult.data)}
-                                  </AutoComplete>
-                                  <p className="theme-font-redE80000">{warningMsg}</p>
-                              </div>
+                  <div className="edit-car-auditor">
+                      <div style={{marginBottom: "10px"}} className="flex-row">
+                          <span className="add-car-custom-label">审批员</span>
+                          <div>
+                              <Input type="text"
+                                     style={{ width: 260, height: 32, borderRadius: "3px" }}
+                                     disabled={true}
+                                     value={currentEmployees.nickname}
+
+                              />
                           </div>
-                          <div className="flex-row">
-                              <span className="add-car-custom-label">审批部门</span>
-                              <div className="add-car-custom-tree-select">
-                                  <Tree
-                                    checkable
-                                    defaultExpandAll={true}
-                                    defaultCheckedKeys={currentEmployees.carAuditDepartments || []}
-                                    treeData={treeData}
-                                    onSelect={this.handleSelectDepartmentTreeNode}
-                                    onCheck={this.onCheckDepartmentTreeNode}
-                                  />
-                              </div>
+                      </div>
+                      <div className="flex-row">
+                          <span className="add-car-custom-label">审批部门</span>
+                          <div className="add-car-custom-tree-select">
+                              <Tree
+                                checkable
+                                defaultExpandAll={true}
+                                defaultCheckedKeys={currentEmployees.carAuditDepartments || []}
+                                treeData={treeData}
+                                onSelect={this.handleSelectDepartmentTreeNode}
+                                onCheck={this.onCheckDepartmentTreeNode}
+                              />
                           </div>
-                      </div> : null
-                  }
+                      </div>
+                  </div>
               </ModalInfo>
               {/*说明拒绝理由*/}
               <ModalInfo  title="说明拒绝理由" showTxt="noPassVisible"

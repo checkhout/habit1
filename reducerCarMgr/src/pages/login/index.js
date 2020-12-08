@@ -76,6 +76,7 @@ class Login extends Component {
 					//3. 获取用户所在公司信息
 					_that.props.dispatch(query_company_info_action(param, data => {
 						// data.id = 0;//默认公司id为0 **未保证数据单向性，禁止直接修改回调参数，会影响到reducer数据**
+						sessionStorage.setItem('factoryLoginTime', Date.now());
 
 						if (userInfo.isAdmin) {
 							this.props.history.replace('/')

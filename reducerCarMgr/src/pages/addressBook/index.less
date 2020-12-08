@@ -8,6 +8,7 @@
   .data-table-wrapper {
     flex: 1;
     .flex_column();
+    overflow: hidden;
     .role-describe,
     .search-bar,
     .custom-table-header,
@@ -97,52 +98,88 @@
           cursor: pointer;
         }
       }
+      .audit-department {
+
+      }
+      .textOverflowHidden(audit-department);
     }
   }
 
-  //自动填充
-  .autoComplete-card-head {
-    display: flex;
-    align-items: center;
 
-    img {
-      display: inline-block;
-      width: 32px;
-      height: 32px;
-      margin-right: 8px;
-    }
-    .driver-detail {
-      padding-top: 5px;
-      .driver-nickname {
-        max-width: 205px;
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        line-height: 22px;
-        margin-right: 10px;
-        color: #333333;
-      }
-      .theme-btn-opacity-blue {
-        max-width: 180px;
-        //width:92px;
-        padding: 0 10px !important;
-        height:20px;
-        border-radius: 106px;
-        font-size: 12px;
-        overflow: hidden;
+}
 
-        white-space: nowrap;
-        text-overflow: ellipsis;
-      }
-      .driver-username {
-        font-size:14px;
-        font-weight:300;
-        line-height:20px;
-        color:rgba(136,136,136,1);
-      }
-    }
+//编辑用车审核员 tree 高度限制
+.add-car-custom-tree-select {
+  width: 260px;
+  max-height: 260px;
+  overflow: auto;
+  background:rgba(255,255,255,1);
+  border:1px solid rgba(216,216,216,1);
+  border-radius:3px;
+}
 
+//自动填充
+.autoComplete-card-head {
+  display: flex;
+  align-items: center;
+
+  img {
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    margin-right: 8px;
   }
+  .driver-detail {
+    padding-top: 5px;
+    .driver-nickname {
+      max-width: 205px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      line-height: 22px;
+      margin-right: 10px;
+      color: #333333;
+    }
+    .theme-btn-opacity-blue {
+      max-width: 180px;
+      //width:92px;
+      padding: 0 10px !important;
+      height:20px;
+      border-radius: 106px;
+      font-size: 12px;
+      overflow: hidden;
+
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+    .driver-username {
+      font-size:14px;
+      font-weight:300;
+      line-height:20px;
+      color:rgba(136,136,136,1);
+    }
+  }
+
+}
+
+//Modal 挂载在body下
+.add-car-auditor {
+
+}
+.add-car-custom-label {
+  display: inline-block;
+  width: 60px;
+  line-height: 20px;
+  text-align: right;
+  margin-right: 10px;
+}
+.add-car-custom-tree-select {
+  width: 260px;
+  max-height: 260px;
+  overflow: auto;
+  background:rgba(255,255,255,1);
+  border:1px solid rgba(216,216,216,1);
+  border-radius:3px;
 }
 
 
