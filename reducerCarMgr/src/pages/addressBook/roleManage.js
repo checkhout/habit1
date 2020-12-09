@@ -301,8 +301,7 @@ class RoleManage extends BaseComponent {
                 name: 'username',
                 tableItem: {
                     render: (text, record) => {
-                        // let txt = record.applicant.username || "-";
-                        return IsEmpty(FormatUsername(text))
+                        return IsEmpty(FormatUsername(record.applicant.username))
                     }
                 }
             },
@@ -325,7 +324,7 @@ class RoleManage extends BaseComponent {
                 name: 'driverLicences',
                 tableItem: {
                     render: (text, record) => <div  className="operate">
-                         <Button ghost={true} title={'编辑'} className="theme-font-blue379EEC" onClick={this.handleOperateEmployees(record, 'viewDriverLicensesVisible')}>查看驾照</Button>
+                         <Button ghost={true} title={'编辑'} className="theme-font-blue379EEC primary-ghost-btn" onClick={this.handleOperateEmployees(record, 'viewDriverLicensesVisible')}>查看驾照</Button>
                     </div>
                 }
             },
@@ -336,8 +335,8 @@ class RoleManage extends BaseComponent {
                     // fixed: 'right',
                     render: (text, record) => {
                         return <div className="custom-column">
-                             <Button ghost={true} title={'通过'} className="custom-primary-btn" onClick={this.handleDisposeDriverAudit(record, 0)} type="primary">通过</Button>
-                             <Button ghost={true} title={'拒绝'} className="custom-primary-gray-btn" style={{color: "#555763"}} onClick={this.handleDisposeDriverAudit(record, 1)}>拒绝</Button>
+                             <Button title={'通过'} className="custom-primary-btn" onClick={this.handleDisposeDriverAudit(record, 0)} type="primary">通过</Button>
+                             <Button title={'拒绝'} className="custom-primary-gray-btn" style={{color: "#555763"}} onClick={this.handleDisposeDriverAudit(record, 1)}>拒绝</Button>
                         </div>
                     }
                 }
@@ -411,7 +410,7 @@ class RoleManage extends BaseComponent {
         return <div className="footer">
             <Button className="simple-btn simple-btn-cancel" onClick={this.handleCancelModal(visible)}>取消</Button>
             <Button
-              className="simple-btn simple-btn-confirm"
+              className="ant-btn-primary"
               onClick={renderSubmit}
               disabled={!(willAddRoleEmployeesId || currentEmployees.id) || haveCurrentRoleFlag}
             >
@@ -544,7 +543,6 @@ class RoleManage extends BaseComponent {
     };
     // 同意/拒绝 驶人申请
     requestDisposeDriverAudit = (id, result) => {
-
         let param = {
             type: result, //0-同意申请，1-拒绝申请
         };
@@ -553,10 +551,9 @@ class RoleManage extends BaseComponent {
             param.des = this.noPassTextarea.state.value;
         }
 
-        //todo 验证完记得放开
         dispose_audit_task_api(id, param).then(res => {
             //刷新申请、驾驶人列表
-            this.requestAuditTask();
+            this.props.requestAuditTask();
             this.props.handleSwitchRole("ROLE_ddp2b_driver");
             this.setState({
                 noPassVisible: false,
@@ -576,8 +573,9 @@ class RoleManage extends BaseComponent {
 
         if (+result === 0) {
             this.requestDisposeDriverAudit(record.id, result);
-        } else {
-            //拒绝-弹窗提醒后再确认
+        }
+        //拒绝-弹窗提醒后再确认
+        else {
             this.setState({
                 currentEmployees: {...record},
                 noPassVisible: true,
@@ -585,14 +583,10 @@ class RoleManage extends BaseComponent {
         }
 
     };
-    handleChangeDriverAuditTablePage = (pageNum, pageSize) => {
-        this.pageStatus.driverAuditPageNum = pageNum;
-        this.pageStatus.driverAuditPageSize = pageSize;
-    };
+
     //角色管理 - 右上角按钮
     handleRoleListUpdate = () => {
         const role = this.props.currentRole;
-        console.log('角色管理', role);
         switch (role.value) {
             case "ROLE_ddp2b_admin":
                 // console.log("ROLE_ddp2b_admin");
@@ -611,7 +605,7 @@ class RoleManage extends BaseComponent {
             case "ROLE_ddp2b_driver":
                 // console.log("ROLE_ddp2b_driver");
                 // 申请审批
-                this.handleOperateEmployees({}, "driverAuditVisible");
+                this.handleOperateEmployees({}, "driverAuditVisible")();
                 break;
             case "ROLE_ddp2b_platform_operator":
                 this.handleEmployeeAddRole();
@@ -623,7 +617,7 @@ class RoleManage extends BaseComponent {
     //邀请/编辑员工、查看驾照
     handleOperateEmployees = (employees, visible) => () => {
         if (!visible) visible = "operateEmployeesVisible";
-        if (visible === "driverAuditVisible") this.requestAuditTask();
+        if (visible === "driverAuditVisible") this.props.requestAuditTask();
         this.setState({
             [visible]: true,
             currentEmployees: employees.id || employees.inviteId ? employees : {},
@@ -703,8 +697,6 @@ class RoleManage extends BaseComponent {
 
     render() {
         const {
-            driverAuditPageNum,
-            driverAuditPageSize,
         } = this.pageStatus;
 
         const {
@@ -715,8 +707,12 @@ class RoleManage extends BaseComponent {
             pageNum,
             pageSize,
             roleManagePageChange,
+            handleChangeDriverAuditTablePage,
             currentRole,
             userInfoResult,
+
+            driverAuditPageNum,
+            driverAuditPageSize,
         } = this.props;
 
         const {
@@ -764,7 +760,8 @@ class RoleManage extends BaseComponent {
                 pageNum: driverAuditPageNum,
                 pageSize: driverAuditPageSize
             },
-            onChange: ({ pageNum, pageSize, }) => { pageNum && this.handleChangeDriverAuditTablePage(pageNum, pageSize) },
+            scroll: { y: 'auto' },
+            onChange: ({ pageNum, pageSize, }) => { pageNum && handleChangeDriverAuditTablePage(pageNum, pageSize) },
         };
 
         return (
@@ -793,10 +790,11 @@ class RoleManage extends BaseComponent {
 
               {/*驾驶资格认证申请审批*/}
               <ModalInfo  title="驾驶资格认证申请审批" showTxt="driverAuditVisible"
+                          className="table-modal"
                           visible={driverAuditVisible}
                           footer={null}
                           cancel={this.handleCancelModal('driverAuditVisible')}
-                          width={580}
+                          width={800}
               >
                   <DataTable { ...driverAuditDataTable }/>
               </ModalInfo>
@@ -840,8 +838,8 @@ class RoleManage extends BaseComponent {
                           closable={false}
                           destroyOnClose={true}
               >
-                  <div>
-                      <div style={{marginBottom: "10px"}} className="edit-car-auditor">
+                  <div className="edit-car-auditor">
+                      <div style={{marginBottom: "10px"}} className="flex-row">
                           <span className="add-car-custom-label">审批员</span>
                           <div>
                               <Select
@@ -915,6 +913,7 @@ class RoleManage extends BaseComponent {
               </ModalInfo>
               {/*说明拒绝理由*/}
               <ModalInfo  title="说明拒绝理由" showTxt="noPassVisible"
+                          className="noPassDrive"
                           visible={noPassVisible}
                           footer={this.renderOperateRoleFooter("noPassVisible")}
                           cancel={this.handleCancelModal('noPassVisible')}
@@ -923,7 +922,8 @@ class RoleManage extends BaseComponent {
                   <TextArea ref={ref => this.noPassTextarea = ref} placeholder="请输入" maxLength={200} className="no-pass-textarea"/>
               </ModalInfo>
               {/*确定解除*/}
-              <ModalInfo width={400} className="delete-modal"
+              <ModalInfo width={400}
+                         className="delete-modal"
                          title="确定解除？"
                          showTxt="removeAuthVisible"
                          visible={removeAuthVisible}

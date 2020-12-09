@@ -210,6 +210,15 @@ class AddressBook extends BaseComponent {
 
 		})
 	};
+	//驾驶人申请列表换页
+	handleChangeDriverAuditTablePage = (pageNum, pageSize) => {
+		this.setState({
+			driverAuditPageNum: pageNum,
+			driverAuditPageSize: pageSize,
+		}, () => {
+			this.requestAuditTask(pageNum)
+		})
+	};
 	//组织结构查询
 	onSearchEmployees = (searchFields) => {
 		const { type, inputSearch } = searchFields;
@@ -354,17 +363,6 @@ class AddressBook extends BaseComponent {
 		this.props.dispatch(get_audit_task_list_action(param));
 	};
 
-
-
-
-
-
-
-
-
-
-
-
 	//确认解散
 	handleConfirmDissolve = () => {
 		const _that = this;
@@ -438,7 +436,6 @@ class AddressBook extends BaseComponent {
 		this.selectedCarAuditorAuditDepartment = [];
 		this.setState({
 			[visible]: false,
-			currentEmployees: {},
 			willAddRoleEmployeesId: "",
 			warningMsg: "",
 		})
@@ -456,6 +453,8 @@ class AddressBook extends BaseComponent {
 			dissolveDepartmentVisible,	 //解散部门
 
 			currentRole,
+			driverAuditPageNum,
+			driverAuditPageSize,
 		} = this.state;
 
 		const {
@@ -500,6 +499,10 @@ class AddressBook extends BaseComponent {
 						roleManagePageChange={this.roleManagePageChange} //pageSize change
 						currentRole={currentRole}
 						handleSwitchRole={this.handleSwitchRole}
+						driverAuditPageNum={driverAuditPageNum}
+						driverAuditPageSize={driverAuditPageSize}
+						requestAuditTask={this.requestAuditTask}
+						handleChangeDriverAuditTablePage={this.handleChangeDriverAuditTablePage}
 					/>
 			}
 

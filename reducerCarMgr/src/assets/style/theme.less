@@ -20,18 +20,14 @@
 @rgb-0DA736-1: rgba(13,167,54,0.1);
 @rgb-E80000-1: rgba(232,0,0,0.1);
 @rgb-379EEC-2: rgba(55,158,236,0.2);
+@rgb-000000-25: rgba(0, 0, 0, 0.25);
 
 
 
 
 
 
-//ant-btn 样式覆盖
-.operate {
-  .normal_btn {
-    padding: 0;
-  }
-}
+
 
 //antui-datatable 定义在DataTable组件中
 .antui-datatable {
@@ -52,7 +48,46 @@
               flex-shrink: 0;
             }
             .ant-table-body {
+              overflow-y: auto!important;
               .full_flex_hidden;
+
+              //ant-btn 样式覆盖
+              .operate {
+                .normal_btn {
+                  padding: 0;
+                }
+                .primary-ghost-btn {
+                  border: none;
+                }
+              }
+              .custom-column {
+                white-space: nowrap;
+                .custom-primary-btn, .custom-primary-gray-btn {
+                  width:48px;
+                  height:24px;
+                  border-radius:3px;
+                  padding: 0;
+                  line-height: 24px;
+                  text-align: center;
+                }
+                .custom-primary-gray-btn {
+                  margin-left: 6px;
+                  background: #D8D8D8;
+                }
+                .send-status {
+                  margin-right: 10px;
+                }
+                .custom-primary-btn-margin-right6 {
+                  margin-right: 6px;
+                }
+                .margin-right9 {
+                  margin-right: 9px;
+                }
+                .enter-pointer {
+                  cursor: pointer;
+                }
+              }
+
 
               //空状态
               .ant-table-placeholder {
@@ -109,6 +144,22 @@
   }
 
 }
+//modal 中的table 自定义类名 table-modal
+.table-modal {
+  .antui-datatable  {
+    height: 480px;
+    overflow: hidden;
+    .ant-table-wrapper, .ant-spin-nested-loading, .ant-spin-container, .ant-table, .ant-table-container {
+
+    }
+    .theme-btn-opacity-blue {
+      width:68px;
+      height:24px;
+      font-size: 12px;
+    }
+    .textOverflowHidden(audit-department);
+  }
+}
 
 
 
@@ -131,34 +182,89 @@
     .ant-modal-body {
       padding: 30px 34px 20px;
     }
-    .ant-modal-footer {
-      //border-radius: 0 0 3px 3px;
-      //border-radius: 3px;
+    .ant-modal-footer, .footer {
       padding: 0;
-      .footer {
-        display: flex;
-        width: 100%;
-        justify-content: flex-end;
 
-        .ant-btn{
-          background: @c-FFFFFF;
-          border-color: @c-FFFFFF;
-          width: 50%;
-          height: 44px;
-          font-size:16px;
-          font-weight: 500;
+      display: flex;
+      width: 100%;
+      justify-content: flex-end;
+      .ant-btn{
+        background: @c-FFFFFF;
+        border-color: @c-FFFFFF;
+        width: 50%;
+        height: 44px;
+        font-size:16px;
+        font-weight: 500;
+        margin: 0;
+        &:nth-child(2) {
+          border-left: 1px solid @c-e8e8e8;
         }
-        .ant-btn[disabled] {
+        &[disabled] {
           background-color: @c-FFFFFF;
           border-color: @c-FFFFFF;
+          color: @rgb-000000-25;
         }
-        .simple-btn-cancel {
-          border-right: 1px solid @c-e8e8e8;
-        }
+
       }
+      .ant-btn-primary {
+        color: @c-379EEC;
+      }
+
+      //.ant-btn {
+      //  background-color: @c-FFFFFF;
+      //  border-color: @c-FFFFFF;
+      //}
+
+      //.simple-btn-cancel {
+      //  border-right: 1px solid @c-e8e8e8;
+      //}
     }
   }
 }
 
+//弹窗中有table
+.table-modal {
+  .ant-modal-content {
+    border-radius: 3px;
+    overflow: hidden;
+    .ant-modal-close {
+      font-size: 10px;
+      padding: 0;
+      .ant-modal-close-x {
+        width: 40px;
+        height: 40px;
+        line-height: 40px;
+      }
+    }
+    .ant-modal-header {
+      padding: 0;
 
+      .ant-modal-title {
+        text-align: center;
+        line-height: 40px;
+        height: 40px;
+        background: @c-FFFFFF;
+        padding: 0;
+        color: @c-333333;
+      }
+    }
+    .ant-modal-body {
+      padding: 20px;
+
+    }
+  }
+}
+//驾驶人申请审核 拒绝弹窗
+.noPassDrive {
+  .ant-modal-content .ant-modal-body {
+    padding: 30px 40px;
+    .no-pass-textarea {
+      display: block;
+      height: 64px;
+      resize: none;
+      margin: 0 auto;
+      border-radius:3px;
+    }
+  }
+}
 

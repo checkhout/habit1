@@ -142,7 +142,7 @@ export const UseCarTime = (start, end) => {
 };
 
 //去掉手机号中的 +86
-export const FormatUsername = str => {
+export const FormatUsername = (str='') => {
 	if (str.indexOf("+86-") !== -1) str = str.replace("+86-", "");
 	return str;
 };

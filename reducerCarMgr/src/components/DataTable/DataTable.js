@@ -335,7 +335,7 @@ class DataTable extends BaseComponent {
 						return rowConfig
 					}}
 					// scroll={isScroll ? objectAssign({ x: true }) : {}}
-					scroll={scroll || {y: 99999}}
+					scroll={ scroll || {y: 99999} }
 					// scroll={{ y: 'calc(100% - 30px)' }}
 					bodyStyle={{ overflowX: 'auto' }}
 					columns={cols}
