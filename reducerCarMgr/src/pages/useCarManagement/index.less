@@ -234,31 +234,26 @@
 .certification-audit-warp {
 
   //左侧tab外层
-  .ant-tabs-left-bar {
-    .ant-tabs-nav {
+  .use-car-content {
+    .ant-tabs .ant-tabs-nav .ant-tabs-nav-wrap .ant-tabs-nav-list {
       .ant-tabs-tab {
-        line-height: 0;
-        &>div {
-          text-align: center;
-          .certification-icon {
-            .imgicon("imgs/useCarManagement/certification_active", 32px, 32px);
-          }
-          i {
-            margin-bottom: 4px;
-          }
-          p {
-            line-height: 14px;
+        .ant-tabs-tab-btn {
+          .custom-tab-item {
+            .certification-icon {
+              .imgicon("imgs/useCarManagement/certification_active", 32px, 32px);
+            }
           }
         }
-
       }
       .ant-tabs-tab-active {
-        &>div {
-          .certification-icon {
-            .imgicon("imgs/useCarManagement/certification_active", 32px, 32px);
+        .ant-tabs-tab-btn {
+          .custom-tab-item {
+            text-align: center;
+            .certification-icon {
+              .imgicon("imgs/useCarManagement/certification_active", 32px, 32px);
+            }
           }
         }
-
       }
     }
   }

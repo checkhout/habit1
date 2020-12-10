@@ -111,6 +111,7 @@
           .login-input {
             border-radius:4px;
             padding: 0;
+            position: relative;
             .ant-input {
               height: 46px;
               padding-left: 10px;
@@ -131,9 +132,18 @@
               font-size:16px;
               font-weight:bold;
               color:rgba(85,87,99,1);
+              margin-right: 0;
             }
             .ant-input-suffix {
               padding-right: 12px;
+              position: absolute;
+              top: 0;
+              right: 0;
+              height: 100%;
+            }
+            .ant-input {
+              padding-left: 14px;
+              border-radius: 0 4px 4px 0;
             }
 
           }

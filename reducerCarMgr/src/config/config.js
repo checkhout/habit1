@@ -8,6 +8,6 @@ const config = {
 		{ path: '/setting', title: '设置', icon: 'icon_statistics', component: 'Setting', promise: true },
 		{ path: '/certificationAudit', title: '认证审核', icon: 'icon_statistics',  component: 'CertificationAudit', promise: true },
 	]
-}
+};
 
 export default config

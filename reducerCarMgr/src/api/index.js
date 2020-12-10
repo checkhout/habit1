@@ -9,11 +9,13 @@ import { SERVER_IP } from '@config'
 import * as common from './common'
 import * as useCarManagement from './useCarManagement'
 import * as addressBook from './addressBook'
+import * as certificationAudit from './certificationAudit'
 
 export {
 	common,
 	addressBook,
 	useCarManagement,
+	certificationAudit,
 }
 
 /**
@@ -57,7 +59,6 @@ export const getCarApplyListHttp = (param) => Service('/car/api/v1/apply/carAppl
 /**
  * 认证审核
  */
-export const certificationAuditListHttp = (param) => Service('/account/api/v1/company/auth/list', "post", param);														//查询企业认证列表
 export const auditApplyHttp = (param) => Service('/account/api/v1/company/auditCompany', "post", param);																		//审核认证
 
 

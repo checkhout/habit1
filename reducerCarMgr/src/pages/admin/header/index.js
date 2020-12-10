@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from "react-redux";
 import { withRouter } from 'react-router-dom';
 import {
-	Dropdown, Button,
+	Dropdown, Button, Row, Col
 } from 'antd';
 import routes from '@config/config';
 
@@ -54,9 +54,9 @@ class HeaderCustom extends BaseComponent {
 				{
 					"title":"用车管理",
 				},
-				// {
-				// 	"title":"设置",
-				// },
+				/*{
+					"title":"设置",
+				},*/
 			]);
 		}
 		if (userInfo.isCertificationAudit) {//企业版平台运维员
@@ -111,7 +111,7 @@ class HeaderCustom extends BaseComponent {
 		const haveCompanyData = Object.keys(companyObj).length > 0;
 
 		return (
-			<div className="custom-theme header" >
+			<div className=" header" >
 				<div className="head-left">
 					<img className='logo-small' src={haveCompanyData ? companyObj.logo : ""} alt=""/>
 					<span style={{'marginLeft':'10px'}}>{haveCompanyData ? companyObj.name : "-"}</span>

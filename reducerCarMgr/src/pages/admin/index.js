@@ -5,6 +5,7 @@ import {Switch, Route, Redirect} from 'react-router-dom';
 //改为容器组件
 import UseCarManagement from '@pages/useCarManagement';
 import AddressBook from '@pages/addressBook';
+import CertificationAudit from '@pages/certificationAudit';
 
 
 import HeaderCustom from './header/index';
@@ -34,6 +35,7 @@ class Admin extends Component {
           <Switch>
             <Route path='/useCarManager' component={UseCarManagement}/>
             <Route path='/addressBook' component={AddressBook}/>
+            <Route path='/certificationAudit' component={CertificationAudit}/>
 
             <Redirect to='/useCarManager'/>
           </Switch>

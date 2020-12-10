@@ -408,7 +408,7 @@ class RoleManage extends BaseComponent {
         };
 
         return <div className="footer">
-            <Button className="simple-btn simple-btn-cancel" onClick={this.handleCancelModal(visible)}>取消</Button>
+            <Button onClick={this.handleCancelModal(visible)}>取消</Button>
             <Button
               className="ant-btn-primary"
               onClick={renderSubmit}

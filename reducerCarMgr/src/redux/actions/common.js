@@ -38,6 +38,8 @@ export const persistPageStatusByKey = key => {
 			return createAction("useCarManagementStatus");
 		case 'addressBookStatus':
 			return createAction("addressBookStatus");
+		case 'certificationAuditTabStatus':
+			return createAction("certificationAuditTabStatus");
 		default:
 			return '';
 	}

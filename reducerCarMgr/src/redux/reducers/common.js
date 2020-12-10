@@ -47,14 +47,19 @@ export const companyInfoResult = handleActions({
 * 根据不同的action覆盖其中的数据
 * 必须拥有对应的defaultState并在组件中初始化
 * */
-export const persistPageStatusResult = handleActions({
+export const persistPageStatusResult = handleActions(
+	{
 		'useCarManagementStatus'(state, action) {//用车管理
 			return {...state, useCarManagementStatus: {...action.payload}}
 		},
 		'addressBookStatus'(state, action) {//通讯录
 			return {...state, addressBookStatus: {...action.payload}}
 		},
-	}, {
+		'certificationAuditTabStatus'(state, action) {//认证审核
+			return {...state, certificationAuditTabStatus: {...action.payload}}
+		},
+	},
+	{
 		useCarManagementStatus: {
 			pageNum: 1,
 			pageSize: 10,
@@ -68,6 +73,16 @@ export const persistPageStatusResult = handleActions({
 		},
 		addressBookStatus: {
 
+		},
+		certificationAuditTabStatus: {
+			active: 0, //0待审核 1已审核
+			pageNum: 1,
+			pageSize: 10,
+			startTime:0,
+			endTime: 0,
+			applicant: "",	  // 申请人账号
+			authName: "",			// 企业名
+			status: 1,				// 0-已审核，1-待审核，3-审核通过，4-审核拒绝
 		},
 	}
 );

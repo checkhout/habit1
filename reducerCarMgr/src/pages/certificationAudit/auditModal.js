@@ -1,16 +1,15 @@
 import React from 'react'
 import BaseComponent from '@/components/BaseComponent'
-import { Modal, Button, Input } from 'antd'
+import { Modal, Button, Input, message } from 'antd'
 import cx from 'classnames'
 import {
 	formatType,
-	formatUsername,
+	FormatUsername,
 } from "@/utils/index";
 import { transformTime } from "@/components/moment";
 import {
 	auditApplyHttp,
 } from '@/api/index'
-import { normal } from '@/components/Notification'
 
 
 import './auditModal.less'
@@ -39,21 +38,21 @@ export default class AuditModal extends BaseComponent {
 		}).catch(err => {
 			switch (+err.error_code) {
 				case 2:
-					normal.warning('申请不存在');
+					message.warning('申请不存在');
 					break;
 				case 629142:
-					normal.warning('参数错误');
+					message.warning('参数错误');
 					break;
 				case 629143:
-					normal.warning('权限不足');
+					message.warning('权限不足');
 					break;
 			}
 		});
 
 		this.cancelAudit(e);
 	};
-	cancelAudit = (e) => {
-		this.props.cancel(e);
+	cancelAudit = () => {
+		this.props.cancel();
 		this.setState({auditType: 0});
 	};
 	choiceAudit = auditType => () => {
@@ -64,9 +63,11 @@ export default class AuditModal extends BaseComponent {
 	};
 
 	renderModalFooter = () => {
-		return <div className="modal-footer">
-			<Button className="cancel" ghost={true} onClick={this.cancelAudit}>取消</Button>
-			<Button className="submit" ghost={true} disabled={this.state.auditType === 0} onClick={this.handleSubmit}>提交审核结果</Button>
+		return <div className="footer">
+			<Button className="cancel"
+							onClick={this.cancelAudit}>取消</Button>
+			<Button className="submit ant-btn-primary" disabled={this.state.auditType === 0}
+							onClick={this.handleSubmit}>提交审核结果</Button>
 		</div>
 	};
 
@@ -95,7 +96,7 @@ export default class AuditModal extends BaseComponent {
 		const hasData = Object.keys(currentApplyObj).length;
 		const hasAudit = currentApplyObj.auditorInfo && Object.keys(currentApplyObj.auditorInfo).length;
 
-		console.log("modal", currentApplyObj, hasAudit && currentApplyObj.status === 2);
+		// console.log("modal", currentApplyObj, hasAudit && currentApplyObj.status === 2);
 
 
 		return (
@@ -114,7 +115,7 @@ export default class AuditModal extends BaseComponent {
 				<div className="right">
 					<ul>
 						<li>
-							<span>申请人</span>：<span>{hasData ? currentApplyObj.applicantInfo.nickname : "-"}（{hasData ? formatUsername(currentApplyObj.applicantInfo.username) : "-"}）</span>
+							<span>申请人</span>：<span>{hasData ? currentApplyObj.applicantInfo.nickname : "-"}（{hasData ? FormatUsername(currentApplyObj.applicantInfo.username) : "-"}）</span>
 						</li>
 						<li>
 							<span>申请时间</span>：<span>{hasData ? transformTime(currentApplyObj.applyTime, formatType.xFormatNoSeconds) : "-"}</span>
@@ -144,7 +145,7 @@ export default class AuditModal extends BaseComponent {
 						</div> : <div className="nopass-detail">
 							<div className="item">
 								<span className="label">审核人：</span>
-								<span className="value">{hasAudit ? currentApplyObj.auditorInfo.nickname : "-"}（{hasAudit ? formatUsername(currentApplyObj.auditorInfo.username) : "-"}）</span>
+								<span className="value">{hasAudit ? currentApplyObj.auditorInfo.nickname : "-"}（{hasAudit ? FormatUsername(currentApplyObj.auditorInfo.username) : "-"}）</span>
 							</div>
 							<div className="item">
 								<span className="label">审核时间：</span>

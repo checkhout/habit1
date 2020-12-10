@@ -1,4 +1,4 @@
-@import "~@/style/theme.less";
+@import "@style/theme.less";
 
 .audit-modal {
   .ant-modal {
@@ -19,8 +19,7 @@
         align-items: center;
       }
       .close-icon-2 {
-        width: 20px;
-        height: 20px;
+        .imgicon("imgs/modalImg/close_detail", 20px, 20px)
       }
     }
 
@@ -66,9 +65,9 @@
             width: 108px;
             height: 36px;
             background: #ffffff;
-            border: 1px solid @custom-borderC-eeeeee;
+            border: 1px solid @c-eeeeee;
             border-radius: 3px;
-            color: @font-color888888;
+            color: @c-888888;
             padding: 0;
             display: flex;
             align-items: center;
@@ -77,34 +76,33 @@
               margin-right: 6px;
             }
           }
-
           .pass {
             margin-right: 10px;
             i {
-              .imgicon('success_1', 16px, 12px)
+              .imgicon('imgs/certificationAudit/success_1', 16px, 12px)
             }
           }
           .nopass {
             i {
-              .imgicon('close_1', 16px, 12px)
+              .imgicon('imgs/certificationAudit/close_1', 16px, 12px)
             }
           }
           .pass:hover, .pass-active {
             background: @rgb-0DA736-1;
-            border: 1px solid @font-color0DA736;
+            border: 1px solid @c-0DA736;
             border-radius: 3px;
-            color: @font-color0DA736;
+            color: @c-0DA736;
             i {
-              .imgicon('success_1_active', 16px, 12px)
+              .imgicon('imgs/certificationAudit/success_1_active', 16px, 12px)
             }
           }
           .nopass:hover, .nopass-active {
             background: @rgb-E80000-1;
-            border: 1px solid @font-colorE80000;
+            border: 1px solid @c-E80000;
             border-radius: 3px;
-            color: @font-colorE80000;
+            color: @c-E80000;
             i {
-              .imgicon('close_1_active', 16px, 12px)
+              .imgicon('imgs/certificationAudit/close_1_active', 16px, 12px)
             }
           }
 
@@ -113,7 +111,7 @@
           margin-top: 20px;
           padding: 20px;
           width: 390px;
-          background: @bg-f6f6f6;
+          background: @c-f6f6f6;
           .item {
             display: flex;
             font-size: 14px;
@@ -176,20 +174,20 @@
     }
     .ant-modal-footer {
       margin-top: 30px!important;
-      border-top: 1px solid @custom-borderC-eeeeee;
+      border-top: 1px solid @c-eeeeee;
       .modal-footer {
         .ant-btn {
           border: none;
           font-size: 16px;
         }
         .cancel {
-          border-right: 1px solid @custom-borderC-eeeeee;
+          border-right: 1px solid @c-eeeeee;
         }
         .submit {
-          color: @font-color379EEC;
+          color: @c-379EEC;
         }
         .ant-btn[disabled], .ant-btn[disabled]:hover {
-          color: @font-colorD8D8D8!important;
+          color: @c-D8D8D8!important;
           background: #ffffff!important;
         }
       }
