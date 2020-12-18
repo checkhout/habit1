@@ -23,6 +23,5 @@ var quickSort = function(arr) {
 };
 
 var res2 = quickSort(arr);
-console.log(res1);
 console.log(res2);
 

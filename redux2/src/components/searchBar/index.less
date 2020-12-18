@@ -1,0 +1,237 @@
+@import "@style/theme.less";
+
+.border_left_none {
+  border-left-width: 0;
+}
+.border_right_none {
+  border-right-color: @table-header-bg;
+}
+.bgCCC {
+  div {
+    border-radius: 3px 0 0 3px;
+  }
+  .ant-select-selection {
+    background-color: @table-header-bg;
+  }
+}
+
+.search-bar {
+  margin-bottom: 5px;
+  .search-fields {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    .field {
+      align-items: center;
+      margin-right: 6px;
+      margin-bottom: 5px;
+      display: inline-block;
+      vertical-align: top;
+      &>.input {
+        .title {
+
+        }
+        &>.input {
+          //带label的选择框
+          .ant-select {
+            .ant-select-selector {
+              border: none;
+              box-shadow: none;
+              outline: none;
+              padding-left: 0;
+              height: 30px;
+            }
+          }
+        }
+      }
+      &.floatL {
+        float: left;
+      }
+      &.input-box-filed {
+        & > .input {
+          border: 1px solid @border-color-base;
+          .title {
+            margin-left: 10px;
+            color: @text-color;
+          }
+          .ant-input {
+            border: none;
+            border-left: 1px solid @border-color-base;
+            height: 30px;
+          }
+        }
+      }
+      &.box-field {
+        & > .input {
+          border: 1px solid @border-color-base;
+
+          &:hover {
+            border-color: @primary-5;
+          }
+          .ant-select-selection {
+            border: none;
+            height: auto;
+          }
+          .ant-select-selection__rendered {
+            margin-left: 10px;
+            margin-right: 10px;
+          }
+          .ant-select-selection--multiple {
+            min-height: 30px;
+            line-height: 1;
+            cursor: pointer;
+          }
+
+          .title {
+            margin-left: 10px;
+            & + .input {
+              .ant-select-selection--single .ant-select-selection__rendered {
+                margin-left: 0;
+              }
+            }
+          }
+        }
+
+      }
+      &.border_left_none {
+        & > .input {
+          .border_left_none;
+        }
+      }
+      &.border_right_none {
+        & > .input {
+          .border_right_none;
+          &:hover {
+            border-right-width: 1px;
+          }
+        }
+      }
+      .input {
+        display: flex;
+        align-items: center;
+        transition: border 0.3s;
+        .title {
+          text-align: right;
+          width: 100px;
+          font-size: 14px;
+          margin-right: 5px;
+          font-weight: 500;
+          color: @sub-txt-color;
+        }
+        .input {
+          height: auto;
+        }
+
+      }
+      .warning {
+        color: red;
+        text-align: center;
+      }
+      .clean_up_icon {
+        position: absolute;
+        top: 50%;
+        right: 10px;
+        transform: translateY(-50%);
+      }
+    }
+    .search_bar_options {
+      line-height: 1;
+      border-radius: 3px;
+      padding: 6px 22px;
+      font-size: 14px;
+    }
+    .ant-btn {
+      height: 32px;
+      font-weight: 500;
+      padding-left: 21px;
+      padding-right: 21px;
+    }
+    .search {
+      margin-left: 4px;
+    }
+    .reset, .search {
+      margin-right: 6px;
+      box-shadow: none;
+    }
+    .more {
+      color: @text-auxiliary-color;
+      &:hover, &.slide {
+        color: @link-color;
+      }
+    }
+    .marginR_none {
+      margin-right: 0;
+    }
+    .right-fields {
+      .box-field {
+        margin-right: 0;
+        & > .input {
+          padding-left: 0;
+          .border_right_none;
+        }
+      }
+    }
+    .buttonGroup {
+      align-self: center;
+      margin-left: 24px;
+    }
+
+    //
+    .border-radius-custom {
+      .input {
+        border-radius: 3px;
+      }
+    }
+    // select-and-input-s 选择器 和 select-and-input-i 输入框 配合使用
+    .select-and-input-s {
+      margin-right: 0;
+      text-align: center;
+      .ant-select-selector {
+        border: 1px solid @border-color-base!important;
+        border-radius: 3px 0 0 3px;
+        height: 32px!important;
+      }
+      .ant-select-selector:hover{
+        border-color: @c-379EEC!important;
+      }
+    }
+    .select-and-input-i {
+      .input {
+        .input {
+          .ant-input {
+            border-radius: 0 3px 3px 0;
+
+          }
+        }
+      }
+    }
+  }
+}
+.dropSelect-list {
+  background-color: #fff;
+  padding: 5px 8px;
+}
+.dropSelect-txt {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: calc(100% - 40px);
+  line-height: 30px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.ant-calendar-picker-input {
+  border-radius: 3px;
+}
+.border-radius-important {
+  border-radius: 3px!important;
+}
+
+
+
+//select start 主题定制
+
+//select end
