@@ -3,13 +3,9 @@ import { ReactSortable } from "react-sortablejs";
 import cx from 'classnames'
 import { Popover } from 'antd'
 
-import update from 'immutability-helper'
-import _ from 'lodash';
-
 import { ICON_FONT_URL } from '@config'
 import {createFromIconfontCN} from "@ant-design/icons";
 
-import { indexToArray , getItem, setInfo, isPath, getCloneItem, itemRemove, itemAdd } from './utils';
 import './index.less'
 
 const IconFont = createFromIconfontCN({
@@ -44,50 +40,12 @@ class Dashboard extends Component {
 	};
 
 	handleOpenMore = (e) => {
-		console.log('click more');
+		console.log('click more')
 		e.stopPropagation();
 	};
-
-
-	//分组拖动
-	dragGroup = (newState) => {
-		// console.log('dragGroup newState ===== ', newState);
-		this.setState({
-			groupList: [...newState]
-		})
-	};
-	//看板拖动
-	dragItem = (newState, groupId) => {
-		const { groupList } = this.state;
-		let dragIndex = -1;
-		groupList.forEach((i, index) => {
-			if (i.id === groupId) {
-				dragIndex = index;
-			}
-		});
-
-		// const currentGroup = groupList.filter(item => item.id === groupId);
-
-		const endState = update(groupList, {
-			[dragIndex]: {
-				$merge: { panelList: newState }
-			}
-		});
-		console.log('dragItem newState ===== ', newState, groupId, dragIndex);
-		console.log('endState ===== ', endState);
-
-		this.setState({
-			groupList: endState
-		})
-	};
 	render () {
+		// const {  } = this.state;
 
-		const ReactSortableOptions = {
-			group: "panelList",
-			animation: 200,
-			delayOnTouchStart: true,
-			delay: 2,
-		};
 		return (
 			<div className="dashboard-page">
 				<div className="flex-left">
@@ -95,87 +53,60 @@ class Dashboard extends Component {
 						<span>所有看板</span><IconFont type="icontuichudenglu"/>
 					</div>
 					<div className="left-content">
-						{/*容器*/}
 						<ReactSortable
-							{...ReactSortableOptions}
 							list={this.state.groupList}
-							setList={this.dragGroup}
-							className='rongqi'
+							setList={(newState) => this.setState({ list: newState })}
+							group="panelList"
+							animation={200}
+							delayOnTouchStart={true}
+							delay={2}
 						>
 							{
 								//遍历看板组
 								this.state.groupList.map((group) => (
-									<div key={group.id}>
-										<div key={group.id} className="group-item">
-											{/*看板分组标题*/}
-											{ //type：1用户分组
-												group.type ? <div className="group-title" onClick={this.handleOpenGroup(group.id)}>
-														<IconFont type="iconjiantou" className={cx('arrow', {'arrow-active': group.open})}/>
-														<span className="name">{group.name}</span>
-														<Popover
-															placement="rightTop"
-															title=''
-															content={<div><p>hello</p><p>word</p></div>}
-															trigger="click"
-															arrowPointAtCenter
-														>
-															<div className='more-box' onClick={this.handleOpenMore}>
-																<IconFont type="iconcaidan1" className='more'/>
-															</div>
-														</Popover>
-
-													</div>
-													//type：0为默认分组 不显示组名 且不可拖动
-													: <div className="group-title" />
-											}
-											{/*看板列表*/}
-											<div>
-												{
-													//用户分组需要点击展开
-													group.type ? <div
-															className="dashboard-list"
-														>
-															{
-																//遍历看板
-																group.open ? (
-																	group.panelList.length
-																		? <ReactSortable
-																			{...ReactSortableOptions}
-																			key={group.id}
-																			list={group.panelList}
-																			setList={newState => this.dragItem(newState, group.id)}
-																			delay={2}
-																		>
-																			{
-																				group.panelList.map(dashboard => {
-																					return <div key={dashboard.id} className="dashboard-item">
-																						{dashboard.name}
-																					</div>
-																				})
-																			}
-																		</ReactSortable>
-																		: <div className="dashboard-item dashboard-init">可将看板拖动到此处</div>
-																) : null
-															}
+									<div key={group.id} className="group-item">
+										{
+											group.type ? <div className="group-title" onClick={this.handleOpenGroup(group.id)}>
+													<IconFont type="iconjiantou" className={cx('arrow', {'arrow-active': group.open})}/>
+													<span className="name">{group.name}</span>
+													<Popover
+														placement="rightTop"
+														title=''
+														content={<div><p>hello</p><p>word</p></div>}
+														trigger="click"
+														arrowPointAtCenter
+													>
+														<div className='more-box' onClick={this.handleOpenMore}>
+															<IconFont type="iconcaidan1" className='more'/>
 														</div>
-														: <ReactSortable
-															{...ReactSortableOptions}
-															key={group.id}
-															className="dashboard-list"
-															list={group.panelList}
-															setList={newState => this.dragItem(newState, group.id)}
-															delay={2}
-														>
-															{
-																group.panelList.length ? group.panelList.map(dashboard => {
-																	return <div key={dashboard.id} className="dashboard-item">
-																		{dashboard.name}
-																	</div>
-																}) : <div key={group.id} className="dashboard-item" />
-															}
-														</ReactSortable>
-												}
-											</div>
+													</Popover>
+
+												</div>
+												: <div className="group-title" />
+										}
+
+										<div>
+											{//group.type 0为默认分组 1用户分组 用户分组需要点击展开
+												group.type ? <div className="dashboard-list">
+														{
+															//遍历看板
+															group.open ? (group.panelList.length ? group.panelList.map(dashboard => {
+																return <div key={dashboard.id} className="dashboard-item">
+																	{dashboard.name}
+																</div>
+															}) : <div className="dashboard-item dashboard-init">可将看板拖动到此处</div>) : null
+														}
+													</div>
+													: <div className="dashboard-list">
+														{
+															group.panelList.length && group.panelList.map(dashboard => {
+																return <div key={dashboard.id} className="dashboard-item">
+																	{dashboard.name}
+																</div>
+															})
+														}
+													</div>
+											}
 										</div>
 									</div>
 								))

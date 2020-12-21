@@ -167,11 +167,11 @@ class Dashboard extends Component {
 															delay={2}
 														>
 															{
-																group.panelList.length ? group.panelList.map(dashboard => {
+																group.panelList.length && group.panelList.map(dashboard => {
 																	return <div key={dashboard.id} className="dashboard-item">
 																		{dashboard.name}
 																	</div>
-																}) : <div key={group.id} className="dashboard-item" />
+																})
 															}
 														</ReactSortable>
 												}

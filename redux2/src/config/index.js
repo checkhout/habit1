@@ -8,7 +8,7 @@ const basename = "/carmgrs";
 // const SERVER_IP = 'https://carmgrgw.ddpai.com:8081';
 // const basename = "";
 
-const ICON_FONT_URL = '//at.alicdn.com/t/font_2276292_3ulhvneksmi.js';
+const ICON_FONT_URL = '//at.alicdn.com/t/font_2276292_eesivj1jpn5.js';
 
 
 export {

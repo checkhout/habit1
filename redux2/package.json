@@ -25,6 +25,8 @@
     "craco-less": "^1.17.0",
     "customize-cra": "^1.0.0",
     "eslint-loader": "^4.0.2",
+    "find-process": "^1.4.4",
+    "immutability-helper": "^3.1.1",
     "immutable": "^4.0.0-rc.12",
     "moment": "^2.29.1",
     "qs": "^6.9.4",

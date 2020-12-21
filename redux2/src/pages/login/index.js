@@ -188,9 +188,8 @@ class Login extends Component {
 								]}>
 									<div className='fieldset'>
 										<div className='legend'>
-											{/*<i className='username'/>*/}
-											账号
-											{/*<IconFont type='iconzhanghao'/>*/}
+											<IconFont type="icontest2" className='username' />
+											<span style={{marginLeft: '3px'}}>账号</span>
 										</div>
 										<Input placeholder="请输入手机号" />
 									</div>
@@ -204,15 +203,17 @@ class Login extends Component {
 								]}>
 									<div className='fieldset'>
 										<div className='legend'>
-											{/*<i className='password'/>*/}
-											密码
+											<IconFont type="icontest3" className='password' />
+											<span style={{marginLeft: '3px'}}>密码</span>
+
 										</div>
 										<Input.Password
 											placeholder="请输入密码"
 											suffix={<i className="eye-show"/>}
 											visibilityToggle={true}
 											iconRender={(visible) => {
-												return (visible ? <IconFont type="iconeye2" /> : <IconFont type="iconeye1" />)
+												// return (visible ? <IconFont type="iconeye2" /> : <IconFont type="iconeye1" />)
+												return (visible ? <IconFont type="iconlianhe2" /> : <IconFont type="iconeye1" />)
 											}}
 										/>										</div>
 								</FormItem>
@@ -225,8 +226,8 @@ class Login extends Component {
 									]}>
 										<div className='fieldset'>
 											<div className='legend'>
-												{/*<i className='code'/>*/}
-												验证码
+												<IconFont type="icontest3" className='code' />
+												<span style={{marginLeft: '3px'}}>验证码</span>
 											</div>
 											<Input placeholder="请输入验证码" autoComplete="off" />
 										</div>
