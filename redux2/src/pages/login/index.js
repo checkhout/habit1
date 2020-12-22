@@ -87,11 +87,14 @@ class Login extends Component {
 						// data.id = 0;//默认公司id为0 **未保证数据单向性，禁止直接修改回调参数，会影响到reducer数据**
 						sessionStorage.setItem('factoryLoginTime', Date.now());
 
-						if (userInfo.isAdmin) {
-							this.props.history.replace('/')
-						} else if (userInfo.isCertificationAudit) { //只是认证审核员时
-							this.props.history.replace('/app/certificationAudit')
-						}
+						this.props.history.replace({pathname: '/'})
+
+						// if (userInfo.isAdmin) {
+						// 	this.props.history.replace('/')
+						// }
+						// else if (userInfo.isCertificationAudit) { //只是认证审核员时
+						// 	this.props.history.replace('/app/certificationAudit')
+						// }
 					}, err => {
 						message.error("公司数据获取失败")
 					}));

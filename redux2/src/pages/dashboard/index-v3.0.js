@@ -1,15 +1,15 @@
-import React from 'react';
-import {ReactSortable} from "react-sortablejs";
+import React, {Component} from 'react';
+import { ReactSortable } from "react-sortablejs";
 import cx from 'classnames'
-import {Popover} from 'antd'
+import { Popover } from 'antd'
 
 import update from 'immutability-helper'
+import _ from 'lodash';
 
-import {ICON_FONT_URL} from '@config'
+import { ICON_FONT_URL } from '@config'
 import {createFromIconfontCN} from "@ant-design/icons";
-import ModalInfo from '@components/modalInfo'
-import BaseComponent from '@components/BaseComponent'
 
+import { indexToArray , getItem, setInfo, isPath, getCloneItem, itemRemove, itemAdd } from './utils';
 import './index.less'
 
 const IconFont = createFromIconfontCN({
@@ -18,11 +18,10 @@ const IconFont = createFromIconfontCN({
 
 
 
-class Dashboard extends BaseComponent {
+class Dashboard extends Component {
 	state = {
 		//看板列表
-		groupList: [],
-		creatDashboardVisible: false,//创建看板弹窗
+		groupList: []
 	};
 	componentDidMount() {
 		//todo 参考数据
@@ -32,28 +31,8 @@ class Dashboard extends BaseComponent {
 			//为组增加开关标识 增加空状态
 			return {...item, open: 0, panelList: item.panelList.length ? item.panelList : [{ id: -1, name: '可将看板拖动到此处' }] }
 		});
-
-
 		this.setState({
-			// groupList: groupList
-			groupList: []
-		}, () => {
-
-			//读取缓存Id，如果没有缓存id，则使用第一个看板组中的第一个看板ID
-			//如果没有看板，默认当前看板id；-1 且不请求看板详情
-			const getFirstId = (arr, index) => {
-				if (index > arr.length) {
-					return -1
-				}
-
-				if (arr[index].panelList.length > 0) {
-					return arr[index].panelList[0].id
-				}
-
-				getFirstId(arr, index + 1)
-			};
-			const currentId = getFirstId(groupList, 0);
-			this.props.history.push({pathname: `/dashboard`, state:{id: currentId}});
+			groupList: groupList
 		})
 	}
 
@@ -86,43 +65,8 @@ class Dashboard extends BaseComponent {
 	//分组拖动
 	dragGroup = (newState) => {
 		// console.log('dragGroup newState ===== ', newState);
-		let endIndex = -1, endGroupIndex = -1, endState = newState;
-
-		newState.forEach((item, index) => {
-			// 看板组为一级拖动列表，看板列表为二级拖动列表，当拖动二级列表到一级列表时，将它放到一级列表的二级列表后面
-			if (!item.panelList) {
-				endIndex = index
-			}
-		});
-
-		if (endIndex >= 0) {
-			endState = update(newState, {
-				$splice: [[endIndex, 1]],
-				[endIndex - 1]: {
-					panelList: { $push: [newState[endIndex]] }
-				}
-			});
-		}
-
-		//保持看板组在下，默认看板在上
-		if (endState[0] && endState[0].type !== 0) {
-			//查找默认看板当前位置，然后切割重新插入到首位
-			endState.forEach((item, index) => {
-				if (item.type === 0) {
-					endGroupIndex = index
-				}
-			});
-
-			if (endGroupIndex >= 0) {
-				endState = update(endState, {
-					$splice: [[endGroupIndex, 1]],
-					$unshift: [endState[endGroupIndex]]
-				});
-			}
-		}
-
 		this.setState({
-			groupList: endState
+			groupList: [...newState]
 		})
 	};
 	//看板拖动
@@ -135,6 +79,7 @@ class Dashboard extends BaseComponent {
 				dragIndex = index;
 			}
 		});
+
 
 		let filterState = newState;
 		if (newState.length >= 2) {
@@ -158,60 +103,27 @@ class Dashboard extends BaseComponent {
 			groupList: endState
 		})
 	};
-	showDashboardById = (id) => () => {
-		if (id === -1) { return }
-		this.props.history.push({pathname: `/dashboard`, state:{id}});
-	};
-	// createDashboard = () => {
-	//
-	// };
-	createDashboard = () => {
-		this.handleShowModal('creatDashboardVisible');
-		// this.setState({creatDashboardVisible: true})
-	};
-	confirmCreateDashboard = () => {
-		console.log('confirm创建看板')
-	};
-
 	render () {
+
 		const ReactSortableOptions = {
 			group: "panelList",
 			animation: 200,
+			delayOnTouchStart: true,
+			delay: 2,
 		};
-
-
-		const currentDashboardId = this.props.location.state && this.props.location.state.id || -1;
 		return (
 			<div className="dashboard-page">
 				<div className="flex-left">
 					<div className="left-head">
-						<span>所有看板</span>
-						<Popover
-							placement="rightTop"
-							overlayClassName={'dashboard-tooltip create-dashboard-tooltip'}
-							title=''
-							content={<div>
-								<div className="dashboard-item" onClick={this.createDashboard}><IconFont type="icontuichudenglu"/>创建看板</div>
-								<div className="dashboard-item" onClick={this.createDashboard}><IconFont type="icontuichudenglu"/>创建看板分组</div>
-							</div>}
-							trigger="click"
-							arrowPointAtCenter
-						>
-							<IconFont type="icontuichudenglu"/>
-						</Popover>
+						<span>所有看板</span><IconFont type="icontuichudenglu"/>
 					</div>
 					<div className="left-content">
 						{/*容器*/}
 						<ReactSortable
-							group={{
-								name: 'panelList',
-								pull: false,
-								put: true,
-							}}
-							animation={200}
-							delayOnTouchStart={true}
+							{...ReactSortableOptions}
 							list={this.state.groupList}
 							setList={this.dragGroup}
+							className='rongqi'
 						>
 							{
 								//遍历看板组
@@ -233,6 +145,7 @@ class Dashboard extends BaseComponent {
 															<IconFont type="iconcaidan1" className='more'/>
 														</div>
 													</Popover>
+
 												</div>
 												//type：0为默认分组 不显示组名 且不可拖动
 												: <div className="group-title" />
@@ -253,11 +166,7 @@ class Dashboard extends BaseComponent {
 																>
 																	{
 																		group.panelList.map(dashboard => {
-																			return <div
-																				key={dashboard.id}
-																				className={cx('dashboard-item', {'dashboard-init': +dashboard.id === -1}, {'active': currentDashboardId === dashboard.id})}
-																				onClick={this.showDashboardById(dashboard.id)}
-																			>
+																			return <div key={dashboard.id} className="dashboard-item">
 																				{dashboard.name}
 																			</div>
 																		})
@@ -277,55 +186,30 @@ class Dashboard extends BaseComponent {
 												>
 													{
 														group.panelList.map(dashboard => {
-															return <div key={dashboard.id} className={cx("dashboard-item", {'active': currentDashboardId === dashboard.id})}
-																					onClick={this.showDashboardById(dashboard.id)}
-															>
-																{dashboard.id === -1 ? '' : dashboard.name}
+															return <div key={dashboard.id} className="dashboard-item">
+																{dashboard.name}
 															</div>
 														})
 													}
 												</ReactSortable>
 										}
+
 									</div>
 								))
 							}
 						</ReactSortable>
 					</div>
-
-					{/*todo 当前版本没有*/}
-					{/*<div className="left-footer">
+					<div className="left-footer">
 						<span>
 							<IconFont type="icontuichudenglu"/><span>公共图表库</span>
 						</span>
 						<IconFont type="icontuichudenglu"/>
-					</div>*/}
-					{
-						this.state.groupList.length ? null : <div className='group-empty'>
-							<div style={{marginBottom: '6px'}}>你还没有任何看板</div>
-							<div className="active" onClick={this.createDashboard}><IconFont type="icontuichudenglu"/>点击创建</div>
-						</div>
-					}
+					</div>
 				</div>
 
 				<div className="flex-right">
-					{
-						this.state.groupList.length ? null : <div className='group-empty'>请先创建一个看板</div>
-					}
+
 				</div>
-
-				<ModalInfo
-					title={'创建看板'}
-					visible={this.state.creatDashboardVisible}
-					visibleName='creatDashboardVisible'
-					width={370}
-					cancel={this.handleCancelModal}
-					confirm={this.confirmCreateDashboard}
-					cancelButtonProps={{
-						ghost: true,
-					}}
-				>
-
-				</ModalInfo>
 			</div>
 		)
 	}

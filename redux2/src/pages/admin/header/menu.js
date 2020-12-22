@@ -6,8 +6,8 @@ const renderMenuItem = item => ( // item.route 菜单单独跳转的路由
   <Menu.Item
     key={item.path}
   >
-    <Link to={(item.route || item.path) + (item.query || '')}>
-      {item.icon && <i className={item.iconClassName}/>}
+    <Link to={{pathname: item.path, state: {}}}>
+      {/*{item.icon && <i className={item.iconClassName}/>}*/}
       <span className="nav-text">{item.title}</span>
     </Link>
   </Menu.Item>

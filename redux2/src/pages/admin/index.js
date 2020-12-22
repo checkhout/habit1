@@ -27,8 +27,9 @@ class Admin extends Component {
           <HeaderCustom />
         </Header>
 
-        <Content >
+        <Content>
           <Switch>
+            <Route path='/dashboards' component={Dashboard}/>
             <Route path='/dashboard' component={Dashboard}/>
             <Route path='/addressBook' component={Dashboard}/>
             <Route path='/certificationAudit' component={Dashboard}/>
