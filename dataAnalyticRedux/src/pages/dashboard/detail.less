@@ -1,0 +1,87 @@
+@import "@style/theme.less";
+@import "@style/common.less";
+
+.dashboard-top {
+  display: flex;
+  justify-content: space-between;
+  .panel-t-left {
+    max-width: 400px;
+    .title, .des {
+      border: none;
+      box-shadow: none;
+      background: transparent;
+
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: visible;
+      &:hover, &:focus {
+        background: fade(@c-5236C9, 3%);
+      }
+    }
+    .title {
+      font-size: 20px;
+      font-weight: 600;
+      text-align: left;
+      color: @primary-color;
+      line-height: 28px;
+      margin-right: 100px;
+      width: 320px;
+    }
+    .des {
+      font-size: 14px;
+      font-weight: 400;
+      text-align: left;
+      color: @primary-color;
+      line-height: 20px;
+      margin-right: 100px;
+      width: 400px;
+    }
+  }
+  .panel-t-right {
+    .ant-btn {
+      width: auto;
+      height: auto;
+      margin-left: 8px;
+      line-height: 1;
+      padding: 10px;
+    }
+
+  }
+
+}
+
+.panel-content {
+  .panel-item {
+    background: #ffffff;
+    border: 1px solid #d5d3de;
+    border-radius: 4px;
+    box-shadow: 0 3px 6px 0 rgba(0,0,0,0.16);
+    padding: 10px;
+    .panel-top {
+      padding: 0 10px;
+      .panel-title-wrap {
+        display: flex;
+        justify-content: space-between;
+        .panel-title {
+          display: inline-block;
+          margin-right: 4px;
+          font-size: 16px;
+          font-weight: 500;
+          text-align: left;
+          color: @c-000000;
+          line-height: 22px;
+        }
+      }
+    }
+    .echarts-for-react {
+      width: 100%;
+      height: calc(100% - 36px)!important;
+    }
+  }
+  //.react-resizable-handle {
+  //  display: none;
+  //}
+  //.react-grid-item:hover > .react-resizable-handle {
+  //  display: block;
+  //}
+}
