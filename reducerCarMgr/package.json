@@ -1,5 +1,5 @@
 {
-  "name": "my-app",
+  "name": "ddp4company",
   "version": "0.0.1",
   "scripts": {
     "start": "set PORT=2020&&craco start",
@@ -24,21 +24,29 @@
     "craco-antd": "^1.19.0",
     "craco-less": "^1.17.0",
     "customize-cra": "^1.0.0",
+    "echarts": "^4.9.0",
+    "echarts-for-react": "^2.0.16",
     "eslint-loader": "^4.0.2",
+    "find-process": "^1.4.4",
+    "immutability-helper": "^3.1.1",
     "immutable": "^4.0.0-rc.12",
     "moment": "^2.29.1",
     "qs": "^6.9.4",
     "react": "^17.0.1",
     "react-app-rewired": "^2.1.6",
     "react-copy-to-clipboard": "^5.0.2",
+    "react-date-range": "^1.1.3",
     "react-dom": "^17.0.1",
+    "react-grid-layout": "^1.2.0",
     "react-redux": "^7.2.2",
     "react-scripts": "4.0.0",
+    "react-sortablejs": "^6.0.0",
     "redux": "^4.0.5",
     "redux-actions": "^2.6.5",
     "redux-devtools-extension": "^2.13.8",
     "redux-persist": "^6.0.0",
     "redux-thunk": "^2.3.0",
+    "sortablejs": "^1.12.0",
     "store": "^2.0.12",
     "web-vitals": "^0.2.4"
   },
@@ -61,6 +69,9 @@
     ]
   },
   "devDependencies": {
-    "react-router-dom": "^5.2.0"
+    "circular-dependency-plugin": "^5.2.2",
+    "react-router-dom": "^5.2.0",
+    "simple-progress-webpack-plugin": "^1.1.2",
+    "webpack-bundle-analyzer": "^4.2.0"
   }
 }

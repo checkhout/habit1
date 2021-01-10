@@ -24,6 +24,8 @@
     text-overflow: ellipsis;
   };
 }
+
+//按钮边框效果
 .btnClickShadow(@class, @color:@primary-color) {
   //点击后的效果
   .@{class}:focus {
@@ -38,6 +40,48 @@
     border-color: @color;
   };
 }
+//按钮bg效果
+.antBtnActiveBg(@class, @color:@primary-color) {
+  //点击后的效果
+  .@{class}:focus {
+    background-color: @color;;
+  };
+  //点击动画
+  .@{class}:after {
+    background-color: @color;
+  };
+  //hover效果
+  //.@{class}:hover {
+  //  background-color: @c-FFFFFF;
+  //};
+}
+
+//按钮点击字体颜色
+.btnClickColor(@class, @color:@primary-color) {
+  //点击后的效果
+  .@{class}:focus {
+    color: @color;;
+  };
+  //点击动画
+  .@{class}:after {
+    color: @color;
+  };
+  //hover效果
+  .@{class}:hover {
+    color: @color;
+  };
+}
+
+
+//消除边框动画
+.ant_btn_hide_border() {
+  button[ant-click-animating-without-extra-node]:after {
+    border: none;
+    opacity: 0;
+    animation:none 0 ease;
+  }
+}
+
 .customErrorTip(@class, @error, @color, @top: 34px, @left: 0) {
   .@{class}::before {
     content: @error;
@@ -88,3 +132,5 @@
   top: 0;
   left: 0;
 }
+
+

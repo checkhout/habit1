@@ -3,9 +3,8 @@ import {connect} from "react-redux";
 import {Layout} from 'antd';
 import {Switch, Route, Redirect} from 'react-router-dom';
 //改为容器组件
-import UseCarManagement from '@pages/useCarManagement';
-import AddressBook from '@pages/addressBook';
-import CertificationAudit from '@pages/certificationAudit';
+import Dashboard from '@pages/dashboard';
+import ProductAnalytics from '@pages/analytics/productAnalytics';
 
 
 import HeaderCustom from './header/index';
@@ -23,21 +22,19 @@ class Admin extends Component {
       return <Redirect to='/login'/>
     }
 
-    // console.log('role check ===>  ', this.props.location, this.props.loginResult);
-
     return (
-      <Layout style={{minHeight: '100vh', minWidth: '1120px'}}>
+      <Layout style={{minHeight: '100vh', minWidth: '1200px'}}>
         <Header>
           <HeaderCustom />
         </Header>
 
-        <Content >
+        <Content>
           <Switch>
-            <Route path='/useCarManager' component={UseCarManagement}/>
-            <Route path='/addressBook' component={AddressBook}/>
-            <Route path='/certificationAudit' component={CertificationAudit}/>
+            {/*<Route path='/dashboards' component={Dashboard}/>*/}
+            <Route path='/dashboard' component={Dashboard}/>
+            <Route path='/analytics/product' component={ProductAnalytics}/>
 
-            <Redirect to='/useCarManager'/>
+            <Redirect to='/dashboard'/>
           </Switch>
         </Content>
       </Layout>

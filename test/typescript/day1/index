@@ -1,0 +1,6 @@
+
+### 使用create-react-app 创建支持typescript语法项目
+1. 安装脚手架 npm install -g create-react-app 
+> npm install -g create-react-app
+2. 使用--template typescript创建
+> create-react-app my-react-ts-app --template typescript

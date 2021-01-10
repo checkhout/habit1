@@ -39,14 +39,14 @@ axios.interceptors.request.use(function (config) {
  * @param endAction			得到请求结果action
  * @returns {function(*=请求参数, *=成功回调, *=失败回调, *={token: "取消请求用的token"}): Function}
  */
-export const createAjaxAction = (httpHandle, startAction, endAction) => (reqData, success, reject, handleCancel) => (dispatch) => {
+export const createAjaxAction = (httpHandle, startAction, endAction) => (param, success, reject, handleCancel) => (dispatch) => {
 	// requet start 例如：Spin组件开始loading
 	startAction && dispatch(startAction());
 	// 发起请求
-	httpHandle(reqData, handleCancel).then((resp) => {//handle 就是下面定义的Server方法
+	httpHandle(param, handleCancel).then((resp) => {//handle 就是下面定义的Server方法
 		// console.log("httpHandle then === ", resp);
 		//requet end 例如：Spin组件结束loading
-		endAction && dispatch(endAction({req: reqData, res: resp}));
+		endAction && dispatch(endAction({req: param, res: resp}));
 		success && success(resp)
 	}).catch((error) => {
 		// console.log("httpHandle error === ", error);
@@ -67,6 +67,8 @@ export const createAjaxAction = (httpHandle, startAction, endAction) => (reqData
  * @param handleCancel
  * @returns {Promise<any>}
  * @constructor
+ *
+ * POST请求的Content-Type并非application/x-www-form-urlencoded, multipart/form-data, 或text/plain 会产生预检请求
  */
 export const Service = function (url, method = 'GET', params = {}, header={'Content-Type': 'application/json' }, handleCancel) {
 	if (method === 'get') {
@@ -123,35 +125,40 @@ export const Service = function (url, method = 'GET', params = {}, header={'Cont
 };
 
 /**
- * 请求包装器
  * @param url
  * @param method
  * @param header
  * @returns {function(*=, *=): Promise<any>}
  */
-export const createQuery = (url, method, header) => (reqData, handleCancel) => {
+export const createQuery = (url, method, header) => (param, handleCancel) => {
 	let str = url;
 
-	//拦截 拼接对应数据
-	if (reqData && reqData.urlData) {
-		const { urlData } = reqData;
+	//拦截、拼接对应数据 @query object
+	// if (param && param.query) {
+	// 	const { query } = param;
+	//
+	// 	switch (method) {
+	// 		case 'get':
+	// 			switch (str) {
+	// 				case 'zhanwei1':
+	// 					break;
+	// 				case 'zhanwei2':
+	// 					break;
+	// 				default:
+	// 					break;
+	// 			}
+	// 			break;
+	// 		case 'delete':
+	// 			break;
+	// 		case 'post':
+	// 			break;
+	// 		case 'put':
+	// 			break;
+	// 		default:
+	// 			break;
+	// 	}
+	// 	delete param.query
+	// }
 
-		switch (str) {
-			//查询单个部门详情
-			case '/account/api/v1/department':
-				str = `/account/api/v1/department/${urlData}`;
-				break;
-			//查询待审批任务 urlData 1-加入企业申请,2-使用车辆申请,3-驾驶资格申请
-			case '/car/api/v1/apply/getAuditTask':
-				str = `/car/api/v1/apply/getAuditTask/${urlData}`;
-				break;
-			case 'test23':
-				break;
-			default:
-				break;
-		}
-		delete reqData.urlData
-	}
-
-	return Service(str, method, reqData, header, handleCancel)
+	return Service(str, method, param, header, handleCancel)
 };

@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from "react-redux";
 import { withRouter } from 'react-router-dom';
 import {
-	Dropdown, Button, Row, Col
+	Dropdown, Button
 } from 'antd';
 import routes from '@config/config';
 
@@ -10,12 +10,17 @@ import BaseComponent from '@/components/BaseComponent'
 import SiderMenu from './menu'
 
 import { logoutHttp } from '@api/common'
-import avatarImg from '../../../assets/imgs/header/avatar@2x.png'
 import './index.less'
+import Logo from './app_logo@2x.png'
+import { ICON_FONT_URL } from '@config'
+import {createFromIconfontCN} from "@ant-design/icons";
 
+
+const IconFont = createFromIconfontCN({
+	scriptUrl: ICON_FONT_URL,
+});
 @connect((state) => ({
 	userInfoResult: state.userInfoResult,
-	companyInfoResult: state.companyInfoResult,
 }))
 
 class HeaderCustom extends BaseComponent {
@@ -44,19 +49,16 @@ class HeaderCustom extends BaseComponent {
 		* 认证审核需要有 ROLE_ddp2b_platform_operator（企业版平台运维员）角色，运维员登录就只有认证审核
 		* */
 		const menuSource = [];
-		let uiFrame = [], {selectedKey} = this.state;
+		let uiFrame = [], { selectedKey } = this.state;
 
 		if (userInfo.isAdmin) {
 			uiFrame = uiFrame.concat([
 				{
-					"title":"通讯录",
+					"title":"看板",
 				},
 				{
-					"title":"用车管理",
+					"title":"产品分析",
 				},
-				/*{
-					"title":"设置",
-				},*/
 			]);
 		}
 		if (userInfo.isCertificationAudit) {//企业版平台运维员
@@ -86,6 +88,8 @@ class HeaderCustom extends BaseComponent {
 	handleConfirmLogout = () => {
 		logoutHttp().then(() => {
 			this.props.history.replace('/login')
+		}).catch(() => {
+			this.props.history.replace('/login')
 		})
 	};
 
@@ -103,25 +107,23 @@ class HeaderCustom extends BaseComponent {
 		} = this.state;
 		const {
 			userInfoResult,
-			companyInfoResult,
 		} = this.props;
 
 		const userInfo = userInfoResult.data;
-		const companyObj = companyInfoResult.data;
-		const haveCompanyData = Object.keys(companyObj).length > 0;
+
 
 		return (
-			<div className=" header" >
+			<div className="header">
 				<div className="head-left">
-					<img className='logo-small' src={haveCompanyData ? companyObj.logo : ""} alt=""/>
-					<span style={{'marginLeft':'10px'}}>{haveCompanyData ? companyObj.name : "-"}</span>
+					<img className='logo-small' src={Logo} alt=""/>
+					{/*<div className={'app-name'}>数据分析平台</div>*/}
 				</div>
 
 				<div className='head-center'>
 					<SiderMenu
 						menus={menuSource}
 						onClick={this.menuClick}
-						selectedKeys={[selectedKey]}
+						selectedKeys={[selectedKey || (menuSource.length && menuSource[0].path)]}
 						mode="horizontal"
 					/>
 
@@ -133,20 +135,25 @@ class HeaderCustom extends BaseComponent {
 						overlay={
 							<div className="head-drop-menu">
 								<ul>
-									<li className='user'>
-										<span>账号：{`${userInfo.username}`}</span>
-										<span>角色：{userInfo.isSuperAdmin ? "超级管理员"  : userInfo.isAdmin ? "管理员" : "运维员"}</span>
+									<li>
+										用户：{`${userInfo.nickname}`}
 									</li>
-									{/*<li className='edit-user'>编辑个人信息</li>*/}
-									<li className='logout-btn'>
-										<Button onClick={this.handleConfirmLogout}>退出登录</Button>
+									<li>
+										账号：{userInfo.username}
 									</li>
 								</ul>
+								<div className="logout-btn">
+									<Button icon={<IconFont type="iconexit" style={{fontSize: '18px'}}/>} onClick={this.handleConfirmLogout}>退出登录</Button>
+								</div>
 							</div>
 						}
-						// trigger={['click']}
+						trigger={['click']}
 					>
-						<span className="user-about"><img src={userInfo.avatar || avatarImg} alt=""/>{userInfo.nickname || '-'} <i className="anticon-icon_caret_down"/></span>
+						<span className="user-about">
+							{/*<img src={userInfo.avatar || avatarImg} alt=""/>*/}
+							{userInfo.nickname || '-'}
+							<i className="anticon-icon_caret_down"/>
+						</span>
 					</Dropdown>
 				</div>
 

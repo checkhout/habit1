@@ -1,15 +1,11 @@
 import { combineReducers } from 'redux';
 
 import * as common from './common';
-import * as useCarManagement from './useCarManagement';
-import * as addressBook from './addressBook';
-import * as certificationAudit from './certificationAudit';
+// import * as dashboard from './dashboard';
 
 const appReducer = combineReducers({
 	...common,
-	...useCarManagement,
-	...addressBook,
-	...certificationAudit,
+	// ...dashboard,
 });
 
 //退出登录重置store

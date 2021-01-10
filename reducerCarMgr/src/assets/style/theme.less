@@ -1,270 +1,60 @@
-@import '../../../node_modules/antd/lib/style/themes/default.less';
+@import '~antd/lib/style/themes/default.less';
+@import '~react-grid-layout/css/styles.css';
+@import '~react-resizable/css/styles.css';
 @import "./mixin";
 
-@c-eeeeee: #eeeeee;
+
+
 @c-FFFFFF: #FFFFFF;
-@c-333333: #333333;
-@c-e8e8e8: #e8e8e8;
-@c-369D51: #369D51;
-@c-555763: #555763;
-@c-379EEC: #379EEC;
-@c-E80000: #E80000;
-@c-0DA736: #0DA736;
-@c-555763: #555763;
-@c-888888: #888888;
-@c-D8D8D8: #D8D8D8;
-@c-B8B8B8: #B8B8B8;
-@c-f6f6f6: #f6f6f6;
+@c-000000: #000000;
+@c-eeeeee: #eeeeee;
+@c-5236C9: #5236C9;
+@c-3F3B53: #3F3B53; //primary color
+@c-666081: #666081;
+@c-AEAABC: #AEAABC;
+@c-D5D3DE: #D5D3DE;
+@c-F5F4F8: #F5F4F8;
+@c-F76565: #F76565;
+@c-34D146: #34D146;
+@c-FF5858: #FF5858;
 
-//rgb-color-opacity[1,9]
-@rgb-0DA736-1: rgba(13,167,54,0.1);
-@rgb-E80000-1: rgba(232,0,0,0.1);
-@rgb-379EEC-2: rgba(55,158,236,0.2);
-@rgb-000000-25: rgba(0, 0, 0, 0.25);
+@c-5236C9-3: fade(@c-5236C9, 3%);
+@c-FF5858-3: fade(@c-FF5858, 3%);
 
 
+//图表
+@c-5B7BE5: #5B7BE5;
+//@c-F76565: #F76565;
+//@c-666081: #666081;
+@c-5DB578: #5DB578;
+@c-B7C331: #B7C331;
+@c-D3709A: #D3709A;
+@c-DD983A: #DD983A;
+@c-9B9EDE: #9B9EDE;
+@c-75AEBC: #75AEBC;
+@c-E3C939: #E3C939;
+@c-816060: #816060;
+//@c-: color;
 
 
+//antd 样式覆盖
+@primary-color: @c-666081;
+@success-color: @c-34D146;
+@error-color: @c-F76565;
+@text-color: @c-3F3B53;
+
+@border-radius-base: 3px;
+@border-color-base: @c-D5D3DE;
+
+@menu-highlight-color: @c-5236C9;
+
+//antd Buttons
+@btn-default-bg: @c-F5F4F8;
+@btn-default-color: @primary-color;
 
 
+//antd tag
+@tag-default-bg: fade(@c-5236C9, 6%);
+@tag-default-color: @c-5236C9;
 
-
-//antui-datatable 定义在DataTable组件中
-.antui-datatable {
-  .flex_columns();
-  .full_flex_hidden;
-
-  .ant-table-wrapper, .ant-spin-nested-loading, .ant-spin-container, .ant-table, .ant-table-container {
-    .full_height_hidden;
-  }
-
-  .ant-table-wrapper {
-    .ant-spin-nested-loading {
-      .ant-spin-container {
-        .ant-table {
-          .ant-table-container {//需要配置Table scroll 配置和未配置DOM结构有差别
-            .flex_columns();
-            .ant-table-header {
-              flex-shrink: 0;
-            }
-            .ant-table-body {
-              overflow-y: auto!important;
-              .full_flex_hidden;
-
-              //ant-btn 样式覆盖
-              .operate {
-                .normal_btn {
-                  padding: 0;
-                }
-                .primary-ghost-btn {
-                  border: none;
-                }
-              }
-              .custom-column {
-                white-space: nowrap;
-                .custom-primary-btn, .custom-primary-gray-btn {
-                  width:48px;
-                  height:24px;
-                  border-radius:3px;
-                  padding: 0;
-                  line-height: 24px;
-                  text-align: center;
-                }
-                .custom-primary-gray-btn {
-                  margin-left: 6px;
-                  background: #D8D8D8;
-                }
-                .send-status {
-                  margin-right: 10px;
-                }
-                .custom-primary-btn-margin-right6 {
-                  margin-right: 6px;
-                }
-                .margin-right9 {
-                  margin-right: 9px;
-                }
-                .enter-pointer {
-                  cursor: pointer;
-                }
-              }
-
-
-              //空状态
-              .ant-table-placeholder {
-                .ant-table-cell {
-                  padding-top: 60px;
-                  text-align: center;
-                  border: none;
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-  //分页器
-  .pagination-data-table-antd {
-    flex-shrink: 0;
-    margin-top: 14px;
-    .ant-pagination {
-      background: #ffffff;
-      padding: 10px;
-      margin: 0;
-      text-align: right;
-      .ant-pagination-item{
-        background:rgba(255,255,255,1);
-        border:1px solid rgba(216,216,216,1);
-        border-radius:3px;
-        &.ant-pagination-item-active {
-          border-color: @c-379EEC;
-          background-color: transparent;
-        }
-        &:not(.ant-pagination-item-active) {
-          border-color: rgba(216,216,216,1);
-          background-color: transparent;
-        }
-      }
-      .ant-pagination-prev, .ant-pagination-next {//上一页下一页
-        display: none;
-        .ant-pagination-item-link {
-          display: none;
-        }
-      }
-      .ant-pagination-total-text {
-        float: left;
-      }
-      .ant-pagination-options {//pageSize
-        .ant-select-selector {
-          border-radius: 3px;
-        }
-
-      }
-    }
-  }
-
-}
-//modal 中的table 自定义类名 table-modal
-.table-modal {
-  .antui-datatable  {
-    height: 480px;
-    overflow: hidden;
-    .ant-table-wrapper, .ant-spin-nested-loading, .ant-spin-container, .ant-table, .ant-table-container {
-
-    }
-    .theme-btn-opacity-blue {
-      width:68px;
-      height:24px;
-      font-size: 12px;
-    }
-    .textOverflowHidden(audit-department);
-  }
-}
-
-
-
-//Modal
-.ant-modal {
-  .ant-modal-content {
-    border-radius: 3px;
-    overflow: hidden;
-    .ant-modal-header {
-      padding: 0;
-      .ant-modal-title {
-        text-align: center;
-        line-height: 40px;
-        height: 40px;
-        background: @c-FFFFFF;
-        padding: 0;
-        color: @c-333333;
-      }
-    }
-    .ant-modal-body {
-      padding: 30px 34px 20px;
-    }
-    .ant-modal-footer, .footer {
-      padding: 0;
-
-      display: flex;
-      width: 100%;
-      justify-content: flex-end;
-      .ant-btn{
-        background: @c-FFFFFF;
-        border-color: @c-FFFFFF;
-        width: 50%;
-        height: 44px;
-        font-size:16px;
-        font-weight: 500;
-        margin: 0;
-        &:nth-child(2) {
-          border-left: 1px solid @c-e8e8e8;
-        }
-        &[disabled] {
-          background-color: @c-FFFFFF;
-          border-color: @c-FFFFFF;
-          color: @rgb-000000-25;
-        }
-
-      }
-      .ant-btn-primary {
-        color: @c-379EEC;
-      }
-
-      //.ant-btn {
-      //  background-color: @c-FFFFFF;
-      //  border-color: @c-FFFFFF;
-      //}
-
-      //.simple-btn-cancel {
-      //  border-right: 1px solid @c-e8e8e8;
-      //}
-    }
-  }
-}
-
-//弹窗中有table
-.table-modal {
-  .ant-modal-content {
-    border-radius: 3px;
-    overflow: hidden;
-    .ant-modal-close {
-      font-size: 10px;
-      padding: 0;
-      .ant-modal-close-x {
-        width: 40px;
-        height: 40px;
-        line-height: 40px;
-      }
-    }
-    .ant-modal-header {
-      padding: 0;
-
-      .ant-modal-title {
-        text-align: center;
-        line-height: 40px;
-        height: 40px;
-        background: @c-FFFFFF;
-        padding: 0;
-        color: @c-333333;
-      }
-    }
-    .ant-modal-body {
-      padding: 20px;
-
-    }
-  }
-}
-//驾驶人申请审核 拒绝弹窗
-.noPassDrive {
-  .ant-modal-content .ant-modal-body {
-    padding: 30px 40px;
-    .no-pass-textarea {
-      display: block;
-      height: 64px;
-      resize: none;
-      margin: 0 auto;
-      border-radius:3px;
-    }
-  }
-}
 
