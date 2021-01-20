@@ -134,31 +134,31 @@ export const createQuery = (url, method, header) => (param, handleCancel) => {
 	let str = url;
 
 	//拦截、拼接对应数据 @query object
-	if (param && param.query) {
-		const { query } = param;
-
-		switch (method) {
-			case 'get':
-				switch (str) {
-					case 'zhanwei1':
-						break;
-					case 'zhanwei2':
-						break;
-					default:
-						break;
-				}
-				break;
-			case 'delete':
-				break;
-			case 'post':
-				break;
-			case 'put':
-				break;
-			default:
-				break;
-		}
-		delete param.query
-	}
+	// if (param && param.query) {
+	// 	const { query } = param;
+	//
+	// 	switch (method) {
+	// 		case 'get':
+	// 			switch (str) {
+	// 				case 'zhanwei1':
+	// 					break;
+	// 				case 'zhanwei2':
+	// 					break;
+	// 				default:
+	// 					break;
+	// 			}
+	// 			break;
+	// 		case 'delete':
+	// 			break;
+	// 		case 'post':
+	// 			break;
+	// 		case 'put':
+	// 			break;
+	// 		default:
+	// 			break;
+	// 	}
+	// 	delete param.query
+	// }
 
 	return Service(str, method, param, header, handleCancel)
 };

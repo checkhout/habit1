@@ -20,11 +20,12 @@ import {
 	addDashboardApi,
 	deleteDashboardApi,
 	updateDashboardApi,
+	dashboardListApi,
 } from '@api/dashboard'
 
-import {
-	dashboardListAction,
-} from '@actions/dashboard'
+// import {
+// 	dashboardListAction,
+// } from '@actions/dashboard'
 
 
 import Detail from './detail'
@@ -47,58 +48,22 @@ class Dashboard extends BaseComponent {
 		updateGroupVisible: false,
 		deleteGroupVisible: false,
 		deleteDashboardVisible: false,
+		boardListEmpty: false,//是否为空看板，在删除看板、增加看板和页面初始化的时候更新
 		operateGroupObj: {},
 		operateDashboardObj: {},
 		currentDashboardObj: {},//选中的看板
 		deleteType: false, //删除看板分组 是否 同时删除看板及看板内图表
 	};
+	oldCurrentDashboardObj = {};//缓存一下，用来判断是否修改了看板名称和看板备注
 
 	componentDidMount() {
-		//todo 参考数据
-		/*const groupData = {"code":0,"msg":"操作成功","times":null,"datas":[{"id":50088,"userId":1049888,"appId":null,"name":"默认分组","type":0,"orderNum":1,"createTime":1604644903000,"updateTime":1604644903000,"panelList":[{"id":1973,"userId":1049888,"groupId":50088,"panelId":1973,"name":"理财用户使用机型排名","isShare":0,"sourceType":1,"source":1,"canOperated":1,"isFixed":1,"orderNum":10,"status":1,"createTime":null,"userName":null,"bookNums":1,"open":true,"read":true,"platform":null,"tips":null,"isPre":0},{"id":1965,"userId":1049888,"groupId":50088,"panelId":1965,"name":"资金到账-转账的转化率","isShare":0,"sourceType":1,"source":1,"canOperated":1,"isFixed":1,"orderNum":9,"status":1,"createTime":null,"userName":null,"bookNums":1,"open":true,"read":true,"platform":null,"tips":null,"isPre":0},{"id":1966,"userId":1049888,"groupId":50088,"panelId":1966,"name":"活跃用户使用机型排名","isShare":0,"sourceType":1,"source":1,"canOperated":1,"isFixed":1,"orderNum":8,"status":1,"createTime":null,"userName":null,"bookNums":1,"open":true,"read":true,"platform":null,"tips":null,"isPre":0},{"id":1963,"userId":1049888,"groupId":50088,"panelId":1963,"name":"各平台注册转化漏斗(1)","isShare":0,"sourceType":1,"source":1,"canOperated":1,"isFixed":1,"orderNum":7,"status":1,"createTime":null,"userName":null,"bookNums":1,"open":true,"read":true,"platform":null,"tips":null,"isPre":0},{"id":1969,"userId":1049888,"groupId":50088,"panelId":1969,"name":"注册转化率","isShare":0,"sourceType":1,"source":1,"canOperated":1,"isFixed":1,"orderNum":6,"status":1,"createTime":null,"userName":null,"bookNums":1,"open":true,"read":true,"platform":null,"tips":null,"isPre":0},{"id":1962,"userId":1049888,"groupId":50088,"panelId":1962,"name":"各平台注册转化漏斗","isShare":0,"sourceType":1,"source":1,"canOperated":1,"isFixed":1,"orderNum":5,"status":1,"createTime":null,"userName":null,"bookNums":1,"open":true,"read":true,"platform":null,"tips":null,"isPre":0},{"id":1971,"userId":1049888,"groupId":50088,"panelId":1971,"name":"活跃用户时段分布","isShare":0,"sourceType":1,"source":1,"canOperated":1,"isFixed":1,"orderNum":4,"status":1,"createTime":null,"userName":null,"bookNums":1,"open":true,"read":true,"platform":null,"tips":null,"isPre":0},{"id":1970,"userId":1049888,"groupId":50088,"panelId":1970,"name":"登录失败用户占比","isShare":0,"sourceType":1,"source":1,"canOperated":1,"isFixed":1,"orderNum":3,"status":1,"createTime":null,"userName":null,"bookNums":1,"open":true,"read":true,"platform":null,"tips":null,"isPre":0},{"id":1968,"userId":1049888,"groupId":50088,"panelId":1968,"name":"动账使用率","isShare":0,"sourceType":1,"source":1,"canOperated":1,"isFixed":1,"orderNum":2,"status":1,"createTime":null,"userName":null,"bookNums":1,"open":true,"read":true,"platform":null,"tips":null,"isPre":0}]},{"id":53863,"userId":1049888,"appId":null,"name":"22222","type":1,"orderNum":3,"createTime":1608256275000,"updateTime":1608256281000,"panelList":[{"id":1964,"userId":1049888,"groupId":53863,"panelId":1964,"name":"资金到账用户数","isShare":0,"sourceType":1,"source":1,"canOperated":1,"isFixed":1,"orderNum":12,"status":1,"createTime":null,"userName":null,"bookNums":1,"open":true,"read":true,"platform":null,"tips":null,"isPre":0},{"id":1972,"userId":1049888,"groupId":53863,"panelId":1972,"name":"转账用户留存分析","isShare":0,"sourceType":1,"source":1,"canOperated":1,"isFixed":1,"orderNum":11,"status":1,"createTime":null,"userName":null,"bookNums":1,"open":true,"read":true,"platform":null,"tips":null,"isPre":0},{"id":1974,"userId":1049888,"groupId":53863,"panelId":1974,"name":"转账用户留存分析(1)","isShare":0,"sourceType":1,"source":1,"canOperated":1,"isFixed":1,"orderNum":10,"status":1,"createTime":null,"userName":null,"bookNums":1,"open":true,"read":true,"platform":null,"tips":null,"isPre":0},{"id":1940,"userId":1049888,"groupId":53863,"panelId":1940,"name":"核心流程转化（副本）","isShare":0,"sourceType":1,"source":1,"canOperated":1,"isFixed":1,"orderNum":9,"status":1,"createTime":null,"userName":null,"bookNums":8,"open":true,"read":true,"platform":null,"tips":null,"isPre":0},{"id":1040,"userId":0,"groupId":53863,"panelId":1040,"name":"基金理财分析","isShare":0,"sourceType":0,"source":0,"canOperated":0,"isFixed":1,"orderNum":8,"status":1,"createTime":null,"userName":null,"bookNums":8,"open":true,"read":true,"platform":null,"tips":null,"isPre":1},{"id":1039,"userId":0,"groupId":53863,"panelId":1039,"name":"用户画像分析","isShare":0,"sourceType":0,"source":0,"canOperated":0,"isFixed":1,"orderNum":7,"status":1,"createTime":null,"userName":null,"bookNums":8,"open":true,"read":true,"platform":null,"tips":null,"isPre":1},{"id":875,"userId":0,"groupId":53863,"panelId":875,"name":"基础业务指标","isShare":0,"sourceType":0,"source":0,"canOperated":0,"isFixed":1,"orderNum":6,"status":1,"createTime":null,"userName":null,"bookNums":8,"open":true,"read":true,"platform":null,"tips":null,"isPre":1},{"id":877,"userId":0,"groupId":53863,"panelId":877,"name":"运营数据指标","isShare":0,"sourceType":0,"source":0,"canOperated":0,"isFixed":1,"orderNum":5,"status":1,"createTime":null,"userName":null,"bookNums":10,"open":true,"read":true,"platform":null,"tips":null,"isPre":1},{"id":1042,"userId":0,"groupId":53863,"panelId":1042,"name":"核心流程转化","isShare":0,"sourceType":0,"source":0,"canOperated":0,"isFixed":1,"orderNum":4,"status":1,"createTime":null,"userName":null,"bookNums":10,"open":true,"read":true,"platform":null,"tips":null,"isPre":1},{"id":1041,"userId":0,"groupId":53863,"panelId":1041,"name":"动账业务分析","isShare":0,"sourceType":0,"source":0,"canOperated":0,"isFixed":1,"orderNum":3,"status":1,"createTime":null,"userName":null,"bookNums":11,"open":true,"read":true,"platform":null,"tips":null,"isPre":1},{"id":876,"userId":0,"groupId":53863,"panelId":876,"name":"产品体验指标","isShare":0,"sourceType":0,"source":0,"canOperated":0,"isFixed":1,"orderNum":2,"status":1,"createTime":null,"userName":null,"bookNums":7,"open":true,"read":true,"platform":null,"tips":null,"isPre":1}]},{"id":53922,"userId":1049888,"appId":null,"name":"222222222222222222222222222","type":1,"orderNum":4,"createTime":1608273206000,"updateTime":1608273446000,"panelList":[{"id":1967,"userId":1049888,"groupId":53922,"panelId":1967,"name":"理财产品购买分布","isShare":0,"sourceType":1,"source":1,"canOperated":1,"isFixed":1,"orderNum":2,"status":1,"createTime":null,"userName":null,"bookNums":1,"open":true,"read":true,"platform":null,"tips":null,"isPre":0}]},{"id":53901,"userId":1049888,"appId":null,"name":"3333","type":1,"orderNum":5,"createTime":1608265046000,"updateTime":1608265046000,"panelList":[]}],"exception":null,"uniqueId":"789508836468719616"};
-
-		let groupList = groupData.datas.map(item => {
-			//为组增加开关标识 增加空状态
-			return {...item, open: 0, panelList: item.panelList.length ? item.panelList : [{ id: -1, name: '可将看板拖动到此处' }] }
-		});
-
-
-		this.setState({
-			// groupList: groupList
-
-			groupList: [{
-				appId: null,
-				createTime: 1604644903000,
-				id: 0,
-				name: "默认分组",
-				orderNum: 1,
-				panelList: [{ id: -1, name: '可将看板拖动到此处' }],
-				type: 0,
-				updateTime: 1604644903000,
-				userId: 1049888,
-			}]
-		}, () => {
-
-			//读取缓存Id，如果没有缓存id，则使用第一个看板组中的第一个看板ID
-			//如果没有看板，默认当前看板id；-1 且不请求看板详情
-			const getFirstId = (arr, index) => {
-				if (index > arr.length) {
-					return -1
-				}
-
-				if (arr[index].panelList.length > 0) {
-					return arr[index].panelList[0].id
-				}
-
-				getFirstId(arr, index + 1)
-			};
-			const currentId = getFirstId(groupList, 0);
-			this.props.history.push({pathname: `/dashboard`, state:{id: currentId}});
-		});*/
-
-
 		this.getDashboardList(() => {
 			const id = sessionStorage.getItem('dashboardDefaultId');
+			const { groupList } = this.state;
+			if ((groupList.length === 1 && groupList[0].board.length)) {
+
+			}
+			//使用缓存
 			if (id) {
 				let filterPanel = {};
 
@@ -111,10 +76,14 @@ class Dashboard extends BaseComponent {
 				});
 
 				if (filterPanel.id) {
-					this.setState({currentDashboardObj: {...filterPanel}});
+					const newState = {...filterPanel};
+
+					this.oldCurrentDashboardObj = newState;
+					this.setState({currentDashboardObj: newState});
 					this.props.history.push({pathname: `/dashboard`, state:{id}});
 				}
 			}
+			//选择第一个看板
 			else {
 				const getFirst = (arr, index) => {
 					if (index > arr.length) {
@@ -128,16 +97,18 @@ class Dashboard extends BaseComponent {
 					getFirst(arr, index + 1)
 				};
 				const firstItem = getFirst(this.state.groupList, 0);
-				this.setState({currentDashboardObj: {...firstItem}});
+				const newState = {...firstItem};
+
+				this.oldCurrentDashboardObj = newState;
+				this.setState({currentDashboardObj: newState});
 				this.props.history.push({pathname: `/dashboard`, state:{id: firstItem.id}});
 			}
 		});
 	}
 
 	getDashboardList = (callback) => {
-		this.props.dispatch(dashboardListAction({}, (res) => {
+		dashboardListApi().then(res => {
 			// console.log( '获取看板列表 res：',res);
-
 			let groups = res.group;
 			groups = groups.map(item => {
 				//为组增加开关标识 增加空状态
@@ -151,16 +122,45 @@ class Dashboard extends BaseComponent {
 					"board": [...res.board]
 				}] }
 			);
-			console.log('分组列表', groups);
+			// console.log('分组列表', groups);
 			this.setState({
 				groupList: groups
-			}, callback)
-		}, (err) => {
+			}, () => {
+				callback && callback();
+				this.boardListStatus()
+			})
+		}).catch(err => {
 			console.log( '获取看板列表 err：',err);
-		}));
+		});
 	};
 
+	boardListStatus = () => {
+		const { groupList } = this.state;
+		let boardListEmpty = true;
 
+		//只有默认看板
+		if (groupList.length === 1) {
+			if (!groupList[0].board.length) {
+				boardListEmpty = false
+			}
+		}
+		//有其他看板分组
+		else {
+			groupList.forEach(group => {
+				if (group.board.length) {
+					for (let i = 0; i < group.board.length; i++) {
+						const item = group.board[i];
+						if (item.id !== -1) {
+							boardListEmpty = false;
+							return;
+						}
+					}
+				}
+			})
+		}
+
+		this.setState({boardListEmpty})
+	};
 
 	handleOpenGroup = key => () => {
 		const { groupList } = this.state;
@@ -257,22 +257,25 @@ class Dashboard extends BaseComponent {
 		this.setState({
 			groupList: endState
 		}, () => {
-			const param = {
-				type: 0,
-				groupId: 0,
-				lastId: 0, //后台排序，前面一个(看板/分组)的id，如果只有当一个就传0
-			}
+			// const param = {
+			// 	type: 0,
+			// 	groupId: 0,
+			// 	lastId: 0, //后台排序，前面一个(看板/分组)的id，如果只有当一个就传0
+			// }
 			// endState[dragIndex].board
 		});
 	};
+	//切换看板
 	showDashboardDetail = (dashboard) => () => {
 		if (dashboard.id === -1) { return }
 		this.props.history.push({pathname: `/dashboard`, state:{id: dashboard.id}});
-
 		sessionStorage.setItem('dashboardDefaultId', String(dashboard.id));
+		const newState = {...dashboard};
+
+		this.oldCurrentDashboardObj = newState;
 		this.setState({
-			currentDashboardObj: {...dashboard}
-		})
+			currentDashboardObj: newState
+		});
 	};
 
 	createDashboard = () => {
@@ -324,6 +327,7 @@ class Dashboard extends BaseComponent {
 				}
 			}
 
+			this.boardListStatus();
 			message.success('创建成功！');
 		}).catch(err => {
 			console.log(err)
@@ -392,6 +396,8 @@ class Dashboard extends BaseComponent {
 				})
 
 			}
+
+			this.boardListStatus();
 			console.log(`${param.type === 1 ? '删除看板分组success' : '删除看板success'}：`, res);
 		}).catch(err => {
 			message.error('删除失败');
@@ -401,17 +407,26 @@ class Dashboard extends BaseComponent {
 
 
 	boardTitleOnChange = (e) => {
-		this.setState({currentDashboardObj: {...this.state.currentDashboardObj, name: e.target.value}});
+		const { currentDashboardObj } = this.state;
+		this.setState({currentDashboardObj: {...currentDashboardObj, name: e.target.value}});
 	};
 	boardRemarkOnChange = (e) => {
-		this.setState({currentDashboardObj: {...this.state.currentDashboardObj, remark: e.target.value}});
+		const { currentDashboardObj } = this.state;
+		this.setState({currentDashboardObj: {...currentDashboardObj, remark: e.target.value}});
 	};
 	//失去焦点后编辑看板名称和备注
 	updateDashboardOnBlur = () => {
-		const { id,name,remark } = this.state.currentDashboardObj;
-		this.updateDashboardHttp(id, {
-			type: 0,name,remark
-		})
+		const { id, name, remark } = this.state.currentDashboardObj;
+		const oldId = this.oldCurrentDashboardObj.id;
+		const oldName = this.oldCurrentDashboardObj.name;
+		const oldRemark = this.oldCurrentDashboardObj.remark;
+
+		if (id === oldId && (oldName !== name || oldRemark !== remark)) {
+			this.oldCurrentDashboardObj = {...this.state.currentDashboardObj};
+			this.updateDashboardHttp(id, {
+				type: 0,name, remark
+			})
+		}
 	};
 	updateDashboardHttp = (id, param) => {
 		updateDashboardApi(id, param).then((res) => {
@@ -452,6 +467,9 @@ class Dashboard extends BaseComponent {
 			message.success('编辑失败，请检查网络')
 		});
 	};
+	boardEmptyWatch = () => {
+
+	};
 
 	render () {
 		const ReactSortableOptions = {
@@ -465,6 +483,7 @@ class Dashboard extends BaseComponent {
 		};
 
 		const currentDashboardId = (this.props.location.state && this.props.location.state.id) || -1;
+
 		return (
 			<div className="dashboard-page">
 				<div className="flex-left">
@@ -483,7 +502,7 @@ class Dashboard extends BaseComponent {
 							<IconFont type="iconadd2"/>
 						</Popover>
 					</div>
-					<div className="left-content">
+					 <div className="left-content">
 						{/*容器*/}
 						<ReactSortable
 							group={{
@@ -613,10 +632,10 @@ class Dashboard extends BaseComponent {
 					</div>*/}
 
 					{
-						!(this.state.groupList.length === 1 && this.state.groupList[0].type === 0) ? null : <div className='group-empty'>
+						this.state.boardListEmpty ? <div className='group-empty'>
 							<div style={{marginBottom: '6px'}}>你还没有任何看板</div>
 							<div className="active" onClick={this.createDashboard}><IconFont type="iconlayer"/>点击创建</div>
-						</div>
+						</div> : null
 					}
 				</div>
 
@@ -628,6 +647,7 @@ class Dashboard extends BaseComponent {
 												boardTitleOnChange={this.boardTitleOnChange}
 												boardRemarkOnChange={this.boardRemarkOnChange}
 												updateDashboardOnBlur={this.updateDashboardOnBlur}
+												history={this.props.history}
 							/>
 							: <div className='group-empty'>请先创建一个看板</div>
 					}

@@ -1,0 +1,4 @@
+HEAD标识当前版本
+
+git reset --hard HEAD^ === git reset --hard HEAD~1
+> 删除本次未push的commit，HEAD一定到上一次commit**注意风险：会删除commit！**

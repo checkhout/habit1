@@ -297,3 +297,12 @@ var quickSort = function(arr) {
 	}
 	return quickSort(left).concat([pivot], quickSort(right));
 };
+
+
+
+
+let quarters = [ 4, 3, 2, 1 ].map(i =>
+	moment().subtract(i, 'Q').format('[q]Q-Y')
+);
+console.log('--------', quarters);
+//["q1-2020", "q2-2020", "q3-2020", "q4-2020"]

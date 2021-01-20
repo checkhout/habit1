@@ -28,8 +28,8 @@ module.exports = {
         webpackConfig.devtool = false;
         webpackConfig.output = {
           ...webpackConfig.output,
-          // publicPath: '/',//正式环境
-          publicPath: '/carmgrs/',//220环境 在App.js中配置了router basename
+          publicPath: '/',//正式环境
+          // publicPath: '/data/',//220环境 在App.js中配置了router basename
         };
       }
       else {

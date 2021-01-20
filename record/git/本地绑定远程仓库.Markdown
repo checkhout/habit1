@@ -1,0 +1,14 @@
+项目是在本地开发的，第一次转测后开始上库。
+
+1. 创建远程仓库及分支
+2. 创建本地仓库
+    > git init
+3. 将本地的仓库和远程的仓库进行关联
+    > git remote add origin git@github.com:YotrolZ/helloTest.git
+4. commit 仓库代码
+    - git status查看状态，居然新增了一个文件......
+        * 尝试了各种无效和错误的命令后，还是没能将本地的master推到远程的dev分支上
+        > 解决： 克隆远程仓库，切换到dev分支，然后把项目代码复制commit，首次push成功......
+        
+        
+        

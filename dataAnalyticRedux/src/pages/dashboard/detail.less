@@ -1,5 +1,6 @@
 @import "@style/theme.less";
 @import "@style/common.less";
+@import "@style/mixin.less";
 
 .dashboard-top {
   display: flex;
@@ -38,12 +39,18 @@
     }
   }
   .panel-t-right {
+    text-align: right;
     .ant-btn {
       width: auto;
       height: auto;
       margin-left: 8px;
       line-height: 1;
       padding: 10px;
+      background: #ffffff;
+    }
+    .ant-btn.active {
+      border-color: @c-5236C9;
+      color: @c-5236C9;
     }
 
   }
@@ -57,6 +64,7 @@
     border-radius: 4px;
     box-shadow: 0 3px 6px 0 rgba(0,0,0,0.16);
     padding: 10px;
+    overflow: hidden;
     .panel-top {
       padding: 0 10px;
       .panel-title-wrap {
@@ -72,11 +80,43 @@
           line-height: 22px;
         }
       }
+      .panel-time-filter {
+        margin-top: 2px;
+        line-height: 17px;
+      }
     }
-    .echarts-for-react {
+    .panel-charts {
       width: 100%;
       height: calc(100% - 36px)!important;
+      overflow: hidden;
+      .panel-inner {
+        width: 100%;
+        height: 100%;
+        overflow-x: hidden;
+        overflow-y: auto;
+        position: relative;
+
+        .echarts-for-react {
+          width: 100%;
+          height: calc(100% - 36px)!important;
+        }
+        .chart-pie-item {
+          display: inline-block;
+          width: 100%;
+          height: 95%;
+        }
+        .multi-chart-pie-item {
+          width: 49%;
+        }
+        .chart-loading {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+        }
+      }
     }
+
   }
   //.react-resizable-handle {
   //  display: none;
@@ -84,4 +124,25 @@
   //.react-grid-item:hover > .react-resizable-handle {
   //  display: block;
   //}
+}
+
+.panel-list-empty {
+  width: 100%;
+  min-height: 500px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  .remark {
+    font-size: 14px;
+    color: @c-666081;
+    line-height: 20px;
+  }
+  .ant-btn {
+    color: @c-5236C9;
+    border: none;
+    box-shadow: none;
+  }
+  .ant_btn_hide_border();
+  .btnClickColor(ant-btn, @c-5236C9);
 }

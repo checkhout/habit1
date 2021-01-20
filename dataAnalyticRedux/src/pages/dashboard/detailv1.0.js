@@ -1,3 +1,4 @@
+/*
 import React, {Component} from 'react';
 import { WidthProvider, Responsive } from "react-grid-layout";
 import ReactEcharts from 'echarts-for-react';
@@ -155,3 +156,4 @@ class Detail extends Component {
 
 
 export default Detail
+*/

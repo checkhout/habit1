@@ -2,10 +2,10 @@ import React, {Component} from 'react';
 import {connect} from "react-redux";
 import {Layout} from 'antd';
 import {Switch, Route, Redirect} from 'react-router-dom';
+
 //改为容器组件
 import Dashboard from '@pages/dashboard';
 import ProductAnalytics from '@pages/analytics/productAnalytics';
-
 
 import HeaderCustom from './header/index';
 

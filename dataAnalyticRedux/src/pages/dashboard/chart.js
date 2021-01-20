@@ -1,4 +1,101 @@
-export function getBarChart() {
+const colorArr = [
+  '#5B7BE5',
+  '#F76565',
+  '#666081',
+  '#5DB578',
+  '#B7C331',
+  '#D3709A',
+  '#DD983A',
+  '#9B9EDE',
+  '#75AEBC',
+  '#E3C939',
+  '#816060',
+
+  '#5B7BE5',
+  '#F76565',
+  '#666081',
+  '#5DB578',
+  '#B7C331',
+  '#D3709A',
+  '#DD983A',
+  '#9B9EDE',
+  '#75AEBC',
+  '#E3C939',
+  '#816060',
+
+  '#5B7BE5',
+  '#F76565',
+  '#666081',
+  '#5DB578',
+  '#B7C331',
+  '#D3709A',
+  '#DD983A',
+  '#9B9EDE',
+  '#75AEBC',
+  '#E3C939',
+  '#816060',
+
+  '#5B7BE5',
+  '#F76565',
+  '#666081',
+  '#5DB578',
+  '#B7C331',
+  '#D3709A',
+  '#DD983A',
+  '#9B9EDE',
+  '#75AEBC',
+  '#E3C939',
+  '#816060',
+];
+
+function formatChartData(source, type) {
+  const { seriesList, eventList } = source;
+  const chartData = {
+    xAxisData: seriesList,
+    seriesData: [],
+  };
+
+  eventList.forEach((item, eIndex) => {
+    const {
+      name,
+      // amount,
+      // total
+    } = item;
+
+    switch (type) {
+      case 'line':
+        chartData.seriesData.push({
+          name,
+          type: type,
+          symbol: 'circle',
+          smooth: true,
+          data: source[item.event][eIndex].amount,
+          color: colorArr[eIndex]
+        });
+        break;
+      case 'pie':
+        break;
+      case 'bar':
+        chartData.seriesData.push({
+          name,
+          type: type,
+          data: source[item.event][eIndex].amount,
+          stack: '总数',
+          color: colorArr[eIndex]
+        });
+        break;
+      default:
+        break;
+    }
+  });
+
+  return chartData;
+}
+
+export function getBarChart(chartData) {
+  const formatData = formatChartData(chartData, 'bar');
+  // console.log(formatData);
+
   const option = {
     tooltip: {
       trigger: 'axis',
@@ -14,7 +111,8 @@ export function getBarChart() {
     },
     xAxis: [{
       type: 'category',
-      data: ['2014', '2015', '2016', '2017', '2018', '2019'],
+      // data: ['2014', '2015', '2016', '2017', '2018', '2019'],
+      data: formatData.xAxisData,
       axisLine:{
         lineStyle:{
           color:'#8FA3B7',//y轴颜色
@@ -46,47 +144,28 @@ export function getBarChart() {
         }
       },
     }],
-    series: [
-      {
-        name: 'a',
-        type: 'bar',
-        barWidth: '40%',
-        itemStyle: {
-          normal: {
-            color: '#FAD610'
-          }
-        },
-        stack: '信息',
-        data: [320, 132, 101, 134, 90, 30]
-      },
-      // {
-      //   name: 'b',
-      //   type: 'bar',
-      //   itemStyle: {
-      //     normal: {
-      //       color: '#27ECCE'
-      //     }
-      //   },
-      //   stack: '信息',
-      //   data: [220, 182, 191, 234, 290, 230]
-      // },
-      // {
-      //   name: 'c',
-      //   type: 'bar',
-      //   itemStyle: {
-      //     normal: {
-      //       color: '#4DB3F5'
-      //     }
-      //   },
-      //   stack: '信息',
-      //   data: [150, 132, 201, 154, 90, 130]
-      // }
-    ]
+    series: formatData.seriesData
+    // series: [
+    //   {
+    //     name: 'a',
+    //     type: 'bar',
+    //     barWidth: '40%',
+    //     itemStyle: {
+    //       normal: {
+    //         color: '#FAD610'
+    //       }
+    //     },
+    //     stack: '信息',
+    //     data: [320, 132, 101, 134, 90, 30]
+    //   },
+    // ]
   };
   return option;
 }
 
-export function getLineChart() {
+export function getLineChart(chartData) {
+  const formatData = formatChartData(chartData, 'line');
+
   const option = {
     color: ['#D53A35'],
     tooltip: {
@@ -115,7 +194,8 @@ export function getLineChart() {
       axisLabel:{
         color:'#525252'
       },
-      data: ['01', '02', '03', '04', '05', '06', '07','08','09','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24']
+      // data: ['01', '02', '03', '04', '05', '06', '07','08','09','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24']
+      data: formatData.xAxisData
     },
     yAxis: {
       type: 'value',
@@ -136,21 +216,30 @@ export function getLineChart() {
         }
       }
     },
-    series: [{
-      name: 'a',
-      type: 'line',
-      symbol: 'circle',
-      smooth: true,
-      data: [100,120, 132, 101, 134, 90, 230, 210,80,20,90,210,200,100,120, 132, 101, 134, 90, 230, 210,80,20,90]
-    }
-    ]
+    series: formatData.seriesData
+    // series: [
+    //   {
+    //     name: 'a',
+    //     type: 'line',
+    //     symbol: 'circle',
+    //     smooth: true,
+    //     data: [100,120, 132, 101, 134, 90, 230, 210,80,20,90,210,200,100,120, 132, 101, 134, 90, 230, 210,80,20,90]
+    //   },
+    // ]
   };
   return option;
 }
 
-export function getPieChart() {
+export function getPieChart(chartData, chart) {
   const option = {
-    color: ['#3AA1FF', '#36CBCB', '#4ECB73', '#FBD338'],
+    title: {
+      text: '',
+      subtext: chart.name,
+      left: 'center',
+      bottom: '5%',
+      textAlign: 'center'
+    },
+    color: colorArr,
     tooltip: {
       trigger: 'item',
       formatter: '{a} <br/>{b}: {c} ({d}%)'
@@ -162,6 +251,26 @@ export function getPieChart() {
       // containLabel: true
     },
     series: [{
+      // name: chartData.seriesList[pieNum],
+      type: 'pie',
+      radius: ['40%', '55%'],
+      center: ['50%', '55%'],
+      avoidLabelOverlap: true,
+      itemStyle: {
+        normal: {
+          borderColor: '#FFFFFF',
+          borderWidth: 2
+        }
+      },
+      data: chartData[chart.event].map((data, s) => {
+        return {
+          // name: `${chartData.seriesList[s]},${data.name}`,
+          name: data.name ? `${chartData.seriesList[s]},${data.name}` : `${chartData.seriesList[s]}`,
+          value: data.total
+        }
+      })
+    }]
+    /*series: [{
       name: '消费能力',
       type: 'pie',
       radius: ['40%', '55%'],
@@ -173,16 +282,6 @@ export function getPieChart() {
           borderWidth: 2
         }
       },
-      // label: {
-      //   normal: {
-      //     show: false,
-      //   },
-      // },
-      // labelLine: {
-      //   normal: {
-      //     show: false
-      //   }
-      // },
       data: [{
         name: 'a',
         value: '20'
@@ -196,7 +295,7 @@ export function getPieChart() {
         name: 'd',
         value: '10'
       }]
-    }]
+    }]*/
   };
   return option;
 }

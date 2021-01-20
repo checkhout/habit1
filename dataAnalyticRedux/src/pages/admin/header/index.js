@@ -11,7 +11,7 @@ import SiderMenu from './menu'
 
 import { logoutHttp } from '@api/common'
 import './index.less'
-import Logo from './name@2x.png'
+import Logo from './app_logo@2x.png'
 import { ICON_FONT_URL } from '@config'
 import {createFromIconfontCN} from "@ant-design/icons";
 
@@ -51,7 +51,15 @@ class HeaderCustom extends BaseComponent {
 		const menuSource = [];
 		let uiFrame = [], { selectedKey } = this.state;
 
-		if (userInfo.isAdmin) {
+		uiFrame = uiFrame.concat([
+			{
+				"title":"看板",
+			},
+			{
+				"title":"产品分析",
+			},
+		]);
+		/*if (userInfo.isAdmin) {
 			uiFrame = uiFrame.concat([
 				{
 					"title":"看板",
@@ -65,7 +73,7 @@ class HeaderCustom extends BaseComponent {
 			uiFrame.push({
 				"title":"认证审核",
 			})
-		}
+		}*/
 
 		routes.menu.forEach(firstMenu => { // 根据权限过滤出一级菜单
 			let itemMenu = uiFrame.filter(menu => menu.title === firstMenu.title)[0];
@@ -116,6 +124,7 @@ class HeaderCustom extends BaseComponent {
 			<div className="header">
 				<div className="head-left">
 					<img className='logo-small' src={Logo} alt=""/>
+					{/*<div className={'app-name'}>数据分析平台</div>*/}
 				</div>
 
 				<div className='head-center'>

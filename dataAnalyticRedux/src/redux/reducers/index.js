@@ -1,11 +1,11 @@
 import { combineReducers } from 'redux';
 
 import * as common from './common';
-import * as dashboard from './dashboard';
+// import * as dashboard from './dashboard';
 
 const appReducer = combineReducers({
 	...common,
-	...dashboard,
+	// ...dashboard,
 });
 
 //退出登录重置store

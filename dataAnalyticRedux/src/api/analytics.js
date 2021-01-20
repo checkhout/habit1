@@ -1,7 +1,7 @@
-// import {
-// 	createQuery,
-// 	// Service
-// } from './ajax'
+import {
+	// createQuery,
+	Service
+} from './ajax'
 // import { SERVER_IP } from "@config/index"
 // import { getUrlConcat } from "@utils"
 
@@ -11,4 +11,7 @@
 //导出用车记录列表
 // export const export_car_apply_list_api = (query) => `${SERVER_IP}/car/api/v1/apply/export${getUrlConcat(query)}`;
 //查询用车任务列表
-// export const get_car_apply_list_api = createQuery('/car/api/v1/apply/carApply/list', "post");																		//查询用车任务列表
+// export const get_car_apply_list_api = createQuery('/car/api/v1/apply/carApply/list', "post");
+
+//查询事件分析
+export const analysisSubmitApi = (param) => Service(`/bigdata/api/v1/analysis/query`,'post', param);
