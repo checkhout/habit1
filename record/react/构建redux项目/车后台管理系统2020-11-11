@@ -2,7 +2,7 @@
 * node10.16.0
 
 ### 脚手架搭建
-1. npx create-react-app my-app --template redux         //如果创建失败检查用户变量和系统变量，用户变量重装node后重置了
+1. npx create-react-app str-mgr --template redux         //如果创建失败检查用户变量和系统变量，用户变量重装node后重置了
 
 ### 添加redux
 1. npm install --save redux                            //安装稳定版：   

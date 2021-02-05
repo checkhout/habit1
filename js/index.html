@@ -43,185 +43,20 @@
 		return quickSort(left).concat([pivot], quickSort(right));
 	};
 
-	console.log(quickSort([1, 3, 45, 65, 67, 7, 6, 5, 8, 98, 9, 6, 4, 4, 6, 76, 9, 78, 75, 4, 5, 6, 7, 89, 6, 5, 5, 765, 76]));
+	// console.log(quickSort([1, 3, 45, 65, 67, 7, 6, 5, 8, 98, 9, 6, 4, 4, 6, 76, 9, 78, 75, 4, 5, 6, 7, 89, 6, 5, 5, 765, 76]));
 
+	let arr = [{id: 1}, {id: 2}, {id: 3}, {id: 4}];
+	let arr2 = [{id: 3}, {id: 4}, {id: 5}, {id: 6}];
+	let result = [];
+	const arr3 = arr.concat(arr2);
 
-
-	var saaa = {
-		"measures":[
-			{
-				"eventCode":"$startup",
-				"aggregator":"general",
-				"$uid":"2qe",
-				"filter":{
-					//条件
-					"conditions":[
-						{
-							"field":"event.$startup.$screen_width",
-							"function":"equal",
-							"dataType":"number",
-							"params":["1920"],
-							"options":[{"code":"1920","name":"1920"}],
-							"uid":"7kz"
-						},
-						{
-							"field":"event.$startup.$platform",
-							"function":"equal",
-							"dataType":"string",
-							"params":["JS"],
-							"options":[
-								{"code":"JS","name":"Web/H5"}
-							],
-							"uid":"2ic"
-						},
-						{
-							"field":"event.$startup.$app_version",
-							"function":"equal",
-							"dataType":"string",
-							"params":["V1.2"],
-							"options":[{"code":"V1.2","name":"V1.2"}],
-							"uid":"dx"
-						}
-					],
-					//关系
-					"relation":"and"
-				}
-			},
-			{
-				"eventCode": "$pageview",
-				"aggregator":"general",
-				"$uid":"46i",
-				"filter":{
-					"conditions":[],
-					"relation":"and"
-				}
-			}
-		],
-		"byFields":[],
-		"filter":{
-			"conditions":[],
-			"relation":"and"
-		},
-		"crowd":["$ALL"],
-		"samplingFactor":1,
-		"fromDate":"",
-		"toDate":"","dateValue":"过去7日",
-		"relativeTimeRange":"7,1,day",
-		"compareFromDate":"",
-		"compareToDate":"",
-		"compareDateValue":"",
-		"compareRelativeTimeRange":"",
-		"dateValueMerge":"过去7日",
-		"unit":"day",
-		"chartsType":"line",
-		"filterHolidayData":false,
-		"compareType":"lastPeriod",
-		"displayType":"default"
-	};
-
-	var test = [
-		{
-			"filter":{
-				"filter":[
-					{"type":"user","uuid":"29",
-						"filter":{
-							"conditions":[
-								{"field":"user.$email","function":"equal","dataType":"string",
-									"params":["aqvhucws@analysys.com.cn"],
-									"options":[{"code":"aqvhucws@analysys.com.cn","name":"aqvhucws@analysys.com.cn"}],
-									"uid":"5xt"
-								}
-							]
-						}
-					},
-					{"type":"user","uuid":"z4",
-						"filter":{
-							"conditions":[
-								{"field":"user.$country","function":"equal","dataType":"string",
-									"params":["中国"],"options":[{"code":"中国","name":"中国"}],"uid":"770"
-								}
-							]
-						}
-					},
-					{"type":"user","uuid":"tc",
-						"filter":{
-							"conditions":[
-								{"field":"user.xwho","function":"equal","dataType":"string",
-									"params":["10002665"],
-									"options":[{"code":"10002665","name":"10002665"}],"uid":"3ss"
-								}
-							]
-						}
-					}
-				]
-				,
-				"relation":"and"
-			},
-			"uuid":"2x3"
-		},
-		{
-			"filter":{
-				"filter":[
-					{"type":"user","uuid":"2l7",
-						"filter":{
-							"conditions":[
-								{"field":"user.$idfv","function":"equal","dataType":"string",
-									"params":["lgaxukyw"],
-									"options":[{"code":"lgaxukyw","name":"lgaxukyw"}],"uid":"6kb"
-								}
-							]
-						}
-					}
-					,{"type":"user","uuid":"6j8",
-						"filter":{
-							"conditions":[
-								{"field":"user.$idfa","function":"equal","dataType":"string",
-									"params":["tnrdeflh"],
-									"options":[{"code":"tnrdeflh","name":"tnrdeflh"}],"uid":"1fw"
-								}
-							]
-						}
-					}
-				],
-				"relation":"and"
-			},
-			"uuid":"59l",
-			"relation":"and"
+	arr3.forEach(item => {
+		if (result.filter(f => f.id === item.id).length === 0) {
+			result.push(item);
 		}
-	];
+	});
+	console.log(result);
 
-	var ss = [
-		[],[]
-	]
-
-
-	var param = {
-		//指标
-		indicators: [
-			//指标1
-			{
-				conditions: [
-					{
-						relation: 'and',
-						conditions: [],
-					},
-					{
-						relation: 'and',
-						conditions: [],
-					}
-				]
-			},
-			//指标2
-			{
-
-			}
-		]
-	}
-
-
-	var lllsss = {
-
-	}
 
 
 </script>
