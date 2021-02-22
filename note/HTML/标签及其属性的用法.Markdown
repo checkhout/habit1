@@ -1,0 +1,15 @@
+### a 标签
+```js
+/*
+  //a 标签常见属性
+  <a
+    href="https://redux.js.org/"
+    target="_blank" //_blank:在新窗口打开链接  _self:在当前窗口打开链接
+    rel="noopener noreferrer" //如果没有，那么目标页面会拿到当前页的 window 对象，并进行操作
+    // rel="nofllow" //它告诉搜索引擎，不要将该链接计入权重。因此大多数外部链接都可以加上
+  >
+    Redux
+  </a>
+  
+* */
+```

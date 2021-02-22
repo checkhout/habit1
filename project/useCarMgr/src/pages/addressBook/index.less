@@ -1,0 +1,185 @@
+@import "@style/mixin.less";
+@import "@style/theme.less";
+
+.address-book {
+  overflow: hidden;
+
+  //右边tabs内容
+  .data-table-wrapper {
+    flex: 1;
+    .flex_column();
+    overflow: hidden;
+    .role-describe,
+    .search-bar,
+    .custom-table-header,
+    .parting-line {
+      flex-shrink: 0;
+    }
+    //页头
+    .custom-table-header {
+      height: 56px;
+      line-height: 56px;
+      padding-left: 20px;
+      padding-right: 20px;
+      position: relative;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      .detail-employees-bold {
+        font-size:18px;
+        font-weight:bold;
+        color: @c-555763;
+      }
+      button{
+        transition: none;
+      }
+      .config-btn {
+        .textVerticalCentered(24px);
+        width:56px;
+        padding: 0;
+        text-align: center;
+        background: @rgb-379EEC-2;
+        opacity:1;
+        border-radius:13px;
+        font-size:14px;
+        font-weight:400;
+        color: @c-379EEC;
+        &:hover, &:focus{
+          background: @c-379EEC;
+          color: @c-379EEC;
+          border-radius:13px;
+        }
+      }
+      .invite-btn {
+        height:40px;
+        opacity:1;
+        border-radius:4px;
+      }
+    }
+    //分割线
+    .parting-line{
+      width:100%;
+      height: 1px;
+      background:rgba(238,238,238,1);
+      margin-bottom: 20px;
+    }
+    .search-bar {
+      padding: 0 20px;
+    }
+    //角色管理 描述
+    .role-describe{
+      font-size:14px;
+      font-weight:300;
+      line-height:20px;
+      color:rgba(136,136,136,1);
+      padding-left: 20px;
+      margin-bottom: 12px;
+    }
+    .antui-datatable {
+      flex: 1;
+      padding: 0 20px;
+      .theme-btn-opacity-blue {
+        width:68px;
+        height:24px;
+        font-size: 12px;
+      }
+      .custom-column {
+        white-space: nowrap;
+        .send-status {
+          margin-right: 10px;
+        }
+        .custom-primary-btn-margin-right6 {
+          margin-right: 6px;
+        }
+        .margin-right9 {
+          margin-right: 9px;
+        }
+        .enter-pointer {
+          cursor: pointer;
+        }
+      }
+      .audit-department {
+
+      }
+      .textOverflowHidden(audit-department);
+    }
+  }
+
+
+}
+
+//编辑用车审核员 tree 高度限制
+.add-car-custom-tree-select {
+  width: 260px;
+  max-height: 260px;
+  overflow: auto;
+  background:rgba(255,255,255,1);
+  border:1px solid rgba(216,216,216,1);
+  border-radius:3px;
+}
+
+//自动填充
+.autoComplete-card-head {
+  display: flex;
+  align-items: center;
+
+  img {
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    margin-right: 8px;
+  }
+  .driver-detail {
+    padding-top: 5px;
+    .driver-nickname {
+      max-width: 205px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      line-height: 22px;
+      margin-right: 10px;
+      color: #333333;
+    }
+    .theme-btn-opacity-blue {
+      max-width: 180px;
+      //width:92px;
+      padding: 0 10px !important;
+      height:20px;
+      border-radius: 106px;
+      font-size: 12px;
+      overflow: hidden;
+
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+    .driver-username {
+      font-size:14px;
+      font-weight:300;
+      line-height:20px;
+      color:rgba(136,136,136,1);
+    }
+  }
+
+}
+
+//Modal 挂载在body下
+.add-car-auditor {
+
+}
+.add-car-custom-label {
+  display: inline-block;
+  width: 60px;
+  line-height: 20px;
+  text-align: right;
+  margin-right: 10px;
+}
+.add-car-custom-tree-select {
+  width: 260px;
+  max-height: 260px;
+  overflow: auto;
+  background:rgba(255,255,255,1);
+  border:1px solid rgba(216,216,216,1);
+  border-radius:3px;
+}
+
+

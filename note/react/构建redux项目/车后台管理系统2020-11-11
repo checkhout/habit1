@@ -1,0 +1,178 @@
+### 环境
+* node10.16.0
+
+### 脚手架搭建
+1. npx create-react-app str-mgr --template redux         //如果创建失败检查用户变量和系统变量，用户变量重装node后重置了
+
+### 添加redux
+1. npm install --save redux                            //安装稳定版：   
+2. npm install --save react-redux                      //使用 React 绑定库
+3. npm install --save-dev redux-devtools               //开发者工具
+
+
+### 技术选型
+- npx create-react-app my-app --template redux
+- npm install --save redux-actions                     //一个简化编写 redux 的工具，主要Api: createAction,handleActions
+- npm install --save redux-thunk           
+    - thunk: 高阶函数返回的函数。使用后可以dispatch一个函数（类似云端管理平台项目中的action工具函数）
+- npm install --save redux-devtools-extension          //开发调试工具
+- npm i store                                          //localStorage 工具库，一般用来保存登录数据
+- npm i @craco/craco                                   //CRA搭建的项目，在不eject的情况下,覆盖create-react-app的配置。需要CRA3* （类似在根目录下面新建config-overrides.js，并修改相关配置）
+    * npm i @babel/plugin-proposal-decorators --dev    //用来支持装饰器
+    
+- npm i axios 
+    * 相较于旧版本，新版返回了请求的config信息，返回数据放在了data参数中                                         
+- npm i qs                                             //一个处理url的库，常用用法：相互转化 a=1&b=2&c=3 为 { a:1, b:2, c:3 }
+- npm i classnames                                     
+- npm install antd               
+    * npm install --save @ant-design/icons        
+- npm uninstall less-loader                            //降级
+- npm i eslint -g npm install babel-eslint -g
+- npm install react-router-dom --save-dev              //使用React构建的单页面应用，要想实现页面间的跳转，首先想到的就是使用路由。在React中，常用的有两个包可以实现这个需求，那就是react-router和react-router-dom。
+    * withRouter 为非路由组件的props传入 history、location、match 
+- npm install immutable                                //在react中，immutable主要是防止state对象被错误赋值。 
+- npm install moment
+- npm i @amap/amap-jsapi-loader --save                 //高德地图loader
+```js
+  // 模块热替换 (添加在index.js)  
+  if (module.hot) {
+    module.hot.accept('./App');
+  }
+```
+- npm i object-assign                                   //传入多个对象，返回合并后的对象，ignores null and undefined sources
+- npm i redux-persist                                   //redux-persist管理redux, 解决刷新react-redux数据丢失
+```js
+  /*store.js 用redux-persist接入 reducers 和 store*/
+  import { createStore, applyMiddleware} from 'redux'
+  import thunkMiddleware from 'redux-thunk'
+  import { composeWithDevTools } from 'redux-devtools-extension'
+  import { persistStore, persistReducer } from 'redux-persist'
+  import storage from 'redux-persist/lib/storage/session' //sessionStorage
+  import reducers from '@/redux/reducers'
+  
+  let middleware = applyMiddleware(thunkMiddleware);
+  
+  if (process.env.NODE_ENV === "development") {
+  	middleware = composeWithDevTools(middleware);
+  }
+  
+  const storeConfig = () => {
+  	const persistConfig = {
+  		key: 'root',
+  		storage,
+  		whitelist: [//不配置白名单默认缓存整个store（避免session存储大小）
+  			
+  		],
+  		// blacklist: [],
+  	};
+  	const persistedReducer = persistReducer(persistConfig, reducers);
+  	const store = createStore(persistedReducer, middleware);
+  	const persistor = persistStore(store);
+  
+  	// 模块热替换
+  	if (module.hot) {
+  		// module.hot.accept('./App');
+  		module.hot.accept('./reducers/index.js', () => {
+  			// This fetch the new state of the above reducers.
+  			const nextRootReducer = require('./reducers/index.js').default;
+  			store.replaceReducer(
+  				persistReducer(persistConfig, nextRootReducer)
+  			)
+  		})
+  	}
+  
+  	return { store, persistor }
+  };
+  
+  export default storeConfig
+```
+> 在index.js 中全局配置
+```js
+
+  import React from 'react';
+  import ReactDOM from 'react-dom';
+  import { Provider } from "react-redux";
+  import { PersistGate } from 'redux-persist/integration/react'
+  
+  import { ConfigProvider } from 'antd';
+  // 默认语言为 en-US，如果你需要设置其他语言，推荐在入口文件全局设置 locale
+  import 'moment/locale/zh-cn';
+  import locale from 'antd/lib/locale/zh_CN';
+  
+  import App from './App';
+  import storeConfig from './redux/store'
+  
+  const { store, persistor } = storeConfig();
+  
+  ReactDOM.render(
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <ConfigProvider locale={locale}>
+          <App />
+        </ConfigProvider>
+      </PersistGate>
+    </Provider>,
+    document.getElementById('root')
+  );
+
+```
+
+- npm i react-copy-to-clipboard                         //一个copy插件
+
+
+
+### less 引入问题
+```less
+    //1. 例如 @import '~antd/lib/style/themes/default.less'; 其中 ~ 代表依赖的根目录 node_modules
+    
+    //2. less函数静态资源路径使用调用他的文件的相对路径。而非函数本身所在文件的相对路径
+    .imgicon(@url:'', @width: 14px, @height: @width) {
+      display: inline-block;
+      width: @width;
+      height: @height;
+      background: ~"url(@{url})" no-repeat center center /100% 100%;
+    }
+    
+```
+
+
+### 其他问题
+* 封装了一个函数，在组件中调用后：
+    - React Hook "testCallback" is called in function "render" that is neither a React function component nor a custom React Hook function. 
+    React component names must start with an uppercase letter
+    > 解决方法：首字母大写 > testCallback
+    
+* 
+    
+### about antd3 to 4
+* Form
+    - onSubmit ==> onFinish（首次表单数据收集完成会调用一次）
+    
+* Select & AutoComplete
+    - Antd4 AutoComplete 无法指定回填的属性，optionLabelProp 被弃用，改用 Select 实现自动填入效果
+    - 问题描述：
+        * 使用 showSearch 状态下的 Select 通过map遍历生成 Options 时,optionsData不为空时，Select 依旧显示无数据
+```jsx
+  //解决
+  <Select
+    showSearch
+    showArrow={false}
+    allowClear={true}
+    labelInValue={true}     //onChange返回的value将变成对象
+    optionLabelProp="label  //指定回填的属性
+    optionLabelProp="label" //加上这个属性对应指定的属性即可，
+    onSearch={this.onSearch}
+    onChange={this.onChange}
+    onClear={this.onClear}
+  >
+      { this.renderAutoCompleteChildren(autoCompleteResult.formalStaff) }
+  </Select>
+  
+  renderAutoCompleteChildren = (dataSource=[]) => {
+      return dataSource.map(item => (<Option key={item.id} value={item.id} label={item.nickname}>
+          ......
+      </Option>))
+  };
+```
+
+

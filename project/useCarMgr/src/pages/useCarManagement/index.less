@@ -1,0 +1,262 @@
+@import "@style/theme.less";
+@import "@style/mixin.less";
+@import "@style/common.less";
+/*用车管理、认证审核复用样式*/
+.use-car-warp {
+  height: 100%;
+  .use-car-content {
+    height: 100%;
+    .ant-tabs{
+      height: 100%;
+      width: 100%;
+      padding: 0;
+
+      //左边tab
+      .ant-tabs-nav{
+        width:110px;
+        opacity:1;
+        border-radius:4px 0 0 0;
+        padding-top: 20px;
+
+        .ant-tabs-nav-wrap {
+          .ant-tabs-nav-list {
+            .ant-tabs-tab{
+              .full_width;
+              margin: 0!important;
+              padding: 0!important;
+              height:80px;
+              background: #ffffff;
+              border-radius:11px 0 0 11px!important;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              float: right;
+              border: 0!important;
+              transform: translateX(-2px);
+              .ues-car-record {
+                .imgicon("imgs/useCarManagement/use_car_inactive", 32px, 32px);
+              }
+              .task-mgr {
+                .imgicon("imgs/useCarManagement/task_manage_inactive", 32px, 32px);
+              }
+              .direct-use-car {
+                .imgicon("imgs/useCarManagement/use_car_inactive", 32px, 32px);
+              }
+              i {
+                margin-bottom: 4px;
+              }
+              p {
+                line-height: 14px;
+              }
+            }
+            .ant-tabs-tab-active{
+              background:rgba(255,255,255,1);
+              .ues-car-record {
+                .imgicon("imgs/useCarManagement/use_car_active", 32px, 32px);
+              }
+              .task-mgr {
+                .imgicon("imgs/useCarManagement/task_manage_active", 32px, 32px);
+              }
+              .direct-use-car {
+                .imgicon("imgs/useCarManagement/use_car_active", 32px, 32px);
+              }
+            }
+          }
+
+        }
+
+      }
+      //右边tab-content
+      .ant-tabs-content-holder {
+        .full_flex_hidden;
+        .ant-tabs-content {//同.ant-tabs-content
+          padding-left: 20px;
+          padding-right: 20px;
+          padding-top: 24px;
+          height: 100%;
+          overflow: hidden;
+          .ant-tabs-tabpane {
+            height: 100%;
+            padding-left: 0;
+
+            .data-table-wrapper {
+              .flex-columns();
+              .full_height;
+              overflow: hidden;
+              .ant-table-wrapper {
+                overflow: hidden;
+              }
+              .primary-data, .ant-form {
+                flex-shrink: 0;
+              }
+
+              .search-bar, .ant-table-wrapper, .primary-data {
+                padding-left: 0;
+                padding-right: 0;
+              }
+
+            }
+
+          }
+        }
+      }
+    }
+
+  }
+
+  //覆盖部分 table 样式，预约时间双行文本导致行高和高保真不一致
+  .ant-table {
+    .ant-table-container {
+      //配置了scroll 的table和未配置时是不一样的结构
+      .ant-table-body {
+        .ant-table-tbody {
+          tr {
+            td {
+              padding-top: 10px;
+              padding-bottom: 10px;
+              //操作中的按钮高度有32 行高需要去掉按钮的高度
+            }
+          }
+        }
+      }
+    }
+  }
+
+
+  .primary-data {
+    padding-left: 10px;
+    &>.ant-btn {
+      width:72px;
+      height:32px;
+      //line-height: 32px;
+      align-items: center;
+      background:rgba(255,255,255,1);
+      border:1px solid rgba(216,216,216,1);
+      border-radius:3px;
+      margin-right: 8px;
+      font-size:14px;
+      color: @c-555763;
+
+      padding: 0;
+      margin-bottom: 10px;
+    }
+    .active {
+      background:rgba(55,158,236,0.11);
+      border:1px solid rgba(55,158,236,1);
+      color: @primary-color;
+      font-weight: 700;
+    }
+
+    //时间选择框
+    .ant-picker {
+      border-radius: 3px;
+    }
+
+    .export-car-apply {
+      float: right;
+      border-radius: 3px;
+      .ant-btn {
+        .flex_center;
+        padding: 6px 14px 6px 10px;
+        background: @c-369D51;
+        border-radius: 3px;
+        border: none;
+
+        font-size: 14px;
+        line-height: 20px;
+        margin: 0;
+        outline: none;
+        color: #ffffff;
+        .export-excel-icon {
+          .imgicon("imgs/useCarManagement/excel", 16px);
+          margin-right: 6px;
+        }
+      }
+
+
+    }
+  }
+
+  //预约时间
+  .order-time {
+    position: relative;
+    .point0DA736, .pointE80000 {
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      display: inline-block;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+    }
+
+    .point0DA736 {
+      background: @success-color;
+    }
+    .pointE80000 {
+      background: @error-color;
+    }
+    .order-time-str {
+      display: inline-block;
+      padding-left: 9px;
+    }
+  }
+
+  .border-custom {
+    input {
+      //border-radius: 0 3px 3px 0;
+      border-radius: 3px;
+    }
+  }
+
+  .custom-td {
+    line-height: 20px;
+    .common-car {
+      .imgicon("imgs/useCarManagement/comment_icon", 18px, 18px);
+      vertical-align: middle;
+    }
+  }
+
+}
+
+
+
+/*认证审核*/
+.error_tip {
+  color: @c-E80000;
+  height: 20px;
+  font-size: 14px;
+  font-weight: 400;
+  text-align: left;
+  line-height: 20px;
+}
+.certification-audit-warp {
+
+  //左侧tab外层
+  .use-car-content {
+    .ant-tabs .ant-tabs-nav .ant-tabs-nav-wrap .ant-tabs-nav-list {
+      .ant-tabs-tab {
+        .ant-tabs-tab-btn {
+          .custom-tab-item {
+            .certification-icon {
+              .imgicon("imgs/useCarManagement/certification_active", 32px, 32px);
+            }
+          }
+        }
+      }
+      .ant-tabs-tab-active {
+        .ant-tabs-tab-btn {
+          .custom-tab-item {
+            text-align: center;
+            .certification-icon {
+              .imgicon("imgs/useCarManagement/certification_active", 32px, 32px);
+            }
+          }
+        }
+      }
+    }
+  }
+
+}
+

@@ -1,0 +1,55 @@
+.ant-table-wrapper {
+  flex: 1;
+  overflow-y: auto;
+}
+.ant-checkbox-indeterminate .ant-checkbox-inner {
+  background-color: @primary-color;
+  border-color: @primary-color;
+}
+.ant-checkbox-indeterminate .ant-checkbox-inner::after {
+  display: block;
+  height: 2px;
+  background-color: #fff;
+}
+.ant-table {
+  .ant-table-placeholder {
+    //padding: 0;
+    //margin-top: 60px;
+    padding-top: 60px;
+    border: none;
+  }
+}
+
+//table
+.ant-table {
+  line-height: 1;
+  color: @text-color;
+  border: none;
+  .ant-table-container {
+
+    //配置了scroll 的table和未配置时是不一样的结构
+    .ant-table-header {
+      .ant-table-thead {
+        tr {
+          th {
+            line-height: 20px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+          }
+        }
+      }
+    }
+    .ant-table-body {
+      .ant-table-tbody {
+        tr {
+          td {
+            line-height: 17px;
+            padding-top: 11px;
+            padding-bottom: 11px;
+            //操作中的按钮高度有32 行高需要去掉按钮的高度
+          }
+        }
+      }
+    }
+  }
+}
