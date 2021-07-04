@@ -1,3 +1,33 @@
+## 本地文件夹首次管理远程仓库
+### Https方法
+1. 建立远程仓库
+2. git clone https://github.com/checkhout/sweet-home.git 克隆仓库
+3. 将本地文件夹复制到仓库
+### SSH方法
+[参考地址][https://blog.csdn.net/dotphoenix/article/details/100130424]
+
+
+## 常用git命令
+1. 查看仓库、分支信息
+    - git status 查看当前状态
+    - 
+    
+2. 查看git配置
+    - git config --list 查看所有配置
+    - git remote -v 查看远程仓库地址
+    
+    
+3. 配置git
+    - git config --global user.name "xrouter"   配置用户名
+    - git config --global user.email  "xrouter@163.com"   配置地址
+    - git remote rm origin 取消远程关联
+
+
+
+[参考地址]: https://blog.csdn.net/dotphoenix/article/details/100130424
+
+
+
 HEAD标识当前版本
 
 git reset --hard HEAD^ === git reset --hard HEAD~1
