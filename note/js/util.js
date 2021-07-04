@@ -306,3 +306,75 @@ let quarters = [ 4, 3, 2, 1 ].map(i =>
 );
 console.log('--------', quarters);
 //["q1-2020", "q2-2020", "q3-2020", "q4-2020"]
+
+
+
+// 季度
+let quarters = [ 4, 3, 2, 1 ].map(i =>
+	moment().subtract(i, 'Q').format('[q]Q-Y')
+);
+console.log('--------', quarters);
+//["q1-2020", "q2-2020", "q3-2020", "q4-2020"]
+
+
+const numTool = (num, n) => {//保留n位小数
+	return parseInt(num * Math.pow(10, n) + 0.5, 10) / Math.pow(10, n)
+};
+
+export const decimalNum2 = function(value, n) {//保留n位小数，自动补0
+	let f = Math.round(value*Math.pow(10,n))/Math.pow(10,n);
+	let s = f.toString();
+	let rs = s.indexOf('.');
+	if (rs < 0) {
+		s += '.';
+	}
+	for(let i = s.length - s.indexOf('.'); i <= n; i++){
+		s += "0";
+	}
+	return s;
+};
+
+
+export const  uuid = () => {
+	let s = [];
+	let hexDigits = "0123456789abcdef";
+	for (let i = 0; i < 36; i++) {
+		s[i] = hexDigits.substr(Math.floor(Math.random() * 0x10), 1);
+	}
+	s[14] = "4";  // bits 12-15 of the time_hi_and_version field to 0010
+	s[19] = hexDigits.substr((s[19] & 0x3) | 0x8, 1);  // bits 6-7 of the clock_seq_hi_and_reserved to 01
+	s[8] = s[13] = s[18] = s[23] = "-";
+
+	return s.join("");
+};
+
+// 1+1/(99*99) --> ['1', '+', '1', '/', '(', '99', '*', '99', ')']
+const formatStr = (str) => {
+	// 匹配计算符号
+	const index = str.search(regExpConfig.calculatedSymbols);
+	if (index >= 0) {
+		// 计算符号
+		const symbol = str[index];
+		// 以计算符号切割
+		const arr = str.split(symbol);
+
+		// 如果符号前的string是一个数值则存入 result，反之丢弃
+		if (arr[0] && regExpConfig.num.test(arr[0].trim())) {
+			result = result.concat([arr[0], `${symbol}`]);
+		}
+		else {
+			result.push(symbol)
+		}
+
+		// 切割点以后的字符串是否包含计算字符，包含则递归
+		const remains = str.slice(index + 1);
+		if (remains.search(regExpConfig.calculatedSymbols) >= 0) {
+			formatStr(remains);
+		}
+		// 切割点以后的字符串存在，且为一个数值则存入 result，反之丢弃
+		else if (remains && regExpConfig.num.test(remains.trim())) {
+			result.push(remains)
+		}
+
+	}
+};
